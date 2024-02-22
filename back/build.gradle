@@ -1,0 +1,39 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'Challenge-semester2024'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas' //RESTful 웹 서비스를 쉽게 작성할 수 있도록 함
+	implementation 'org.springframework.boot:spring-boot-starter-security' //웹 보안을 위한 프레임워크로 인증, 권한 부여, 공격 방어 등의 기능을 제공
+	implementation 'org.springframework.boot:spring-boot-starter-validation'// Bean Validation API와 Hibernate Validator를 프로젝트에 추가. 이를 통해 데이터 유효성 검사를 쉽게 수행
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3' //JSON Web Token(JWT)를 사용하기 위한 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //JPA(Java Persistence API)를 통해 데이터베이스를 쉽게 다룰 수 있음.
+	implementation 'org.springframework.boot:spring-boot-starter-mail'//Spring Mail을 프로젝트에 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'//JDBC를 사용해 데이터베이스를 처리하는 작업을 쉽게 할 수 있습니다.
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3' //JWT 라이브러리의 구현체와, JSON 처리를 위한 Jackson 라이브러리를 추가
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3' //위와 동일
+	compileOnly 'org.projectlombok:lombok' //반복적인 코드 작성을 줄여주는 도구. Getter/Setter, equals, hashCode 등의 메서드를 자동으로 생성
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' //테스트를 위한 라이브러리입니다. 통합 테스트, 단위 테스트, 보안 테스트 등을 지원
+	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly 'com.mysql:mysql-connector-j' // MySQL 데이터베이스와 연결하기 위한 JDBC 드라이버
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1' //sms smrp 사용 위함
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
