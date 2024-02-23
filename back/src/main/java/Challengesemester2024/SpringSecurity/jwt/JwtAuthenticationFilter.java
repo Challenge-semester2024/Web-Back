@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
             String requestURI = request.getRequestURI(); //요청된 API 경로
 
-            if (!requiresAuthentication(requestURI)) { //허용 된 URL 요청이라면 토큰 검증없이 진행
+            if (!requiregsAuthentication(requestURI)) { //허용 된 URL 요청이라면 토큰 검증없이 진행
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -60,7 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         TokenExceptonMessage.TOKEN_MISSING_HEADER,
                         HttpStatus.UNAUTHORIZED.value(),
                         String.valueOf(e.getStackTrace()[0])
-
                 );
                 return;
             } catch (SignatureException e){ // 비밀키 일치 X 처리
@@ -139,6 +138,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setCharacterEncoding("UTF-8");
 
+        // HTTP 응답 상태 코드 설정
+        httpServletResponse.setStatus(statusCode);
+
         // ExceptionDto 객체를 JSON 문자열로 변환
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -152,8 +154,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean requiregsAuthentication(String requestURI) {
         // 로그인, 회원가입 등의 엔드포인트는 토큰 없이 접근 가능
         Set<String> openUrlPatterns = new HashSet<>(Arrays.asList(
-                "/ChallengeSemester/auth/**",
-                "/ChallengeSemester/verify",
+                "/api/auth",
+                "/api/verify",
                 "/static/**",
                 "/swagger-ui/**",
                 "/swagger-resources/**",

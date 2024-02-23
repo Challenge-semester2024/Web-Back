@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("ChallengeSemester/auth")
+@RequestMapping("api/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {

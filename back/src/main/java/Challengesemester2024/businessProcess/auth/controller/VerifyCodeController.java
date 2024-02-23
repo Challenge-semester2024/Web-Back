@@ -6,7 +6,6 @@ import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
 import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
-@RequestMapping("ChallengeSemester/verify")
+@RequestMapping("api/verify")
 @RequiredArgsConstructor
 @Slf4j
 public class VerifyCodeController {
