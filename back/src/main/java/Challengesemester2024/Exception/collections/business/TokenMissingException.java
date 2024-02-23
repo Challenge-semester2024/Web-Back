@@ -7,8 +7,4 @@ public class TokenMissingException extends BusinessException {
         super(TokenExceptonMessage.TOKEN_MISSING_HEADER);
     }
 
-    public TokenMissingException(String message){
-        super(message);
-
-    }
 }
