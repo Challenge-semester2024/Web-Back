@@ -10,6 +10,6 @@
 | `refactor` | 코드 리팩토링 | refactor: 인증부분과 DB저장 부분 분리 |
 | `docs` | 문서 (또는 주석) 관련 작업 | docs: 로그인 API 주석 추가 |
 | `chore` | 코드의 수정 없이, 프로젝트 설정이나 빌드 프로세스 등의 변경 | chore: httpclient5 라이브러리 추가 |
-| `rename` | 파일 혹은 폴더명을 수정하거나 옮긴 경우 | rename: ItemList 컴포넌트 Basket으로 변경 |
-| `remove` | 파일을 삭제하는 경우 | remove: 아이디 찾기 컴포넌트 삭제 |
+| `rename` | 파일 혹은 폴더명을 수정하거나 옮긴 경우 | rename: ExceptionDto 파일위치 수정 |
+| `remove` | 파일을 삭제하는 경우 | remove: 중복된 globalExceptionDto 삭제 |
 | `test` | 테스트 코드 추가 및 수정 | test: 로그인 테스트 코드 추가 |
