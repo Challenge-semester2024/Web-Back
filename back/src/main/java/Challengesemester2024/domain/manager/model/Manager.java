@@ -14,7 +14,8 @@ public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long manager_id;
+    @Column(name = "manager_id")
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 255)
     private String emailId;
@@ -30,11 +31,11 @@ public class Manager {
     private ManagerRoleEnum role;
 
     @OneToOne(cascade = CascadeType.REMOVE) //해당 db삭제시, 연결된 db 모두 삭제됨
-    @JoinColumn(name = "childCenter_id")
-    private ChildCenter childCenter_id;
+    @JoinColumn(name = "child_center_id")
+    private ChildCenter childCenter;
 
     public Manager(String email, String password, String phoneNum, ManagerRoleEnum role) {
-        this.manager_id = null; //jpa가 알아서 관리해주기 때문에 null
+        this.id = null; //jpa가 알아서 관리해주기 때문에 null
         this.emailId = email;
         this.password = password;
         this.phoneNum = phoneNum;
