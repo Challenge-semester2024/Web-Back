@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@RedisHash(value = "refreshToken", timeToLive = 60 * 5* 12) //5분 뒤 자동삭제
+@RedisHash(value = "AuthCodeToken", timeToLive = 60 * 60 * 24) //24시간 뒤 자동삭제
 public class RedisAuthCodeDto {
     private String id; // 이메일 또는 전화번호
     private String code; // 인증 코드
