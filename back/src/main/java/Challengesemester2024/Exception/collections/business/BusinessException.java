@@ -2,7 +2,7 @@ package Challengesemester2024.Exception.collections.business;
 
 import java.util.List;
 
-public class    BusinessException extends RuntimeException{
+public class BusinessException extends RuntimeException{
     protected BusinessException(String message) {
         super(message);
     }
