@@ -4,4 +4,5 @@ import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
 
 public interface ChildCenterService {
     public void register(SignUpDto.ChildCenter childCenter);
+    public void checkExits(SignUpDto.ChildCenter childCenter);
 }

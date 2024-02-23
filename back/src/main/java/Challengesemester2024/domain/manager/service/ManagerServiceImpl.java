@@ -1,5 +1,6 @@
 package Challengesemester2024.domain.manager.service;
 
+import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
 import Challengesemester2024.Exception.collections.business.PasswordNotMatchException;
 import Challengesemester2024.Exception.collections.business.ManagerAlreadyExistsException;
 import Challengesemester2024.Exception.collections.business.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import Challengesemester2024.domain.manager.model.Manager;
 import Challengesemester2024.domain.manager.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +29,26 @@ public class ManagerServiceImpl implements MangerService{
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void register(SignUpDto.Manager Manager) {
-        SignUpDto.Manager manager = Manager;
-        String encodePassword = passwordEncoder.encode(manager.getPassword());
-
+    public void checkExits(SignUpDto.Manager manager) {
         //해당 멤버가 존재하는지 확인
         Optional<Manager> found = this.managerRepository.findByEmailId(manager.getEmail());
         if(found.isPresent()) throw new ManagerAlreadyExistsException();
 
         //비밀번호가 올바른지 확인
         if(!manager.getPassword().equals(manager.getCheckPassword())) throw new PasswordNotMatchException();
+    }
 
+    @Override
+    public void register(SignUpDto.Manager manager) {
+        String encodePassword = passwordEncoder.encode(manager.getPassword());
         Manager managerEntity = new Manager(manager.getEmail(), encodePassword, manager.getPhoneNum());
 
-        managerRepository.save(managerEntity);
+        try {
+            managerRepository.save(managerEntity);
+        } catch (DataIntegrityViolationException e) { //unique 키 중복시 발생시킬 오류
+            throw new DuplicateUniqueKeyException();
+        }
+
     }
 
     @Override
