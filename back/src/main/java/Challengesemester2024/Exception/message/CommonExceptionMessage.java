@@ -2,6 +2,8 @@ package Challengesemester2024.Exception.message;
 
 import lombok.NoArgsConstructor;
 
+import java.net.PortUnreachableException;
+
 @NoArgsConstructor
 public class CommonExceptionMessage {
     public static final String ManagerAlreadyExists = "이미 존재하는 관리자의 이메일 입니다.";
@@ -12,5 +14,6 @@ public class CommonExceptionMessage {
     public static final String CenterByManagerNotFound = "해당 관리자와 연결된 보육원을 찾을 수 없습니다.";
     public static final String DuplicatedUniqueKey = "이미 등록된 정보입니다. 다른 정보를 입력해주세요.";
     public static final String UnVerifiedUserInfo = "인증을 먼저 진행해주세요.";
+    public static final String BindingErrorMessage = "필드값이 유효하지 않습니다. 올바르 필드값을 입력해주세요.";
 
 }

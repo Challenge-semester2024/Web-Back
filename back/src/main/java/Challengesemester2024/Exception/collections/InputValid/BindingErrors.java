@@ -1,13 +1,9 @@
 package Challengesemester2024.Exception.collections.InputValid;
 
-import org.springframework.validation.FieldError;
-import java.util.List;
-import java.util.stream.Collectors;
+import static Challengesemester2024.Exception.message.CommonExceptionMessage.BindingErrorMessage;
 
 public class BindingErrors extends InvalidRequestException{
-    public BindingErrors(List<FieldError> fieldErrors) {
-        super(fieldErrors.stream()
-                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
-                .collect(Collectors.toList()));
+    public BindingErrors() {
+        super(BindingErrorMessage);
     }
 }

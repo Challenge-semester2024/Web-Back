@@ -70,8 +70,7 @@ public class AuthController {
 
     public void handleBindingErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            throw new BindingErrors(fieldErrors);
+            throw new BindingErrors();
         }
     }
 
