@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.globalException;
+package Challengesemester2024.Exception;
 
 import Challengesemester2024.Exception.collections.InputValid.InvalidRequestException;
 import Challengesemester2024.Exception.collections.business.BusinessException;
