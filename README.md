@@ -1,4 +1,4 @@
-# Web-Back-springSecurity 
+# Web-Back/springSecurity 
 
 <구현>
 1. cors 설정
