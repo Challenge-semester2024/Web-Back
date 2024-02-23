@@ -1,8 +1,7 @@
 package Challengesemester2024.businessProcess.auth.service.PhoneNum;
 
-import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByEmail;
+import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByPhoneNum;
-import Challengesemester2024.Exception.collections.redis.NotSameEmail;
 import Challengesemester2024.Exception.collections.redis.NotSamePhoneNum;
 import Challengesemester2024.businessProcess.auth.dto.MessageDto;
 import Challengesemester2024.businessProcess.auth.dto.NcpRequestDto;
@@ -125,6 +124,9 @@ public class PhoneNumServiceImpl implements PhoneNumService{
     @Override
     public void checkVerifyNumberByPhoneNum(String PhoneNum, String verifyNum) {
         Optional<RedisAuthCodeDto> authCodeDto = authRedisService.find(PhoneNum);
+
+        //인증번호 전송을 안한 경우
+        if(authCodeDto.isEmpty()) throw new UnVerifiedUserException();
 
         //전화번호 인증 신청할때랑, 최종 제출한 전화번호가 다른 경우
         if(!authCodeDto.isPresent()) throw new NotSamePhoneNum();
