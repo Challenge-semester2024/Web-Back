@@ -1,4 +1,4 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.spring;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

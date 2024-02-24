@@ -1,4 +1,4 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.spring;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;

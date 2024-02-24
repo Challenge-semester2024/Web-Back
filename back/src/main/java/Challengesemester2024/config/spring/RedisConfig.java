@@ -1,4 +1,4 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.spring;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,4 +1,4 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.spring;
 
 import Challengesemester2024.SpringSecurity.jwt.JwtAuthEntryPoint;
 import Challengesemester2024.SpringSecurity.jwt.JwtAuthenticationFilter;

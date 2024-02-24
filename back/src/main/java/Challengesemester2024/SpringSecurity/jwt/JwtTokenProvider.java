@@ -6,7 +6,7 @@ import Challengesemester2024.SpringSecurity.jwt.redis.model.RedisRefreshTokenDto
 import Challengesemester2024.businessProcess.redis.dto.TokenSubAndRoleDto;
 import Challengesemester2024.businessProcess.redis.service.JwtRedisService;
 import Challengesemester2024.config.Constants;
-import Challengesemester2024.config.JwtProps;
+import Challengesemester2024.config.spring.JwtProps;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
