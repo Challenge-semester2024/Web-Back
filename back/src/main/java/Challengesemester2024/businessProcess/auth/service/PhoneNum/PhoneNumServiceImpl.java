@@ -9,7 +9,7 @@ import Challengesemester2024.businessProcess.auth.dto.NcpResponseDto;
 import Challengesemester2024.businessProcess.auth.dto.PhoneNumDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
-import Challengesemester2024.businessProcess.auth.util.Util;
+import Challengesemester2024.businessProcess.util.UtilService;
 import Challengesemester2024.config.smtp.PhoneConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +41,7 @@ import java.util.Optional;
 public class PhoneNumServiceImpl implements PhoneNumService{
     private final PhoneConfig phoneConfig;
     private final AuthRedisService authRedisService;
+    private final UtilService utilService;
 
     private String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         String space = " ";
@@ -81,7 +82,7 @@ public class PhoneNumServiceImpl implements PhoneNumService{
 
     @Override
     public void sendVerifyNumberByPhoneNum(PhoneNumDto phoneNumDto) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException, URISyntaxException {
-        String randomNum = Util.getRandomNum();
+        String randomNum = utilService.getRandomNum();
 
         Long time = System.currentTimeMillis();
         String accessKey = phoneConfig.getAccessKey();
