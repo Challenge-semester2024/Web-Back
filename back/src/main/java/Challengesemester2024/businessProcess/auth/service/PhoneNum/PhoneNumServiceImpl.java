@@ -10,7 +10,7 @@ import Challengesemester2024.businessProcess.auth.dto.PhoneNumDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.auth.util.Util;
-import Challengesemester2024.config.PhoneConfig;
+import Challengesemester2024.config.smtp.PhoneConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.smtp;
 
 import lombok.Getter;
 import lombok.Setter;
