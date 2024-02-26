@@ -6,7 +6,7 @@ import Challengesemester2024.Exception.collections.redis.NotSameEmail;
 import Challengesemester2024.businessProcess.auth.dto.EmailDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
-import Challengesemester2024.businessProcess.auth.util.Util;
+import Challengesemester2024.businessProcess.util.UtilService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import java.util.Optional;
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final AuthRedisService authRedisService;
+    private final UtilService utilService;
 
     private void sendEmail(String email, String subject, String htmlContent) throws MessagingException {
         MimeMessage message = this.javaMailSender.createMimeMessage();
@@ -43,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendVerifyNumberByEmail(EmailDto emailDto) throws MessagingException {
-        String randomNum = Util.getRandomNum();
+        String randomNum = utilService.getRandomNum();
         String email = emailDto.getEmail();
         sendEmail(email, "아지트 이메일 인증",
                 String.format("<p>인증번호 : <span style=\"color:red\">%s<span></p>", randomNum)

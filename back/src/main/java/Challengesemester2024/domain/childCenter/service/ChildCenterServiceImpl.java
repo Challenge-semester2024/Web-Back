@@ -5,11 +5,9 @@ import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyEx
 import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,14 +19,15 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     private final ChildCenterRepository childCenterRepository;
 
     @Override
-    public void checkExits(SignUpDto.ChildCenter childCenterDto) {
+    public void checkExits(SignUpDto.centerInfo childCenterDto) {
         Optional<ChildCenter> found = childCenterRepository.findByPhoneNumId(childCenterDto.getPhoneNum());
         if (found.isPresent()) throw new ChildCenterAlreadyExitsException();
     }
 
     @Override
-    public void register(SignUpDto.ChildCenter childCenterDto) {
-        ChildCenter ChildCenter = new ChildCenter(childCenterDto.getCeoName(), childCenterDto.getCenterName(), childCenterDto.getPhoneNum(), childCenterDto.getRoadAddress(), childCenterDto.getDetailAddress());
+    public void register(SignUpDto.centerInfo childCenterDto, String fileUrl) {
+        ChildCenter ChildCenter = new ChildCenter(childCenterDto.getCeoName(), childCenterDto.getCenterName(),
+                childCenterDto.getPhoneNum(), childCenterDto.getRoadAddress(), childCenterDto.getDetailAddress(), fileUrl);
         try {
             childCenterRepository.save(ChildCenter);
         } catch (DataIntegrityViolationException e) {

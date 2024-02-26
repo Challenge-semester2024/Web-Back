@@ -10,14 +10,14 @@ import lombok.*;
 @AllArgsConstructor
 public class SignUpDto {
     @Valid
-    private ChildCenter childCenter;
+    private centerInfo centerInfo;
     @Valid
-    private Manager manager;
+    private ceoInfo ceoInfo;
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ChildCenter {
+    public static class centerInfo {
         @NotBlank(message = "관리자의 이름은 필수값입니다.")
         private String ceoName;
 
@@ -33,13 +33,13 @@ public class SignUpDto {
 
         @NotBlank(message = "도로명 상세 주소는 필수값입니다.")
         private String detailAddress;
-        //private String cerificate //여긴 s3 공부하고 와야 함............
+
     }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Manager {
+    public static class ceoInfo {
         @NotBlank(message = "이메일은 필수 값입니다.")
         @Email(message="유효한 이메일 주소를 입력해주세요.")
         @Size(min=5, max=254, message="5이상, 64이하 이메일을 입력해주세요.")
@@ -60,8 +60,6 @@ public class SignUpDto {
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$", message = "비밀번호는 8~30 자리이면서 1개 이상의 알파벳, 숫자, 특수문자를 포함해야합니다.")
         private String password;
 
-        @NotBlank(message = "비밀번호 재확인값을 입력해주세요.")
-        private String checkPassword;
     }
 
 }
