@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-    @Entity
+@Entity
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
     @Table(name = "child_center")
@@ -31,17 +31,17 @@ import lombok.NoArgsConstructor;
     @Column(nullable = false, unique = true, length = 255)
     private String detailAddress;
 
-//아직 s3 쓸 줄 모릅니다 하하하하하하하
-//    @Column(nullable = false, unique = true, length = 255)
-//    private String certificate;
+   @Column(nullable = false, unique = true, length = 255)
+   private String certificate;
 
-    public ChildCenter(String ceoName, String centerName, String phoneNumId, String roadAddress, String detailAddress) {
+    public ChildCenter(String ceoName, String centerName, String phoneNumId, String roadAddress, String detailAddress, String certificate ) {
         this.id=null;
         this.ceoName = ceoName;
         this.centerName = centerName;
         this.phoneNumId = phoneNumId;
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
+        this.certificate = certificate;
     }
 
-}
+    }
