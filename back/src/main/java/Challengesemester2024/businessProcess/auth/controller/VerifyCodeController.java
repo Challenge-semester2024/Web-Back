@@ -28,7 +28,7 @@ public class VerifyCodeController {
     private final PhoneNumService phoneNumService;
 
     @PostMapping("/Email")
-    public ResponseEntity<?> validateEmail(@Valid  @RequestBody EmailDto emailDto, BindingResult bindingResult) throws MessagingException {
+    public ResponseEntity<?> validateEmail(@Valid @RequestBody EmailDto emailDto, BindingResult bindingResult) throws MessagingException {
         emailService.sendVerifyNumberByEmail(emailDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
