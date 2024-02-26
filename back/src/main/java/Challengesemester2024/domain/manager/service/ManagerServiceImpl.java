@@ -29,17 +29,15 @@ public class ManagerServiceImpl implements MangerService{
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void checkExits(SignUpDto.Manager manager) {
+    public void checkExits(SignUpDto.ceoInfo manager) {
         //해당 멤버가 존재하는지 확인
         Optional<Manager> found = this.managerRepository.findByEmailId(manager.getEmail());
         if(found.isPresent()) throw new ManagerAlreadyExistsException();
 
-        //비밀번호가 올바른지 확인
-        if(!manager.getPassword().equals(manager.getCheckPassword())) throw new PasswordNotMatchException();
     }
 
     @Override
-    public void register(SignUpDto.Manager manager) {
+    public void register(SignUpDto.ceoInfo manager) {
         String encodePassword = passwordEncoder.encode(manager.getPassword());
         Manager managerEntity = new Manager(manager.getEmail(), encodePassword, manager.getPhoneNum());
 
