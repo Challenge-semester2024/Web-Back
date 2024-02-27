@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-    @Table(name = "child_center")
-    public class ChildCenter {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@Table(name = "child_center")
+public class ChildCenter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "child_center_id")
@@ -32,11 +32,11 @@ import lombok.NoArgsConstructor;
     @Column(nullable = false, unique = true, length = 255)
     private String detailAddress;
 
-   @Column(nullable = false, unique = true, length = 255)
-   private String certificate;
+    @Column(nullable = false, unique = true, length = 255)
+    private String certificate;
 
     public ChildCenter(String ceoName, String centerName, String phoneNumId, String roadAddress, String detailAddress, S3urlDto certificate) {
-        this.id=null;
+        this.id = null;
         this.ceoName = ceoName;
         this.centerName = centerName;
         this.phoneNumId = phoneNumId;
