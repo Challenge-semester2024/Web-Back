@@ -2,8 +2,8 @@ package Challengesemester2024.businessProcess.auth.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.dto.SignInDto;
-import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.auth.service.Facade.AuthFacade;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

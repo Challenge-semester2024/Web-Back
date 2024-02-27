@@ -1,6 +1,6 @@
 package Challengesemester2024.domain.childCenter.service;
 
-import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 
 public interface ChildCenterService {
     public void register(SignUpDto.centerInfo childCenter, String fileUrl);

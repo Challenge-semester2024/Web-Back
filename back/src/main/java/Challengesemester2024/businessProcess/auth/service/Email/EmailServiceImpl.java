@@ -3,7 +3,7 @@ package Challengesemester2024.businessProcess.auth.service.Email;
 import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByEmail;
 import Challengesemester2024.Exception.collections.redis.NotSameEmail;
-import Challengesemester2024.businessProcess.auth.dto.EmailDto;
+import Challengesemester2024.businessProcess.auth.dto.smtp.EmailDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.util.UtilService;

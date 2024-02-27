@@ -1,8 +1,8 @@
 package Challengesemester2024.businessProcess.auth.service.Facade;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.dto.SignInDto;
-import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
 import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
 import Challengesemester2024.businessProcess.s3.S3Service;

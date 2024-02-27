@@ -2,7 +2,7 @@ package Challengesemester2024.domain.childCenter.service;
 
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
-import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import lombok.RequiredArgsConstructor;
