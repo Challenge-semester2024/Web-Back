@@ -1,12 +1,10 @@
 package Challengesemester2024.businessProcess.auth.dto.smtp;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 public class MessageDto {
     String to;
 }
