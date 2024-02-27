@@ -4,7 +4,7 @@ import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.Facade.AuthFacade;
+import Challengesemester2024.businessProcess.Facade.AuthFacadeService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final AuthFacade authFacade;
+    private final AuthFacadeService authFacadeService;
 
     @Transactional //매니저와 보육원의 동시저장을 보장해줄 애노테이션
     @PostMapping("/signUp")
@@ -29,7 +29,7 @@ public class AuthController {
                                         BindingResult bindingResult ) {
         //@Valid 체크
         handleBindingErrors(bindingResult);
-        authFacade.authSignup(signUpDto, multipartFile);
+        authFacadeService.authSignup(signUpDto, multipartFile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class AuthController {
         // BindingResult 에러 처리
         handleBindingErrors(bindingResult);
 
-        AllJwtTokenDto allJwtTokenDto = authFacade.authSignIn(signDto);
+        AllJwtTokenDto allJwtTokenDto = authFacadeService.authSignIn(signDto);
         return ResponseEntity.ok(allJwtTokenDto);
     }
 

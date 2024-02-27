@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class AuthFacadeServiceImpl implements AuthFacade{
+public class AuthFacadeServiceImpl implements AuthFacadeService {
     private final MangerService mangerService;
     private final ChildCenterService childCenterService;
     private final EmailService emailService; //역할 인터페이스 의존성 주입받음

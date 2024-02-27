@@ -5,7 +5,7 @@ import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface AuthFacade {
+public interface AuthFacadeService {
     void authSignup(SignUpDto signUpDto, MultipartFile multipartFile);
     AllJwtTokenDto authSignIn(SignInDto signDto);
 }
