@@ -1,5 +1,6 @@
 package Challengesemester2024.domain.childCenter.model;
 
+import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,14 +35,14 @@ import lombok.NoArgsConstructor;
    @Column(nullable = false, unique = true, length = 255)
    private String certificate;
 
-    public ChildCenter(String ceoName, String centerName, String phoneNumId, String roadAddress, String detailAddress, String certificate ) {
+    public ChildCenter(String ceoName, String centerName, String phoneNumId, String roadAddress, String detailAddress, S3urlDto certificate) {
         this.id=null;
         this.ceoName = ceoName;
         this.centerName = centerName;
         this.phoneNumId = phoneNumId;
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
-        this.certificate = certificate;
+        this.certificate = certificate.getS3url();
     }
 
-    }
+}
