@@ -1,6 +1,7 @@
-package Challengesemester2024.businessProcess.auth.service.Facade;
+package Challengesemester2024.businessProcess.Facade;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
@@ -33,11 +34,11 @@ public class AuthFacadeServiceImpl implements AuthFacade{
         childCenterService.checkExits(signUpDto.getCenterInfo());
 
         //사진 저장 로직
-        String fileUrl = s3Service.uploadImageToS3(multipartFile);
+        S3urlDto s3urlDto = s3Service.uploadImageToS3(multipartFile);
 
-        //회원가입 진행
+        //DB 관계 설정 및 매핑
         mangerService.register(signUpDto.getCeoInfo());
-        childCenterService.register(signUpDto.getCenterInfo(),fileUrl);
+        childCenterService.register(signUpDto.getCenterInfo(),s3urlDto);
     }
 
     @Override
