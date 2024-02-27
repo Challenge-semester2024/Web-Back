@@ -38,11 +38,12 @@ public class AuthFacadeServiceImpl implements AuthFacadeService {
 
         //DB 관계 설정 및 매핑
         managerService.register(signUpDto.getCeoInfo());
-        childCenterService.register(signUpDto.getCenterInfo(),s3urlDto);
+        childCenterService.register(signUpDto.getCenterInfo(), s3urlDto);
     }
 
     @Override
     public AllJwtTokenDto authSignIn(SignInDto signDto) {
         return managerService.signIn(signDto);
     }
+
 }
