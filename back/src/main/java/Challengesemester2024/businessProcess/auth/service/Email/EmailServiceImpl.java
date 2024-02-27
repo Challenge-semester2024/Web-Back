@@ -58,9 +58,6 @@ public class EmailServiceImpl implements EmailService {
 
         if(authCodeDto.isEmpty()) throw new UnVerifiedUserException();
 
-        System.out.println("레디스 속 id : "+authCodeDto.get().getId());
-        System.out.println("레디스 속 인증 번호 : "+authCodeDto.get().getCode());
-
         //이메일 인증 신청할때랑, 최종 제출한 이메일이 다른 경우
         if (!authCodeDto.isPresent()) throw new NotSameEmail();
 
