@@ -3,7 +3,7 @@ package Challengesemester2024.businessProcess.auth.service.Email;
 import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByEmail;
 import Challengesemester2024.Exception.collections.redis.NotSameEmail;
-import Challengesemester2024.businessProcess.auth.dto.EmailDto;
+import Challengesemester2024.businessProcess.auth.dto.smtp.EmailDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.util.UtilService;
@@ -57,9 +57,6 @@ public class EmailServiceImpl implements EmailService {
         Optional<RedisAuthCodeDto> authCodeDto = authRedisService.find(Email);
 
         if(authCodeDto.isEmpty()) throw new UnVerifiedUserException();
-
-        System.out.println("레디스 속 id : "+authCodeDto.get().getId());
-        System.out.println("레디스 속 인증 번호 : "+authCodeDto.get().getCode());
 
         //이메일 인증 신청할때랑, 최종 제출한 이메일이 다른 경우
         if (!authCodeDto.isPresent()) throw new NotSameEmail();
