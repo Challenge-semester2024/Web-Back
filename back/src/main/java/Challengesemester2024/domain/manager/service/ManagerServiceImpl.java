@@ -23,7 +23,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ManagerServiceImpl implements MangerService{
+public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
