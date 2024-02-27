@@ -2,7 +2,8 @@ package Challengesemester2024.domain.childCenter.service;
 
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
-import Challengesemester2024.businessProcess.auth.dto.SignUpDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
+import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,9 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public void register(SignUpDto.centerInfo childCenterDto, String fileUrl) {
+    public void register(SignUpDto.centerInfo childCenterDto, S3urlDto s3urlDto) {
         ChildCenter ChildCenter = new ChildCenter(childCenterDto.getCeoName(), childCenterDto.getCenterName(),
-                childCenterDto.getPhoneNum(), childCenterDto.getRoadAddress(), childCenterDto.getDetailAddress(), fileUrl);
+                childCenterDto.getPhoneNum(), childCenterDto.getRoadAddress(), childCenterDto.getDetailAddress(), s3urlDto);
         try {
             childCenterRepository.save(ChildCenter);
         } catch (DataIntegrityViolationException e) {
