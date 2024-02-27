@@ -4,7 +4,7 @@ import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.auth.service.Facade.AuthFacade;
+import Challengesemester2024.businessProcess.Facade.AuthFacade;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
