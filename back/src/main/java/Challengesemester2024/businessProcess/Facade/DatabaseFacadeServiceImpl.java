@@ -3,6 +3,8 @@ package Challengesemester2024.businessProcess.Facade;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
+import Challengesemester2024.domain.facilityIntroduction.model.FacilityIntroduction;
+import Challengesemester2024.domain.facilityIntroduction.service.FacilityService;
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.greetings.service.GreetingsService;
 import Challengesemester2024.domain.manager.service.ManagerService;
@@ -19,6 +21,7 @@ import java.io.IOException;
 public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final RouteInfoService routeInfoService;
     private final GreetingsService greetingsService;
+    private final FacilityService facilityService;
     private final ManagerService managerService;
     private final ChildCenterService childCenterService;
     @Override
@@ -28,6 +31,11 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
         RouteInfo routeInfo = routeInfoService.createRouteInfo();
         //2. 인삿말 db 생성
         Greetings greetings = greetingsService.createGreetings();
+        //3. 시설소개 db 생성
+        FacilityIntroduction facility = facilityService.createFacilityIntroduction();
+
+
+
 
 
     }
