@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private ResponseEntity<ExceptionDto> createExceptionResponse(
             String errorMessage,
-            HttpStatus httpStatus,
-            String stackTrace
+            HttpStatus httpStatus
     ){
 
         ExceptionDto exceptionDto = ExceptionDto.builder()
@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
                 .errorMessage(errorMessage)
                 .occurredTime(LocalDateTime.now()) //현재 시간 Mapping
                 .statusCode(httpStatus.value()) //상태코드 Integer 값
-                .stackTrace(stackTrace)
                 .build(); // 빌드
         return new ResponseEntity<>(exceptionDto, httpStatus);
     }
@@ -33,8 +32,7 @@ public class GlobalExceptionHandler {
         // BusinessException에서 던진 메시지를 받아와 클라이언트에게 반환합니다.
         return createExceptionResponse(
                 e.getMessage(),
-                HttpStatus.UNAUTHORIZED, //BadRequest가 맞긴 하나 로그인,회원가입 틀렸을 때는 보안상으로 안좋다고 합니다.->에러코드 같이 써야 하는 이유
-                String.valueOf(e.getStackTrace()[0])
+                HttpStatus.UNAUTHORIZED //BadRequest가 맞긴 하나 로그인,회원가입 틀렸을 때는 보안상으로 안좋다고 합니다.->에러코드 같이 써야 하는 이유
         );
     }
 
@@ -42,8 +40,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handleInputValidException(InvalidRequestException e) {
         return createExceptionResponse(
                 e.getMessage(),
-                HttpStatus.BAD_REQUEST,
-                String.valueOf(e.getStackTrace()[0])
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ExceptionDto> handleIOException(IOException e) {
+        return createExceptionResponse(
+                e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
@@ -51,8 +56,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handle_RuntimeException(RuntimeException e) {
         return createExceptionResponse(
                 e.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                String.valueOf(e.getStackTrace()[0])
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
@@ -60,13 +64,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handle_Exception(Exception e) {
         return createExceptionResponse(
                 e.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                String.valueOf(e.getStackTrace()[0])
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
-
-
-
-
 
 }
