@@ -34,22 +34,21 @@ public class Manager {
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
 
-    public Manager(String email, String password, String phoneNum, ManagerRoleEnum role) {
+    private Manager(String email, String password, String phoneNum, ChildCenter childCenter, ManagerRoleEnum role) {
         this.id = null; //jpa가 알아서 관리해주기 때문에 null
         this.emailId = email;
         this.password = password;
         this.phoneNum = phoneNum;
+        this.childCenter = childCenter;
         this.role = role;
     }
-    //
-    public Manager(String email, String password, String phoneNum) {
-        this(email, password, phoneNum, ManagerRoleEnum.User);
+
+    public Manager(String email, String password, String phoneNum, ChildCenter childCenter) {
+        this(email, password, phoneNum, childCenter, ManagerRoleEnum.User);
     }
 
     public enum ManagerRoleEnum {
         User, ADMIN
     }
-
-    //왜 저기 id는 null인가? 그리고 매핑 어디서 해주는거야?
 
 }
