@@ -2,12 +2,14 @@ package Challengesemester2024.domain.routeInfo.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access=AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor(access=AccessLevel.PROTECTED)
+@Builder
 @Table(name = "route_info")
 public class RouteInfo {
     @Id
@@ -18,8 +20,4 @@ public class RouteInfo {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String memo;
 
-    public RouteInfo(String memo) {
-        this.id = null;
-        this.memo = memo;
-    }
 }

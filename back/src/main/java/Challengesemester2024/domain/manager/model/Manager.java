@@ -3,12 +3,14 @@ package Challengesemester2024.domain.manager.model;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Table(name = "manager")
 public class Manager {
 
@@ -33,19 +35,6 @@ public class Manager {
     @OneToOne(cascade = CascadeType.REMOVE) //해당 db삭제시, 연결된 db 모두 삭제됨
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
-
-    private Manager(String email, String password, String phoneNum, ChildCenter childCenter, ManagerRoleEnum role) {
-        this.id = null; //jpa가 알아서 관리해주기 때문에 null
-        this.emailId = email;
-        this.password = password;
-        this.phoneNum = phoneNum;
-        this.childCenter = childCenter;
-        this.role = role;
-    }
-
-    public Manager(String email, String password, String phoneNum, ChildCenter childCenter) {
-        this(email, password, phoneNum, childCenter, ManagerRoleEnum.User);
-    }
 
     public enum ManagerRoleEnum {
         User, ADMIN
