@@ -3,12 +3,14 @@ package Challengesemester2024.domain.manager.model;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Table(name = "manager")
 public class Manager {
 
@@ -34,22 +36,8 @@ public class Manager {
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
 
-    public Manager(String email, String password, String phoneNum, ManagerRoleEnum role) {
-        this.id = null; //jpa가 알아서 관리해주기 때문에 null
-        this.emailId = email;
-        this.password = password;
-        this.phoneNum = phoneNum;
-        this.role = role;
-    }
-    //
-    public Manager(String email, String password, String phoneNum) {
-        this(email, password, phoneNum, ManagerRoleEnum.User);
-    }
-
     public enum ManagerRoleEnum {
         User, ADMIN
     }
-
-    //왜 저기 id는 null인가? 그리고 매핑 어디서 해주는거야?
 
 }

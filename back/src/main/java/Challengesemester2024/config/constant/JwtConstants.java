@@ -1,6 +1,6 @@
-package Challengesemester2024.config;
+package Challengesemester2024.config.constant;
 
-public class Constants {
+public class JwtConstants {
     public static final String BEARER_TYPE = "Bearer";
     public static final String JWT = "JWT";
 }

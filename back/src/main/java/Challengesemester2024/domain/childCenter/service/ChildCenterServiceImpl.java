@@ -2,6 +2,8 @@ package Challengesemester2024.domain.childCenter.service;
 
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
+import Challengesemester2024.businessProcess.Facade.dto.CenterForeignKeyDto;
+import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
@@ -26,16 +28,32 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public void register(SignUpDto.centerInfo childCenterDto, S3urlDto s3urlDto) {
-        ChildCenter ChildCenter = new ChildCenter(childCenterDto.getCeoName(), childCenterDto.getCenterName(),
-                childCenterDto.getPhoneNum(), childCenterDto.getRoadAddress(), childCenterDto.getDetailAddress(), s3urlDto);
+    public ManagerRegisterDto register(SignUpDto.centerInfo centerInfo, CenterForeignKeyDto centerForeignKeyDto, S3urlDto s3urlDto) {
+
+        ChildCenter childCenter = ChildCenter.builder()
+                .phoneNumId(centerInfo.getPhoneNum())
+                .ceoName(centerInfo.getCeoName())
+                .centerName(centerInfo.getCenterName())
+                .roadAddress(centerInfo.getRoadAddress())
+                .detailAddress(centerInfo.getDetailAddress())
+                .certificate(s3urlDto.getS3url())
+                .facilityIntroduction(centerForeignKeyDto.getFacility())
+                .greetings(centerForeignKeyDto.getGreetings())
+                .routeInfo(centerForeignKeyDto.getRouteInfo())
+                .build();
+
         try {
-            childCenterRepository.save(ChildCenter);
+            childCenterRepository.save(childCenter);
         } catch (DataIntegrityViolationException e) {
             // 예외가 발생했을 때 처리할 코드
             throw new DuplicateUniqueKeyException();
         }
 
+        ManagerRegisterDto managerRegisterDto = ManagerRegisterDto.builder()
+                .childCenter(childCenter)
+                .build();
+
+        return managerRegisterDto;
     }
 
 

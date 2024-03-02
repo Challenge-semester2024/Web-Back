@@ -3,12 +3,14 @@ package Challengesemester2024.domain.greetings.domain;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Table(name = "greetings")
 public class Greetings {
     @Id
@@ -22,9 +24,4 @@ public class Greetings {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String memo;
 
-    public Greetings(S3urlDto s3urlDto, String memo) {
-        this.id = null;
-        this.pictureUrl = s3urlDto.getS3url();
-        this.memo = memo;
-    }
 }

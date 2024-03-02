@@ -4,7 +4,8 @@ import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.Facade.AuthFacadeService;
+import Challengesemester2024.businessProcess.Facade.service.AuthFacadeService;
+import Challengesemester2024.config.constant.ControllerConstants;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/auth")
@@ -26,16 +29,12 @@ public class AuthController {
     @PostMapping("/signUp")
     public ResponseEntity<?> authSignup(@RequestPart("signUpDto") @Valid SignUpDto signUpDto,
                                         @RequestPart("certificateFile") MultipartFile multipartFile,
-                                        BindingResult bindingResult ) {
+                                        BindingResult bindingResult ) throws IOException {
         //@Valid 체크
         handleBindingErrors(bindingResult);
         authFacadeService.authSignup(signUpDto, multipartFile);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(ControllerConstants.completeSignUp, HttpStatus.OK);
     }
-
-    //"파사드 패턴" : 복잡한 서브시스템에 대한 간편한 인터페이스를 제공하는 디자인 패턴
-    // 이 패턴은 클라이언트와 복잡한 서브시스템 간의 의존성을 줄이고, 서브시스템을 더 쉽게 사용할 수 있도록 한다.
-    // 나중에 리팩토링 과정에서 더 자세하게 알아보면 좋을 것 같다.
 
     @PostMapping("/signIn")
     public ResponseEntity<?> authSignIn(@RequestBody @Valid SignInDto signDto, BindingResult bindingResult) {

@@ -1,7 +1,7 @@
 package Challengesemester2024.domain.routeInfo.service;
 
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
-import Challengesemester2024.config.DbInitConstants;
+import Challengesemester2024.config.constant.DbInitConstants;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
 import Challengesemester2024.domain.routeInfo.repository.RouteInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,10 @@ public class RouteInfoServiceImpl implements RouteInfoService {
     private final RouteInfoRepository routeInfoRepository;
     @Override
     public RouteInfo createRouteInfo() {
-        RouteInfo routeInfo = new RouteInfo(DbInitConstants.routeInfoInitMessage);
+        RouteInfo routeInfo = RouteInfo.builder()
+                .memo(DbInitConstants.routeInfoInitMessage)
+                .build();
+
         try {
             routeInfoRepository.save(routeInfo);
         } catch (DataIntegrityViolationException e) {

@@ -5,7 +5,7 @@ import Challengesemester2024.SpringSecurity.jwt.dto.RefreshTokenDto;
 import Challengesemester2024.SpringSecurity.jwt.redis.model.RedisRefreshTokenDto;
 import Challengesemester2024.businessProcess.redis.dto.TokenSubAndRoleDto;
 import Challengesemester2024.businessProcess.redis.service.JwtRedisService;
-import Challengesemester2024.config.Constants;
+import Challengesemester2024.config.constant.JwtConstants;
 import Challengesemester2024.config.spring.JwtProps;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -20,7 +20,7 @@ import javax.crypto.SecretKey;
 
 import java.util.Date;
 
-import static Challengesemester2024.config.Constants.BEARER_TYPE;
+import static Challengesemester2024.config.constant.JwtConstants.BEARER_TYPE;
 
 @Component
 @Slf4j
@@ -62,7 +62,7 @@ public class JwtTokenProvider {
         Date accessExpiredTime = new Date(now.getTime() + accessTokenExpirationMinutes );
 
         String jwt = Jwts.builder()
-                .header().type(Constants.JWT)
+                .header().type(JwtConstants.JWT)
                 .and()
                 .claims()
                 .subject(managerEmailId)
@@ -88,7 +88,7 @@ public class JwtTokenProvider {
 
 
         String jwt = Jwts.builder()
-                .header().type(Constants.JWT)
+                .header().type(JwtConstants.JWT)
                 .and()
                 .claims()
                 .subject(managerEmailId)
@@ -150,17 +150,3 @@ public class JwtTokenProvider {
 
 }
 
-//        Long ChildCenter_Id = claims.
-//
-//        Optional<ChildCenter> found = childCenterRepository.findBychildcenter_id(Long.valueOf(claims.getId()));
-//        //사장 account ID 로 해당 사장이 관리 하는 매장의 DB 식별 Primary Key 를 get
-//
-//        if (!found.isPresent()){
-//            throw new CenterByManagerNotFoundException();
-//            //해당 사장이 관리하는 매장을 찾을 수 없음
-//        }
-
-//claims.put("storeId" , storeIdByOwnerAccountId);
-//해당 사장이 관리하는 매장의 식별 ID 를 클레임에 주입
-//API 에서 매장 식별 키를 인자로 최대한 받지 않기 위함
-//이건 나중에 보고 넣든가 말든가 하기
