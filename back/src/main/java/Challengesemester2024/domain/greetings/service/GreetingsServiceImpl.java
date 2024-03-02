@@ -1,10 +1,10 @@
 package Challengesemester2024.domain.greetings.service;
 
-import Challengesemester2024.Exception.collections.IoException.NotExitsInitImageFile;
+import Challengesemester2024.Exception.collections.IoException.NotExitsInitImageFileException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.util.UtilService;
-import Challengesemester2024.config.DbInitConstants;
+import Challengesemester2024.config.constant.DbInitConstants;
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.greetings.repository.GreetingsRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,13 @@ public class GreetingsServiceImpl implements GreetingsService{
     private final GreetingsRepository greetingsRepository;
     private final UtilService utilService;
     @Override
-    public Greetings createGreetings() throws NotExitsInitImageFile {
+    public Greetings createGreetings() throws NotExitsInitImageFileException {
         S3urlDto s3urlDto = getInitImageUrl();
-        Greetings greetings = new Greetings(s3urlDto, DbInitConstants.greetingsInitMessage);
+        Greetings greetings = Greetings.builder()
+                .pictureUrl(s3urlDto.getS3url())
+                .memo(DbInitConstants.greetingsInitMessage)
+                .build();
+
         try {
             greetingsRepository.save(greetings);
         } catch (DataIntegrityViolationException e) {
@@ -32,13 +36,13 @@ public class GreetingsServiceImpl implements GreetingsService{
         return greetings;
     }
 
-    private S3urlDto getInitImageUrl() throws NotExitsInitImageFile {
-        String initImageUrl = null;
+    private S3urlDto getInitImageUrl() throws NotExitsInitImageFileException {
+        String initImageUrl;
 
         try{
-            initImageUrl = utilService.getInitImagePath(DbInitConstants.initImageFileName);
+            initImageUrl = utilService.getInitImagePath();
         } catch (IOException e) {
-            throw new NotExitsInitImageFile();
+            throw new NotExitsInitImageFileException();
         }
 
         S3urlDto s3urlDto = S3urlDto.builder()

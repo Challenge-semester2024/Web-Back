@@ -8,6 +8,7 @@ import Challengesemester2024.SpringSecurity.jwt.JwtTokenProvider;
 import Challengesemester2024.SpringSecurity.jwt.dto.AccessTokenDto;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.SpringSecurity.jwt.dto.RefreshTokenDto;
+import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.manager.model.Manager;
@@ -37,9 +38,16 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public void register(SignUpDto.ceoInfo manager) {
+    public void register(SignUpDto.ceoInfo manager, ManagerRegisterDto managerRegisterDto) {
         String encodePassword = passwordEncoder.encode(manager.getPassword());
-        Manager managerEntity = new Manager(manager.getEmail(), encodePassword, manager.getPhoneNum());
+
+        Manager managerEntity = Manager.builder()
+                .emailId(manager.getEmail())
+                .password(encodePassword)
+                .phoneNum(manager.getPhoneNum())
+                .role(Manager.ManagerRoleEnum.User)
+                .childCenter(managerRegisterDto.getChildCenter())
+                .build();
 
         try {
             managerRepository.save(managerEntity);
