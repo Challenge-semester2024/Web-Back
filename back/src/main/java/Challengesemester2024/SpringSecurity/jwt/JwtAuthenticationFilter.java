@@ -58,16 +58,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 writeJsonToResponse(
                         response,
                         TokenExceptonMessage.TOKEN_MISSING_HEADER,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
             } catch (SignatureException e){ // 비밀키 일치 X 처리
                 writeJsonToResponse(
                         response,
                         TokenExceptonMessage.SignatureNotMatchException,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
 
@@ -75,16 +73,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 writeJsonToResponse(
                         response,
                         TokenExceptonMessage.JwtAccessTokenExpired,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
             } catch (UsernameNotFoundException e){ //해당 사용자 이메일의 계정이 존재하지 않는 경우
                 writeJsonToResponse(
                         response,
                         CommonExceptionMessage.UsernameNotFoundException,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
             }
@@ -92,8 +88,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 writeJsonToResponse(
                         response,
                         TokenExceptonMessage.InvalidJwtToken,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
             }
@@ -101,8 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 writeJsonToResponse(
                         response,
                         TokenExceptonMessage.UndefinedException,
-                        HttpStatus.UNAUTHORIZED.value(),
-                        String.valueOf(e.getStackTrace()[0])
+                        HttpStatus.UNAUTHORIZED.value()
                 );
                 return;
             }
@@ -122,8 +116,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void writeJsonToResponse( // 반환 할 HTTP Response 를 설정
                                      HttpServletResponse httpServletResponse, //HTTP 응답
                                      String errorMessage, //에러 메시지
-                                     Integer statusCode, //상태 코드
-                                     String stackTrace
+                                     Integer statusCode //상태 코드
     ) throws IOException {
         ExceptionDto expireExceptionDto = ExceptionDto
                 .builder()
@@ -131,7 +124,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .errorMessage(errorMessage)
                 .occurredTime(LocalDateTime.now())
                 .statusCode(statusCode)
-                .stackTrace(stackTrace)
                 .build();
 
         // Content Type 설정
