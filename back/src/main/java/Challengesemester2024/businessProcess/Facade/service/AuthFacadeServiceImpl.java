@@ -40,7 +40,6 @@ public class AuthFacadeServiceImpl implements AuthFacadeService {
 
         //사진 저장 로직
         S3urlDto s3urlDto = s3Service.uploadImageToS3(multipartFile);
-
         //DB 관계 설정 및 매핑
         databaseFacadeService.createDbAndRelationsWhenSignUp(signUpDto, s3urlDto);
     }
