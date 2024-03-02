@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.Facade;
+package Challengesemester2024.businessProcess.Facade.service;
 
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;

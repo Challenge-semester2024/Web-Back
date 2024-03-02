@@ -1,5 +1,7 @@
-package Challengesemester2024.businessProcess.Facade;
+package Challengesemester2024.businessProcess.Facade.service;
 
+import Challengesemester2024.businessProcess.Facade.dto.CenterForeignKeyDto;
+import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
@@ -34,9 +36,18 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
         //3. 시설소개 db 생성
         FacilityIntroduction facility = facilityService.createFacilityIntroduction();
 
+        //4. Center db 생성 위해, foreignKey로 담길 db들 하나의 dto로 묶기
+        CenterForeignKeyDto centerForeignKeyDto = CenterForeignKeyDto.builder()
+                .facility(facility)
+                .greetings(greetings)
+                .routeInfo(routeInfo)
+                .build();
 
+        //5. ChildCenter db 생성 및 관계 설정
+        ManagerRegisterDto managerRegisterDto = childCenterService.register(signUpDto.getCenterInfo(), centerForeignKeyDto, s3urlDto);
 
-
-
+        //6. manager db 생성 및 관계 설정
+        managerService.register(signUpDto.getCeoInfo(), managerRegisterDto);
     }
+
 }
