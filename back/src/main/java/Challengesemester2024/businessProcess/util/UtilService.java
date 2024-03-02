@@ -6,6 +6,6 @@ import java.io.IOException;
 public interface UtilService {
     public String getRandomNum();
     public String getRandomUUID(String originalName);
-    public String getInitImagePath(String fileName) throws IOException;
+    public String getInitImagePath() throws IOException;
 
 }
