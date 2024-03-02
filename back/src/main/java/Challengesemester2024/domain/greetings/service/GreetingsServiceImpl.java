@@ -19,7 +19,7 @@ public class GreetingsServiceImpl implements GreetingsService{
     private final GreetingsRepository greetingsRepository;
     private final UtilService utilService;
     @Override
-    public Greetings createGreetings() throws NotExitsInitImageFileException {
+    public Greetings createGreetings() throws IOException {
         S3urlDto s3urlDto = getInitImageUrl();
         Greetings greetings = Greetings.builder()
                 .pictureUrl(s3urlDto.getS3url())
@@ -36,14 +36,10 @@ public class GreetingsServiceImpl implements GreetingsService{
         return greetings;
     }
 
-    private S3urlDto getInitImageUrl() throws NotExitsInitImageFileException {
+    private S3urlDto getInitImageUrl() throws IOException {
         String initImageUrl;
 
-        try{
-            initImageUrl = utilService.getInitImagePath();
-        } catch (IOException e) {
-            throw new NotExitsInitImageFileException();
-        }
+        initImageUrl = utilService.getInitImagePath();
 
         S3urlDto s3urlDto = S3urlDto.builder()
                 .S3url(initImageUrl)
