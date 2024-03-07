@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @AllArgsConstructor(access =  AccessLevel.PROTECTED)
@@ -22,4 +24,7 @@ public class FloorPictureCluster {
     @ManyToOne
     @JoinColumn(name = "facility_introduction_id")
     private FacilityIntroduction facilityIntroduction;
+
+    @OneToMany(mappedBy = "floorPictureCluster")
+    private List<FloorPicture> floorPicture;
 }
