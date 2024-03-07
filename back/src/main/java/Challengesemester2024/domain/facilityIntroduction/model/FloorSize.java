@@ -10,11 +10,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access =  AccessLevel.PROTECTED)
 @Builder
-@Table(name = "facility_size")
-public class FacilitySize {
+@Table(name = "floor_size")
+public class FloorSize {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Column(name = "facility_size_id")
     private Long id;
 
     @Column(nullable = false, length = 255)
