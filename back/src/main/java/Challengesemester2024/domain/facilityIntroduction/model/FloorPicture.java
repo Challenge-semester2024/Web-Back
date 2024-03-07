@@ -10,8 +10,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access =  AccessLevel.PROTECTED)
 @Builder
-@Table(name = "facility_picture")
-public class FacilityPicture {
+@Table(name = "floor_picture")
+public class FloorPicture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,6 @@ public class FacilityPicture {
     private String floor;
 
     @ManyToOne
-    @JoinColumn(name = "facility_introduction_id")
-    private FacilityIntroduction facilityIntroduction;
+    @JoinColumn(name = "floor_picutre_cluster_id")
+    private FloorPictureCluster floorPictureCluster;
 }
