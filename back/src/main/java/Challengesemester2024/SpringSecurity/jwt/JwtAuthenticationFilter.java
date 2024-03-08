@@ -53,6 +53,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
                 String tokenInnerEmailId = jwtTokenProvider.validateAdminAccessTokenData(token);
+                //사용자의 인증된 정보를 이용해 인증 토큰을 생성하고, 이 토큰을 보안 컨텍스트에 설정하는 과정을 수행!
+                //각 요청이 별도의 스레드에서 처리되므로, 요청이 끝날 때마다 자동으로 해당 스레드의 보안 컨텍스트 정보가 초기화 됨
+                //이후의 작업에서 SecurityContextHolder를 통해 현재 사용자의 인증 정보를 얻을 수 있음
                 this.authentication(tokenInnerEmailId);
             } catch (TokenMissingException e){
                 writeJsonToResponse(
