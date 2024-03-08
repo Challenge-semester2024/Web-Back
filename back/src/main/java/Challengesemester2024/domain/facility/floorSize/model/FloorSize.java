@@ -1,5 +1,6 @@
-package Challengesemester2024.domain.facilityIntroduction.model;
+package Challengesemester2024.domain.facility.floorSize.model;
 
+import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,6 @@ public class FloorSize {
     private String mainRoom;
 
     @ManyToOne
-    @Column(name = "facility_introduction_id")
+    @JoinColumn(name = "facility_introduction_id")
     private FacilityIntroduction facilityIntroduction; //외래키가 있는 현재 테이블이 둘 관계의 주인이다!
 }

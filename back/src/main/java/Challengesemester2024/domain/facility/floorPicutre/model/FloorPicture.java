@@ -1,5 +1,6 @@
-package Challengesemester2024.domain.facilityIntroduction.model;
+package Challengesemester2024.domain.facility.floorPicutre.model;
 
+import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,6 @@ public class FloorPicture {
     private String floor;
 
     @ManyToOne
-    @JoinColumn(name = "floor_picutre_cluster_id")
+    @JoinColumn(name = "floor_picture_cluster_id")
     private FloorPictureCluster floorPictureCluster;
 }

@@ -1,5 +1,7 @@
-package Challengesemester2024.domain.facilityIntroduction.model;
+package Challengesemester2024.domain.facility.facilityIntroduction.model;
 
+import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
+import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +26,5 @@ public class FacilityIntroduction {
     private List<FloorSize> floorSizes;
 
     @OneToMany(mappedBy = "facilityIntroduction", fetch = FetchType.LAZY)
-    private List<FloorPictureCluster> FloorPictureClusters;
+    private List<FloorPictureCluster> floorPictureClusters;
 }

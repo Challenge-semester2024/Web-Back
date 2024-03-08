@@ -1,5 +1,7 @@
-package Challengesemester2024.domain.facilityIntroduction.model;
+package Challengesemester2024.domain.facility.floorPictureCluster.model;
 
+import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
+import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
