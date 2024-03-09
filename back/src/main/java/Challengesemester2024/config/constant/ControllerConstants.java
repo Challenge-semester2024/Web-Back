@@ -2,4 +2,5 @@ package Challengesemester2024.config.constant;
 
 public class ControllerConstants {
     public static final String completeSignUp = "회원가입이 완료되었습니다.";
+    public static final String completeUpdateFloorSize = "층별 소개가 업데이트 완료되었습니다.";
 }
