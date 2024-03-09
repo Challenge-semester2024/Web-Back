@@ -14,12 +14,11 @@ public class UpdateFloorSizeDto {
     @NotBlank
     private String floor;
 
-    @NotBlank
     @Min(0) //들어오는 숫자값이 0 이상이어 함.
     private int area; //프론트에서 , 같은 문자기호 빼고 숫자값으로만 줬음 좋겠음
 
     @NotBlank
-    private String usage;
+    private String purpose;
 
     @NotBlank
     private String mainRoom;
