@@ -2,14 +2,12 @@ package Challengesemester2024.domain.greetings.domain;
 
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "greetings")
 public class Greetings {

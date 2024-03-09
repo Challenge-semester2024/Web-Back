@@ -10,6 +10,7 @@ import lombok.*;
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "child_center")
 public class ChildCenter {

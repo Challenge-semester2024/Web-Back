@@ -2,14 +2,12 @@ package Challengesemester2024.domain.manager.model;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "manager")
 public class Manager {

@@ -2,29 +2,28 @@ package Challengesemester2024.domain.facility.floorSize.model;
 
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
 @AllArgsConstructor(access =  AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "floor_size")
 public class FloorSize {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @Column(name = "floor_size_id")
     private Long id;
 
     @Column(nullable = false, length = 255)
     private String floor;
 
     @Column(nullable = false, length = 255)
-    private String area;
+    private int area;
 
     @Column(nullable = false, length = 255)
-    private String usage;
+    private String purpose;
 
     @Column(nullable = false, length = 255)
     private String mainRoom;
