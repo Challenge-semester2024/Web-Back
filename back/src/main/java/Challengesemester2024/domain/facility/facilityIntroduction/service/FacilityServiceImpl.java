@@ -1,6 +1,7 @@
 package Challengesemester2024.domain.facility.facilityIntroduction.service;
 
 import Challengesemester2024.config.constant.DbInitConstants;
+import Challengesemester2024.domain.facility.dto.FacilityFloorSizeUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.repository.FacilityIntroRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,13 @@ public class FacilityServiceImpl implements FacilityService{
 
         facilityRepository.save(facilityIntroduction);
         return facilityIntroduction;
+    }
+
+    @Override
+    public void updateFacilityFloorSizeList(FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest) {
+        facilityRepository.updateFacilityFloorSizeList
+                (facilityFloorSizeUpdateRequest.getFacilityIntroPKDto(),
+                facilityFloorSizeUpdateRequest.getFloorSize());
     }
 
 

@@ -5,6 +5,7 @@ import Challengesemester2024.domain.childCenter.model.QChildCenter;
 import Challengesemester2024.domain.facility.facilityIntroduction.dto.GetFacilityIntroPKDto;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction;
+import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import Challengesemester2024.domain.manager.model.QManager;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,13 @@ public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCusto
                 .build();
 
         return facilityIntroductionPKDto;
+    }
+
+    @Override
+    public void updateFacilityFloorSizeList(GetFacilityIntroPKDto getFacilityIntroPKDto, FloorSize floorSize) {
+        //양방향 매핑을 위해 시설소개 DB에도 변경사항 업데이트
+        FacilityIntroduction facilityIntroduction = getFacilityIntroPKDto.getFacilityIntroduction();
+        facilityIntroduction.getFloorSizes().add(floorSize); //해당 DB는 영속상태 이므로 JPA에서 알아서 업데이트 해줌
     }
 }
 
