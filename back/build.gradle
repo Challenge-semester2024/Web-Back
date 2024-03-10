@@ -31,12 +31,13 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'com.mysql:mysql-connector-j' // MySQL 데이터베이스와 연결하기 위한 JDBC 드라이버
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1' //sms smrp 사용 위함
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1' //sms smtp 사용 위함
 	//Image AWS S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	//queryDsl 사용 위한 spring 3.x의 gradle
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	//annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }

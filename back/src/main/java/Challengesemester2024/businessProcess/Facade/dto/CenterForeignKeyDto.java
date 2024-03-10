@@ -1,6 +1,6 @@
 package Challengesemester2024.businessProcess.Facade.dto;
 
-import Challengesemester2024.domain.facilityIntroduction.model.FacilityIntroduction;
+import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
 import lombok.AllArgsConstructor;
