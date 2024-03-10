@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 public interface ManagerRepository extends JpaRepository<Manager, Long>, QuerydslPredicateExecutor<Manager> {
     Optional<Manager> findByEmailId(String emailId);
     // QueryDSL을 사용한 동적인 쿼리
-    List<Manager> findAll(Predicate predicate);
+    //List<Manager> findAll(Predicate predicate);
     //Predicate는 QueryDSL에서 제공하는 인터페이스로, 불리언(boolean) 값을 반환하는 함수를 나타냅니다.
     // 즉, 어떤 조건을 표현하는데 사용됩니다.
 }
