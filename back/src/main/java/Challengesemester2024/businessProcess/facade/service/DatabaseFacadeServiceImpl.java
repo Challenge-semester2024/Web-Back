@@ -1,7 +1,7 @@
-package Challengesemester2024.businessProcess.Facade.service;
+package Challengesemester2024.businessProcess.facade.service;
 
-import Challengesemester2024.businessProcess.Facade.dto.CenterForeignKeyDto;
-import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
+import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
+import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;

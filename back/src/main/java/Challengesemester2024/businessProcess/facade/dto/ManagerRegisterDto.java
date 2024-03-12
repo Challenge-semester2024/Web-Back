@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.Facade.dto;
+package Challengesemester2024.businessProcess.facade.dto;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import lombok.AllArgsConstructor;
