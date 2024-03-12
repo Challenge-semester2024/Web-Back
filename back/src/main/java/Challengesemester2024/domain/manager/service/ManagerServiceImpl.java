@@ -8,7 +8,7 @@ import Challengesemester2024.SpringSecurity.jwt.JwtTokenProvider;
 import Challengesemester2024.SpringSecurity.jwt.dto.AccessTokenDto;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.SpringSecurity.jwt.dto.RefreshTokenDto;
-import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
+import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.manager.model.Manager;
