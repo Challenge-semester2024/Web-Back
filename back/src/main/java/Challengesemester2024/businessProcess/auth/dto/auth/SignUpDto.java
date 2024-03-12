@@ -1,5 +1,4 @@
 package Challengesemester2024.businessProcess.auth.dto.auth;
-;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
