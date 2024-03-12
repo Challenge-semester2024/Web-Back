@@ -19,6 +19,9 @@ public class FloorPicture {
     @Column(nullable = false, length = 255)
     private String floor;
 
+    @Column(nullable = false, length = 255)
+    private String purpose;
+
     @ManyToOne
     @JoinColumn(name = "floor_picture_cluster_id")
     private FloorPictureCluster floorPictureCluster;
