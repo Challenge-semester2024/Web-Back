@@ -23,8 +23,8 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService{
     private final FloorPictureService floorPictureService;
     private final FloorPictureClusterService floorPictureClusterService;
 
-    @Override
     @Transactional
+    @Override
     public void updateFloorSize(UpdateFloorSizeDto updateFloorSizeDto) {
         //1. 인증된 이메일 가져오기
         AuthenticatedEmailDTO authenticatedEmailDto = getAuthenticatedEmail();
