@@ -19,7 +19,7 @@ public class FacilityIntroduction {
     @Column(name = "facility_introduction_id")
     private String id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private int totalArea; //각 층 시설 합계면적
 
     //양방향 설계를 위한 필드들
