@@ -1,6 +1,7 @@
 package Challengesemester2024.domain.facility.facilityIntroduction.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
+import Challengesemester2024.SpringSecurity.authentication.AuthenticatedEmailDTO;
 import Challengesemester2024.domain.childCenter.model.QChildCenter;
 import Challengesemester2024.domain.facility.facilityIntroduction.dto.GetFacilityIntroPKDto;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
@@ -14,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public GetFacilityIntroPKDto getFacilityPk(String email) {
+    public GetFacilityIntroPKDto getFacilityPk(AuthenticatedEmailDTO authenticatedEmailDTO) {
+        String email = authenticatedEmailDTO.getEmail();
+
         QManager manager = QManager.manager;
         QChildCenter childCenter = QChildCenter.childCenter;
         QFacilityIntroduction facilityIntroduction = QFacilityIntroduction.facilityIntroduction; // 가정한 시설소개 엔티티의 Q 타입
@@ -52,7 +55,8 @@ public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCusto
     public void updateFacilityFloorSizeList(GetFacilityIntroPKDto getFacilityIntroPKDto, FloorSize floorSize) {
         //양방향 매핑을 위해 시설소개 DB에도 변경사항 업데이트
         FacilityIntroduction facilityIntroduction = getFacilityIntroPKDto.getFacilityIntroduction();
-        facilityIntroduction.getFloorSizes().add(floorSize); //해당 DB는 영속상태 이므로 JPA에서 알아서 업데이트 해줌
+        //해당 DB는 영속상태 이므로 JPA에서 알아서 업데이트 해줌
+        facilityIntroduction.getFloorSizes().add(floorSize);
     }
 }
 
