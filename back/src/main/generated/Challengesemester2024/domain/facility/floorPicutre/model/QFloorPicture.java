@@ -28,6 +28,8 @@ public class QFloorPicture extends EntityPathBase<FloorPicture> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath purpose = createString("purpose");
+
     public QFloorPicture(String variable) {
         this(FloorPicture.class, forVariable(variable), INITS);
     }
