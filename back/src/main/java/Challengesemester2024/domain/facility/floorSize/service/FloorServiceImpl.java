@@ -18,7 +18,7 @@ public class FloorServiceImpl implements FloorService{
     @Override
     public FacilityFloorSizeUpdateRequest UpdateFloorSize(UpdateFloorSizeDto updateFloorSizeDto, AuthenticatedEmailDTO authenticatedEmailDto) {
         //1. 해당 이메일로 관리자db->보육원db로 외래키를 타고 들어가 보육원 필드에 저장된 시설소개의 기본키 가져오기
-        GetFacilityIntroPKDto getFacilityIntroPKDto = facilityIntroRepository.getFacilityPk(authenticatedEmailDto.getEmail());
+        GetFacilityIntroPKDto getFacilityIntroPKDto = facilityIntroRepository.getFacilityPk(authenticatedEmailDto);
 
         //2. 가져온 기본키와 외부에서 받은 updateFloorSizeDto로 floorPicutre db 저장하기
         FloorSize floorSize = FloorSize.builder()
