@@ -4,9 +4,7 @@ import Challengesemester2024.domain.manager.model.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 //QueryDSL을 사용하여 동적인 쿼리를 처리하기 위한 QuerydslPredicateExecutor를 구현한다. (Spring Data JPA의 기본 기능 정의)
 public interface ManagerRepository extends JpaRepository<Manager, Long>, QuerydslPredicateExecutor<Manager> {
