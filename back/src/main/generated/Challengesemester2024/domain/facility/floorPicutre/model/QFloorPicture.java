@@ -26,7 +26,7 @@ public class QFloorPicture extends EntityPathBase<FloorPicture> {
 
     public final Challengesemester2024.domain.facility.floorPictureCluster.model.QFloorPictureCluster floorPictureCluster;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final NumberPath<Long> floorPictureId = createNumber("floorPictureId", Long.class);
 
     public final StringPath purpose = createString("purpose");
 

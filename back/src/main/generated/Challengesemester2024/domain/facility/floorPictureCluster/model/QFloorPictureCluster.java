@@ -28,7 +28,7 @@ public class QFloorPictureCluster extends EntityPathBase<FloorPictureCluster> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath picuture = createString("picuture");
+    public final StringPath picture = createString("picture");
 
     public QFloorPictureCluster(String variable) {
         this(FloorPictureCluster.class, forVariable(variable), INITS);

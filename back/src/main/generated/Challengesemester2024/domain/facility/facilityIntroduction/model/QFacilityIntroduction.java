@@ -24,7 +24,7 @@ public class QFacilityIntroduction extends EntityPathBase<FacilityIntroduction> 
 
     public final ListPath<Challengesemester2024.domain.facility.floorSize.model.FloorSize, Challengesemester2024.domain.facility.floorSize.model.QFloorSize> floorSizes = this.<Challengesemester2024.domain.facility.floorSize.model.FloorSize, Challengesemester2024.domain.facility.floorSize.model.QFloorSize>createList("floorSizes", Challengesemester2024.domain.facility.floorSize.model.FloorSize.class, Challengesemester2024.domain.facility.floorSize.model.QFloorSize.class, PathInits.DIRECT2);
 
-    public final StringPath id = createString("id");
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<Integer> totalArea = createNumber("totalArea", Integer.class);
 
