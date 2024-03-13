@@ -17,7 +17,7 @@ public class FacilityIntroduction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facility_introduction_id")
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private int totalArea; //각 층 시설 합계면적
