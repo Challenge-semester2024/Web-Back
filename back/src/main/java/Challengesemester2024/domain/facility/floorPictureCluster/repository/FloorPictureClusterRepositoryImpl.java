@@ -1,14 +1,12 @@
 package Challengesemester2024.domain.facility.floorPictureCluster.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
-import Challengesemester2024.SpringSecurity.authentication.AuthenticatedEmailDTO;
-import Challengesemester2024.domain.childCenter.model.QChildCenter;
+import Challengesemester2024.domain.facility.facilityIntroduction.dto.GetFacilityIntroPKDto;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction;
 import Challengesemester2024.domain.facility.floorPictureCluster.dto.GetFloorPictureClusterPKDto;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.QFloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
-import Challengesemester2024.domain.manager.model.QManager;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -16,29 +14,25 @@ import lombok.RequiredArgsConstructor;
 public class FloorPictureClusterRepositoryImpl implements FloorPictureClusterRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public GetFloorPictureClusterPKDto getFloorPicutreClusterPk(AuthenticatedEmailDTO authenticatedEmailDTO) {
-        String email = authenticatedEmailDTO.getEmail();
+    public GetFloorPictureClusterPKDto getFloorPicutreClusterPk (GetFacilityIntroPKDto getFacilityIntroPKDto) {
 
-        QManager manager = QManager.manager;
-        QChildCenter childCenter = QChildCenter.childCenter;
-        QFacilityIntroduction facilityIntroduction = QFacilityIntroduction.facilityIntroduction; // 가정한 시설소개 엔티티의 Q 타입
+        QFacilityIntroduction facilityIntroduction = QFacilityIntroduction.facilityIntroduction;
         QFloorPictureCluster floorPictureCluster = QFloorPictureCluster.floorPictureCluster;
 
-        FloorPictureCluster fetchedfloorPictureCluster = jpaQueryFactory
+        FloorPictureCluster fetchedFloorPictureCluster = jpaQueryFactory
                 .select(floorPictureCluster)
-                .from(manager)
-                .join(manager.childCenter, childCenter)
-                .join(childCenter.facilityIntroduction, facilityIntroduction)
-                .join(facilityIntroduction.floorPictureClusters, floorPictureCluster)
-                .where(manager.emailId.eq(email))
+                .from(floorPictureCluster)
+                .join(floorPictureCluster.facilityIntroduction, facilityIntroduction) // 수정된 부분
+                .where(facilityIntroduction.eq(getFacilityIntroPKDto.getFacilityIntroduction())) // 예시 조건
+                        //manager.emailId.eq(authenticatedEmail)) -> 해당 내용 제거 -> 이전에 시설소개 PK 가져오는 부분에서 이미 검증된 내용임
                 .fetchOne();
 
-        if (fetchedfloorPictureCluster== null) {
+        if (fetchedFloorPictureCluster== null) {
             throw new DatabaseNotFoundException();
         }
 
         GetFloorPictureClusterPKDto floorPictureClusterPKDto = GetFloorPictureClusterPKDto.builder()
-                .floorPictureCluster(fetchedfloorPictureCluster)
+                .floorPictureCluster(fetchedFloorPictureCluster)
                 .build();
 
         return floorPictureClusterPKDto;
