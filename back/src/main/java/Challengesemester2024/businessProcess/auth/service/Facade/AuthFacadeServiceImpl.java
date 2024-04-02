@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.facade.service;
+package Challengesemester2024.businessProcess.auth.service.Facade;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
@@ -6,6 +6,7 @@ import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
 import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
+import Challengesemester2024.businessProcess.facade.service.DataBase.DatabaseFacadeService;
 import Challengesemester2024.businessProcess.s3.S3Service;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.manager.service.ManagerService;
@@ -29,6 +30,7 @@ public class AuthFacadeServiceImpl implements AuthFacadeService {
     @Override
     @Transactional
     public void authSignup(SignUpDto signUpDto, MultipartFile multipartFile) throws IOException {
+        //인증번호 확인
         emailService.checkVerifyNumberByEmail(signUpDto.getCeoInfo().getEmail(),
                 signUpDto.getCeoInfo().getEmailVerificationCode());
         phoneNumService.checkVerifyNumberByPhoneNum(signUpDto.getCeoInfo().getPhoneNum(),
@@ -41,7 +43,7 @@ public class AuthFacadeServiceImpl implements AuthFacadeService {
         //사진 저장 로직
         S3urlDto s3urlDto = s3Service.uploadImageToS3(multipartFile);
         //DB 관계 설정 및 매핑
-        databaseFacadeService.createDbAndRelationsWhenSignUp(signUpDto, s3urlDto);
+        databaseFacadeService.createDbWhenSignUp(signUpDto, s3urlDto);
     }
 
     @Override
