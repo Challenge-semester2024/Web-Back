@@ -24,11 +24,11 @@ public class QFloorPictureCluster extends EntityPathBase<FloorPictureCluster> {
 
     public final Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction facilityIntroduction;
 
-    public final ListPath<Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture> floorPicture = this.<Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture>createList("floorPicture", Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture.class, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture.class, PathInits.DIRECT2);
+    public final NumberPath<Integer> floor = createNumber("floor", Integer.class);
+
+    public final ListPath<Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture> floorPictureList = this.<Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture>createList("floorPictureList", Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture.class, Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final StringPath picture = createString("picture");
 
     public QFloorPictureCluster(String variable) {
         this(FloorPictureCluster.class, forVariable(variable), INITS);
