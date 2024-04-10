@@ -29,7 +29,7 @@ public class FacilityServiceImpl implements FacilityService{
     @Override
     public void updateFacilityFloorSizeList(FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest) {
         facilityRepository.updateFacilityFloorSizeList
-                (facilityFloorSizeUpdateRequest.getFacilityIntroPKDto(),
+                (facilityFloorSizeUpdateRequest.getFacilityIntroduction(),
                 facilityFloorSizeUpdateRequest.getFloorSize());
     }
 

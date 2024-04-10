@@ -1,24 +1,23 @@
 package Challengesemester2024.domain.facility.facilityIntroduction.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
-import Challengesemester2024.SpringSecurity.authentication.AuthenticatedEmailDTO;
+import Challengesemester2024.Exception.message.DbExceptionMessage;
 import Challengesemester2024.domain.childCenter.model.QChildCenter;
-import Challengesemester2024.domain.facility.facilityIntroduction.dto.GetFacilityIntroPKDto;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction;
 import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import Challengesemester2024.domain.manager.model.QManager;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 
 @RequiredArgsConstructor
 public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public GetFacilityIntroPKDto getFacilityPk(AuthenticatedEmailDTO authenticatedEmailDTO) {
-        String email = authenticatedEmailDTO.getEmail();
+    public FacilityIntroduction getFacilityPk(Authentication authentication) {
 
-        QManager manager = QManager.manager;
+        QManager qManager = QManager.manager;
         QChildCenter childCenter = QChildCenter.childCenter;
         QFacilityIntroduction facilityIntroduction = QFacilityIntroduction.facilityIntroduction; // 가정한 시설소개 엔티티의 Q 타입
 
@@ -26,14 +25,14 @@ public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCusto
                 .select(facilityIntroduction)
                 //jpaQueryFactory.select(facilityIntroduction):
                 //facilityIntroduction 엔티티를 선택하여 조회합니다. 즉, 결과로 얻고 싶은 데이터의 타입을 지정합니다.
-                .from(manager)
+                .from(qManager)
                 //조회를 시작할 기본 엔티티를 manager로 지정합니다. 이는 쿼리의 'FROM' 절에 해당하며,
                 // 여기서는 manager 테이블(엔티티)에서 시작해 다른 테이블로 조인하며 정보를 찾아갈 것임을 의미합니다.
-                .join(manager.childCenter, childCenter)
+                .join(qManager.childCenter, childCenter)
                 //manager 엔티티와 연관된 childCenter 엔티티를 조인합니다.
                 // 여기서는 manager 엔티티 내에 정의된 childCenter 필드(또는 관계)를 통해 childCenter 엔티티와 조인합니다.
                 .join(childCenter.facilityIntroduction, facilityIntroduction)
-                .where(manager.emailId.eq(email))
+                .where(qManager.emailId.eq(authentication.getName()))
                 //조건을 지정합니다. 여기서는 manager 엔티티의 emailId 필드가 인자로 받은 email 값과 동일한 경우만을 필터링합니다.
                 // 즉, 특정 이메일 주소를 가진 관리자에 대한 정보만 조회하겠다는 의미입니다.
                 .fetchOne();
@@ -41,20 +40,17 @@ public class FacilityIntroRepositoryImpl implements FacilityIntroRepositoryCusto
                 // 즉, 조건에 맞는 FacilityIntroduction 엔티티가 하나만 있을 것으로 예상하며, 해당 엔티티를 조회하여 반환합니다.
 
         if (fetchedFacilityIntroduction == null) {
-            throw new DatabaseNotFoundException();
+            throw new DatabaseNotFoundException(DbExceptionMessage.FacilityDatabaseNotFoundException);
         }
 
-        GetFacilityIntroPKDto facilityIntroductionPKDto = GetFacilityIntroPKDto.builder()
-                .facilityIntroduction(fetchedFacilityIntroduction)
-                .build();
-
-        return facilityIntroductionPKDto;
+        return fetchedFacilityIntroduction;
     }
 
+
     @Override
-    public void updateFacilityFloorSizeList(GetFacilityIntroPKDto getFacilityIntroPKDto, FloorSize floorSize) {
+    public void updateFacilityFloorSizeList(FacilityIntroduction facilityIntroduction, FloorSize floorSize) {
         //양방향 매핑을 위해 시설소개 DB에도 변경사항 업데이트
-        FacilityIntroduction facilityIntroduction = getFacilityIntroPKDto.getFacilityIntroduction();
+
         //해당 DB는 영속상태 이므로 JPA에서 알아서 업데이트 해줌
         facilityIntroduction.getFloorSizes().add(floorSize);
     }
