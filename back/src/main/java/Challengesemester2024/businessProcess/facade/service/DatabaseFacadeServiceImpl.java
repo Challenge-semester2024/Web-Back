@@ -1,9 +1,14 @@
-package Challengesemester2024.businessProcess.facade.service.DataBase;
+package Challengesemester2024.businessProcess.facade.service;
 
+import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
 import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
 import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.facade.dto.RequestUpdateGreetingOrRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.ResponseGerGreetingsandRouteInfoDto;
+import Challengesemester2024.businessProcess.s3.S3Service;
+import Challengesemester2024.businessProcess.util.UtilService;
+import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.facility.dto.CreateDbWhenUpdateFloorPictureDto;
 import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
@@ -16,12 +21,18 @@ import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.greetings.service.GreetingsService;
 import Challengesemester2024.domain.manager.service.ManagerService;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
+import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
 import Challengesemester2024.domain.routeInfo.service.RouteInfoService;
+import Challengesemester2024.domain.yearHistory.model.DecadeYear;
+import Challengesemester2024.domain.yearHistory.service.decadeYear.DecadeYearService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +44,14 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final ChildCenterService childCenterService;
     private final FloorPictureClusterService floorPictureClusterService;
     private final FloorPictureService floorPictureService;
+    private final SecurityUtils securityUtils;
+    private final S3Service s3Service;
+    private final DecadeYearService decadeYearService;
+    private final UtilService utilService;
 
     @Override
     @Transactional
-    public void createDbWhenSignUp(SignUpDto signUpDto, S3urlDto s3urlDto) throws IOException {
+    public void createDbWhenSignUp(SignUpDto signUpDto, String s3urlDto) throws IOException {
         //1. 찾아오는 길 db 생성
         RouteInfo routeInfo = routeInfoService.createRouteInfo();
         //2. 인삿말 db 생성
@@ -71,6 +86,62 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     @Override
     public void updateDbWhenModifyFloorPicture( FloorPictureDto floorPictureDto ) {
         floorPictureService.updateFloorPicture(floorPictureDto);
+    }
+
+    @Override
+    public void updateGreetings(MultipartFile file, RequestUpdateGreetingOrRouteInfoDto requestUpdateGreetingDto) throws IOException {
+        ChildCenter fechedChildCenter = getChildCenterPk();
+
+        Greetings excitingGreeting = fechedChildCenter.getGreetings();
+
+        String imageUrl;
+
+        if(!file.isEmpty()){
+            imageUrl = s3Service.uploadImageToS3(file);
+        } else {
+            imageUrl = utilService.getInitImagePath();
+        }
+
+
+        excitingGreeting.update(imageUrl, requestUpdateGreetingDto.getMemo());
+
+    }
+
+    @Override
+    public UpdateRouteInfoDto updateRouteInfo(RequestUpdateGreetingOrRouteInfoDto routeInfoDto) {
+        ChildCenter fechedChildCenter = getChildCenterPk();
+
+        RouteInfo oldRouteInfo =  fechedChildCenter.getRouteInfo();
+
+        RouteInfo newRouteInfo = RouteInfo.builder()
+                .memo(routeInfoDto.getMemo())
+                .build();
+
+        UpdateRouteInfoDto updateRouteInfoDto = UpdateRouteInfoDto.builder()
+                .oldRouteInfo(oldRouteInfo)
+                .newRouteInf0(newRouteInfo)
+                .build();
+
+        return updateRouteInfoDto;
+    }
+
+    @Override
+    public ResponseGerGreetingsandRouteInfoDto getGreetinsandRouteInfo() {
+
+        ChildCenter fechedChildCenter = getChildCenterPk();
+        List<DecadeYear> decadeYearList = decadeYearService.findAllDecadeYearDesc();
+
+        ResponseGerGreetingsandRouteInfoDto responseGerGreetingsandRouteInfo = ResponseGerGreetingsandRouteInfoDto.builder()
+                .greeting(fechedChildCenter.getGreetings())
+                .decadeYearList(decadeYearList)
+                .build();
+
+        return responseGerGreetingsandRouteInfo;
+    }
+
+    private ChildCenter getChildCenterPk(){
+        Authentication authentication = securityUtils.getAuthenticationEmail();
+        return childCenterService.getChildCenterPk(authentication);
     }
 
 
