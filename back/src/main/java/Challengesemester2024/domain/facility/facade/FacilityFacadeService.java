@@ -1,9 +1,13 @@
 package Challengesemester2024.domain.facility.facade;
 
-import Challengesemester2024.domain.facility.floorPicutre.dto.UpdateFloorPictureDto;
+import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
 import Challengesemester2024.domain.facility.floorSize.dto.UpdateFloorSizeDto;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface FacilityFacadeService {
-    void updateFloorSize(UpdateFloorSizeDto updateFloorSizeDto);
-    void updateFloorPicture(UpdateFloorPictureDto updateFloorPictureDto);
+    void createFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList);
+    void createOrUpdateFloorPicture(List<FloorPictureDto> createFloorPictureDtoList, List<MultipartFile> multipartFile);
+
 }
