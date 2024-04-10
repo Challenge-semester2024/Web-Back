@@ -52,7 +52,6 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token);
 
         return claimsJws.getPayload().getSubject();
-        //여기에 해당 클레임의 subject가 우리의 레포에도 존재하는지 확인해..줘야 하나? 이미 비밀키를 통해 확인하는디
     }
 
     public AccessTokenDto createAccessToken(String managerEmailId, String roles) {

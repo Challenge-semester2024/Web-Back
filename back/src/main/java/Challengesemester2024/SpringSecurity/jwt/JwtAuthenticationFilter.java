@@ -152,10 +152,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 "/api/auth",
                 "/api/verify",
                 "/static/**",
-                "/swagger-ui/**",
-                "/swagger-resources/**",
+                "/swagger-ui/",
+                "/swagger-resources",
                 "/v3/api-docs",
-                "/api-docs/**"
+                "/api-docs",
+                "/swagger-ui/",
+                "/v3/api-docs/swagger-config"
         ));
         return openUrlPatterns.stream().noneMatch(requestURI::startsWith);
 
