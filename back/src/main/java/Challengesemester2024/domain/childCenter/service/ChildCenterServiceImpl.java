@@ -2,15 +2,15 @@ package Challengesemester2024.domain.childCenter.service;
 
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
-import Challengesemester2024.businessProcess.Facade.dto.CenterForeignKeyDto;
-import Challengesemester2024.businessProcess.Facade.dto.ManagerRegisterDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
+import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
+import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,7 +28,12 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public ManagerRegisterDto register(SignUpDto.centerInfo centerInfo, CenterForeignKeyDto centerForeignKeyDto, S3urlDto s3urlDto) {
+    public ChildCenter getChildCenterPk(Authentication authentication) {
+        return childCenterRepository.getChildCenterPk(authentication);
+    }
+
+    @Override
+    public ManagerRegisterDto register(SignUpDto.centerInfo centerInfo, CenterForeignKeyDto centerForeignKeyDto, String s3url) {
 
         ChildCenter childCenter = ChildCenter.builder()
                 .phoneNumId(centerInfo.getPhoneNum())
@@ -36,7 +41,7 @@ public class ChildCenterServiceImpl implements ChildCenterService {
                 .centerName(centerInfo.getCenterName())
                 .roadAddress(centerInfo.getRoadAddress())
                 .detailAddress(centerInfo.getDetailAddress())
-                .certificate(s3urlDto.getS3url())
+                .certificate(s3url)
                 .facilityIntroduction(centerForeignKeyDto.getFacility())
                 .greetings(centerForeignKeyDto.getGreetings())
                 .routeInfo(centerForeignKeyDto.getRouteInfo())

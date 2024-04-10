@@ -1,6 +1,6 @@
 package Challengesemester2024.businessProcess.s3;
 
-import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
+import Challengesemester2024.Exception.collections.IoException.ImageInputException;
 import Challengesemester2024.businessProcess.util.UtilService;
 import Challengesemester2024.config.s3.S3Config;
 import com.amazonaws.services.s3.AmazonS3;
@@ -22,7 +22,7 @@ public class S3ServiceImpl implements S3Service{
     private final S3Config s3Config;
 
     @Override
-    public S3urlDto uploadImageToS3(MultipartFile image) {
+    public String uploadImageToS3(MultipartFile image) throws ImageInputException {
         String bucketName = s3Config.getBucketName();
         String originName = image.getOriginalFilename(); //원본 이미지 이름
         String ext = originName.substring(originName.lastIndexOf(".")); //확장자
@@ -36,14 +36,12 @@ public class S3ServiceImpl implements S3Service{
             ).withCannedAcl(CannedAccessControlList.PublicRead));
 
         } catch (IOException e) {
-            //throw new ImageUploadException(); //커스텀 예외 던짐.
+            throw new ImageInputException();
         }
 
-        S3urlDto s3urlDto = S3urlDto.builder()
-                .S3url(amazonS3.getUrl(bucketName, changedName).toString())
-                .build();
+        String s3url = amazonS3.getUrl(bucketName, changedName).toString();
 
-        return s3urlDto; //데이터베이스에 저장할 이미지가 저장된 주소
+        return s3url; //데이터베이스에 저장할 이미지가 저장된 주소
     }
 
 }

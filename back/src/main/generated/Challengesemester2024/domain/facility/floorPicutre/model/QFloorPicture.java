@@ -22,11 +22,15 @@ public class QFloorPicture extends EntityPathBase<FloorPicture> {
 
     public static final QFloorPicture floorPicture = new QFloorPicture("floorPicture");
 
-    public final StringPath floor = createString("floor");
+    public final NumberPath<Integer> floor = createNumber("floor", Integer.class);
 
     public final Challengesemester2024.domain.facility.floorPictureCluster.model.QFloorPictureCluster floorPictureCluster;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final NumberPath<Long> floorPictureId = createNumber("floorPictureId", Long.class);
+
+    public final NumberPath<Integer> imageIndex = createNumber("imageIndex", Integer.class);
+
+    public final StringPath purpose = createString("purpose");
 
     public QFloorPicture(String variable) {
         this(FloorPicture.class, forVariable(variable), INITS);

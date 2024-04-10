@@ -2,6 +2,7 @@ package Challengesemester2024.domain.facility.floorSize.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class UpdateFloorSizeDto {
     private String purpose;
 
     @NotBlank
-    private String mainRoom;
+    private String remark;
+
+    @NotNull
+    private int displayIndex;
 
 }

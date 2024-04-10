@@ -15,7 +15,6 @@ public class RouteInfo {
     @Column(name = "route_info_id")
     private Long id;
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String memo;
-
 }

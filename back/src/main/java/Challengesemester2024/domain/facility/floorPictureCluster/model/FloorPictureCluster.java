@@ -7,25 +7,25 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Getter
-@AllArgsConstructor(access =  AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-@Table(name = "floor_picture_cluster")
-public class FloorPictureCluster {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "floor_picture_cluster_id")
-    private Long id;
+    @Entity
+    @Getter
+    @AllArgsConstructor(access =  AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder
+    @Table(name = "floor_picture_cluster")
+    public class FloorPictureCluster {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "floor_picture_cluster_id")
+        private Long id;
 
-    @Column(nullable = false, length = 255)
-    private String picuture;
+        @Column(nullable = false)
+        private int floor;
 
-    @ManyToOne
-    @JoinColumn(name = "facility_introduction_id")
-    private FacilityIntroduction facilityIntroduction;
+        @OneToMany(mappedBy = "floorPictureCluster", fetch = FetchType.LAZY)
+        private List<FloorPicture> floorPictureList;
 
-    @OneToMany(mappedBy = "floorPictureCluster")
-    private List<FloorPicture> floorPicture;
-}
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "facility_introduction_id")
+        private FacilityIntroduction facilityIntroduction;
+    }

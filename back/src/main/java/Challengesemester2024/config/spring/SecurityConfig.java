@@ -40,7 +40,8 @@ public class SecurityConfig {
                                         "/swagger-resources/**",
                                         "/swagger-ui/**",
                                         "/v3/api-docs",
-                                        "/api-docs/**"
+                                        "/api-docs/**",
+                                        "/v3/api-docs/swagger-config"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -54,3 +55,5 @@ public class SecurityConfig {
                 .build();
     }
 }
+
+//SWAGGER 주소 : http://localhost:8080/swagger-ui/index.html

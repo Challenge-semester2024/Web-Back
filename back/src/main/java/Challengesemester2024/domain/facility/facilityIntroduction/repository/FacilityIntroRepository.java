@@ -8,5 +8,3 @@ import org.springframework.data.repository.CrudRepository;
 public interface FacilityIntroRepository extends JpaRepository<FacilityIntroduction, CrudRepository>, FacilityIntroRepositoryCustom {
 }
 
-
-//package com.web.mere.infrastructure.adapter.persistence.jpa.repository.admin.store;

@@ -1,5 +1,12 @@
 package Challengesemester2024.domain.facility.floorPictureCluster.service;
 
+import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
+import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
+import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
+
 public interface FloorPictureClusterService {
-    void updateFloorPictureCluster(String email);
+    void createFloorPictureList(FloorPictureListUpdateRequest floorPictureListUpdateRequest);
+    FloorPictureCluster createFloorPictureCluster(FacilityIntroduction facilityIntroduction, int floor);
+    FloorPictureCluster findByFloor(int floor);
+
 }

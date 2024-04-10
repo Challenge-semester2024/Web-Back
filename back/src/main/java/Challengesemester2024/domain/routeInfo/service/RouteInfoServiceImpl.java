@@ -1,11 +1,10 @@
 package Challengesemester2024.domain.routeInfo.service;
 
-import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
 import Challengesemester2024.config.constant.DbInitConstants;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
+import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
 import Challengesemester2024.domain.routeInfo.repository.RouteInfoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,12 +17,13 @@ public class RouteInfoServiceImpl implements RouteInfoService {
                 .memo(DbInitConstants.routeInfoInitMessage)
                 .build();
 
-        try {
-            routeInfoRepository.save(routeInfo);
-        } catch (DataIntegrityViolationException e) {
-            // 유니크 키 겹쳤을 때 에러 발생
-            throw new DuplicateUniqueKeyException();
-        }
+        routeInfoRepository.save(routeInfo);
         return routeInfo;
+    }
+
+    @Override
+    public void updateRouteInfo(UpdateRouteInfoDto updateRouteInfoDto) {
+        routeInfoRepository.delete(updateRouteInfoDto.getOldRouteInfo());
+        routeInfoRepository.save(updateRouteInfoDto.getNewRouteInf0());
     }
 }
