@@ -1,6 +1,5 @@
 package Challengesemester2024.domain.greetings.domain;
 
-import Challengesemester2024.businessProcess.auth.dto.auth.S3urlDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +18,12 @@ public class Greetings {
     @Column(nullable = false, unique = true, length = 255)
     private String pictureUrl;
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String memo;
+
+    public void update(String pictureUrl, String memo){
+        this.pictureUrl=pictureUrl;
+        this.memo=memo;
+    }
 
 }
