@@ -21,7 +21,7 @@ public class Greetings {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String memo;
 
-    public void update(String pictureUrl, String memo){
+    public void update(String memo){
         this.pictureUrl=pictureUrl;
         this.memo=memo;
     }
