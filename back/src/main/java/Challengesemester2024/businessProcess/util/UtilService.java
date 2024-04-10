@@ -1,6 +1,5 @@
 package Challengesemester2024.businessProcess.util;
 
-import software.amazon.ion.IonException;
 import java.io.IOException;
 
 public interface UtilService {
