@@ -3,36 +3,20 @@ package Challengesemester2024.businessProcess.auth.service.PhoneNum;
 import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByPhoneNum;
 import Challengesemester2024.Exception.collections.redis.NotSamePhoneNum;
-import Challengesemester2024.businessProcess.auth.dto.smtp.MessageDto;
-import Challengesemester2024.businessProcess.auth.dto.smtp.NcpRequestDto;
-import Challengesemester2024.businessProcess.auth.dto.smtp.NcpResponseDto;
 import Challengesemester2024.businessProcess.auth.dto.smtp.PhoneNumDto;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.util.UtilService;
 import Challengesemester2024.config.smtp.PhoneConfig;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.stereotype.Service;;
 import java.util.Optional;
 
 @Service
@@ -42,33 +26,11 @@ public class PhoneNumServiceImpl implements PhoneNumService{
     private final PhoneConfig phoneConfig;
     private final AuthRedisService authRedisService;
     private final UtilService utilService;
-    private String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
-        String space = " ";
-        String newLine = "\n";
-        String method = "POST";
-        String url = "/sms/v2/services/" + phoneConfig.getServiceId() + "/messages";
-        String timestamp = time.toString();
-        String accessKey = phoneConfig.getAccessKey();
-        String secretKey = phoneConfig.getSecretKey();
-
-        String message = new StringBuilder()
-                .append(method)
-                .append(space)
-                .append(url)
-                .append(newLine)
-                .append(timestamp)
-                .append(newLine)
-                .append(accessKey)
-                .toString();
-
-        SecretKeySpec signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
-        Mac mac = Mac.getInstance("HmacSHA256");
-        mac.init(signingKey);
-
-        byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
-        String encodeBase64String = Base64.getEncoder().encodeToString(rawHmac);
-
-        return encodeBase64String;
+    private DefaultMessageService messageService;
+    @PostConstruct //의존성 주입 끝난 후 자동호출
+    private void init() {
+        this.messageService = NurigoApp.INSTANCE.initialize(
+                phoneConfig.getApiKey(), phoneConfig.getSecretKey(), "https://api.coolsms.co.kr");
     }
 
     private void saveRedis(String phoneNum,String randomNum){
@@ -80,45 +42,25 @@ public class PhoneNumServiceImpl implements PhoneNumService{
     }
 
     @Override
-    public void sendVerifyNumberByPhoneNum(PhoneNumDto phoneNumDto) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException, URISyntaxException {
+    public void sendVerifyNumberByPhoneNum(PhoneNumDto phoneNumDto)  {
+        //랜덤값 만들기
         String randomNum = utilService.getRandomNum();
 
-        Long time = System.currentTimeMillis();
-        String accessKey = phoneConfig.getAccessKey();
-        String phone = phoneConfig.getAdminphone();
+        //1. sendOne()-> coolSMS 외부 api에 내용 담아 요청하는 함수
+        Message message = new Message();
+        message.setFrom(phoneConfig.getAdminphone());
+        message.setTo(phoneNumDto.getPhoneNum());
+        message.setText("아지트 인증번호 : "+randomNum);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-ncp-apigw-timestamp", time.toString());
-        headers.set("x-ncp-iam-access-key", accessKey);
-        headers.set("x-ncp-apigw-signature-v2", makeSignature(time));
+        //2. SingleMessageSendingRequest -> 외부 api 요청 클래스
+        //3. SingleMessageSentResponse -> 외부 api 응답 클래스
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 
-        MessageDto messageDto = new MessageDto(); // 메시지 생성
-        messageDto.setTo(phoneNumDto.getPhoneNum());
-
-        List<MessageDto> messages = new ArrayList<>();
-        messages.add(messageDto);
-
-        String content = "아지트 인증번호:" + randomNum;
-
-        NcpRequestDto request = NcpRequestDto.builder()
-                .type("SMS")
-                .contentType("COMM")
-                .countryCode("82")
-                .from(phone)
-                .content(content)
-                .messages(messages)
-                .build();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String body = objectMapper.writeValueAsString(request);
-        HttpEntity<String> httpBody = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + phoneConfig.getServiceId() + "/messages"), httpBody, NcpResponseDto.class);
-
+        //redis 서버에 저장
         saveRedis(phoneNumDto.getPhoneNum(), randomNum);
+
+        //임시로 확인 돌리기
+        //checkVerifyNumberByPhoneNum(phoneNumDto.getPhoneNum(), randomNum);
     }
 
     @Override
@@ -133,6 +75,7 @@ public class PhoneNumServiceImpl implements PhoneNumService{
 
         //인증 코드가 다른 경우 에러 필요
         if(!verifyNum.equals(authCodeDto.get().getCode())) throw new NotMatchVerificatonCodeByPhoneNum();
+
     }
 
 }
