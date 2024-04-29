@@ -1,5 +1,6 @@
 package Challengesemester2024.businessProcess.auth.service.PhoneNum;
 
+import Challengesemester2024.Exception.collections.business.FailedSendSmsToClient;
 import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByPhoneNum;
 import Challengesemester2024.Exception.collections.redis.NotSamePhoneNum;
@@ -12,6 +13,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoBadRequestException;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
@@ -54,7 +56,19 @@ public class PhoneNumServiceImpl implements PhoneNumService{
 
         //2. SingleMessageSendingRequest -> 외부 api 요청 클래스
         //3. SingleMessageSentResponse -> 외부 api 응답 클래스
-        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        SingleMessageSentResponse response;
+        try {
+            response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+            // 성공적으로 응답을 받았을 때의 처리 로직
+        } catch (Throwable throwable) {
+            if (throwable instanceof NurigoBadRequestException) {
+                // ValidationError 또는 FailedToAddMessage 에러 발생 시의 처리 로직
+                throw new FailedSendSmsToClient();
+            } else {
+                // 그 외에 대한 에러 처리 로직
+               throw new RuntimeException();
+            }
+        }
 
         //redis 서버에 저장
         saveRedis(phoneNumDto.getPhoneNum(), randomNum);
