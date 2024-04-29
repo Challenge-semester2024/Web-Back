@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "sms")
 public class PhoneConfig {
-    private String accessKey;
+    private String apiKey;
     private String secretKey;
-    private String serviceId;
     private String adminphone;
 }
