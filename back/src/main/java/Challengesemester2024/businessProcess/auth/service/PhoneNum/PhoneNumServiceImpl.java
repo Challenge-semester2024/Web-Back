@@ -42,7 +42,6 @@ public class PhoneNumServiceImpl implements PhoneNumService{
     private final PhoneConfig phoneConfig;
     private final AuthRedisService authRedisService;
     private final UtilService utilService;
-
     private String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         String space = " ";
         String newLine = "\n";

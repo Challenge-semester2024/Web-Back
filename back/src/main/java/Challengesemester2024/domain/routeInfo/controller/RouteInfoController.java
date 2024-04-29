@@ -32,7 +32,7 @@ public class RouteInfoController {
     }
 
     @Transactional
-    @GetMapping("api/greeting/get")
+    @GetMapping("get")
     public ResponseEntity<?> getAllRouteInfo(){
 
         return new ResponseEntity<>(ControllerConstants.completeUpdateGreetings, HttpStatus.OK);

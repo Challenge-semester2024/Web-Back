@@ -89,22 +89,10 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     }
 
     @Override
-    public void updateGreetings(MultipartFile file, RequestUpdateGreetingOrRouteInfoDto requestUpdateGreetingDto) throws IOException {
+    public void updateGreetings(RequestUpdateGreetingOrRouteInfoDto requestUpdateGreetingDto) {
         ChildCenter fechedChildCenter = getChildCenterPk();
-
         Greetings excitingGreeting = fechedChildCenter.getGreetings();
-
-        String imageUrl;
-
-        if(!file.isEmpty()){
-            imageUrl = s3Service.uploadImageToS3(file);
-        } else {
-            imageUrl = utilService.getInitImagePath();
-        }
-
-
-        excitingGreeting.update(imageUrl, requestUpdateGreetingDto.getMemo());
-
+        excitingGreeting.update(requestUpdateGreetingDto.getMemo());
     }
 
     @Override
