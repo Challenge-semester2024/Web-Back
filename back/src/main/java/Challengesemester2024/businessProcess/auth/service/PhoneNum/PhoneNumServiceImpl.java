@@ -14,15 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoBadRequestException;
-import net.nurigo.sdk.message.exception.NurigoException;
-import net.nurigo.sdk.message.exception.NurigoInvalidApiKeyException;
-import net.nurigo.sdk.message.exception.NurigoUnknownException;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.stereotype.Service;;
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
