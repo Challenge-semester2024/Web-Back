@@ -6,14 +6,14 @@ import Challengesemester2024.businessProcess.facade.dto.ResponseGerGreetingsandR
 import Challengesemester2024.domain.facility.dto.CreateDbWhenUpdateFloorPictureDto;
 import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
 import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.Authentication;
 
 import java.io.IOException;
 
 public interface DatabaseFacadeService {
     void createDbWhenSignUp(SignUpDto signUpDto, String s3Url) throws IOException;
     void createDbWhenUpdateFloorPicute (CreateDbWhenUpdateFloorPictureDto createDbDto);
-    void updateDbWhenModifyFloorPicture ( FloorPictureDto find);
+    void updateDbWhenModifyFloorPicture (FloorPictureDto find, Authentication authentication);
     void updateGreetings(RequestUpdateGreetingOrRouteInfoDto GreetingDto) throws IOException;
     UpdateRouteInfoDto updateRouteInfo(RequestUpdateGreetingOrRouteInfoDto routeInfoDto);
     ResponseGerGreetingsandRouteInfoDto getGreetinsandRouteInfo();

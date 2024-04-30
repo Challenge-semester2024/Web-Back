@@ -19,7 +19,7 @@ public class FloorPictureDto {
     private String purpose;
 
     @NotNull
-    private int imageIndex; //몇 번째 인덱스에 위치하는지 표시해줄 dto (0-3)
+    private int imageIndex; //몇 번째 인덱스에 위치하는지 표시해줄 dto (0-3) -> update 로직에서 식별자로 쓰일 예정이다.
 
     //위 3개는 db에 들어갈 값, imageName은 매핑을 위한 값
     @NotBlank

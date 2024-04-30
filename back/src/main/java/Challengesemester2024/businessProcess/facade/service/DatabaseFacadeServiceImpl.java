@@ -45,9 +45,7 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final FloorPictureClusterService floorPictureClusterService;
     private final FloorPictureService floorPictureService;
     private final SecurityUtils securityUtils;
-    private final S3Service s3Service;
     private final DecadeYearService decadeYearService;
-    private final UtilService utilService;
 
     @Override
     @Transactional
@@ -84,8 +82,11 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     }
 
     @Override
-    public void updateDbWhenModifyFloorPicture( FloorPictureDto floorPictureDto ) {
-        floorPictureService.updateFloorPicture(floorPictureDto);
+    public void updateDbWhenModifyFloorPicture( FloorPictureDto floorPictureDto, Authentication authentication ) {
+        //기존 객체 삭제 및 수정
+        FloorPictureListUpdateRequest updateFloorPicture = floorPictureService.updateFloorPicture(floorPictureDto, authentication);
+        //floorCluster에 재연결
+        floorPictureClusterService.createFloorPictureList(updateFloorPicture);
     }
 
     @Override

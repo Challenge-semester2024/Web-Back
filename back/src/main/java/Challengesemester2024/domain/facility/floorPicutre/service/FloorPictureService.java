@@ -6,5 +6,5 @@ import org.springframework.security.core.Authentication;
 
 public interface FloorPictureService {
     FloorPictureListUpdateRequest createFloorPicture(FloorPictureDto floorPictureDto, Authentication authentication);
-    void updateFloorPicture(FloorPictureDto floorPictureDto );
+    FloorPictureListUpdateRequest updateFloorPicture(FloorPictureDto floorPictureDto, Authentication authentication );
 }

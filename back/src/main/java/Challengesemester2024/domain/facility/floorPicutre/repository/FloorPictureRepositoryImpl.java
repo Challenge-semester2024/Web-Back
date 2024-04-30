@@ -15,8 +15,8 @@ public class FloorPictureRepositoryImpl implements FloorPictureRepositoryCustom 
 
     @Override
     public UpdateFloorPictureDto updateFloorPicture(FloorPictureDto updateFloorPicture) {
-        FloorPicture existingFloorPicture = getFloorPictureToUpdate(updateFloorPicture.getFloor(), updateFloorPicture.getImageIndex());
-        //TODO : 사실 여기 existingFloorPicture.getImageIndex()와 updateFloorPicture.getImageIndex()가 같은지 확인하는 로직 하나 들어가야 할 듯
+        //imageIndex로 기존의 객체 찾기
+        FloorPicture existingFloorPicture = getFloorPictureToUpdate(updateFloorPicture.getImageIndex());
 
         // 새로운 정보로 FloorPictureDto로부터 FloorPicture 객체 생성
         FloorPicture newFloorPicture = FloorPicture.builder()
@@ -34,13 +34,12 @@ public class FloorPictureRepositoryImpl implements FloorPictureRepositoryCustom 
         return updateFloorPictureDto;
     }
 
-    private FloorPicture getFloorPictureToUpdate(int floor, int imageIndex) {
+    private FloorPicture getFloorPictureToUpdate(int imageIndex) {
         QFloorPicture qFloorPicture = QFloorPicture.floorPicture;
 
         FloorPicture excitiongFloorPicture = jpaQueryFactory
                 .selectFrom(qFloorPicture)
-                .where(qFloorPicture.floor.eq(floor)
-                        .and(qFloorPicture.imageIndex.eq(imageIndex)))
+                .where(qFloorPicture.imageIndex.eq(imageIndex))
                 .fetchOne();
 
         if(excitiongFloorPicture==null){

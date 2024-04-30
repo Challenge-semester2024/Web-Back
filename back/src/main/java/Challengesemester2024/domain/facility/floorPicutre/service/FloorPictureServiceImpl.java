@@ -40,22 +40,32 @@ public class FloorPictureServiceImpl implements FloorPictureService {
         floorPictureRepository.save(newFloorPicture);
 
         //3. 양방향 매핑 위해 floorPicureClusterPk와 업데이트 된 db 반환
-        FloorPictureListUpdateRequest floorPictureListUpdateRequest = FloorPictureListUpdateRequest.builder()
+        FloorPictureListUpdateRequest floorPictureListCreateRequest = FloorPictureListUpdateRequest.builder()
                 .floorPictureCluster(fetchedFloorPictureCluster)
                 .floorPicture(newFloorPicture)
                 .build();
 
-        return floorPictureListUpdateRequest;
+        return floorPictureListCreateRequest;
     }
 
     @Override
-    public void updateFloorPicture (FloorPictureDto floorPictureToFind ) {
-        // 1번. dto의 행(floor)과 열(이미지인덱스)의 정보를 가진 동일 객체 찾기 및 삭제 -> floorPicture db에서 null 처리 시, 가비지 콜렉터로 인해 해당 객체를 참조하고 있던 FloorPictureCluster 속에서도 사라질 것
-        UpdateFloorPictureDto updateFloorPicture = floorPictureRepository.updateFloorPicture(floorPictureToFind);
+    public FloorPictureListUpdateRequest updateFloorPicture (FloorPictureDto updateTargetFloorPicture, Authentication authentication) {
+        // 1번. dto의 행(floor)과 열(이미지인덱스)의 정보를 가진 동일 객체 찾기 및 삭제
+        // -> floorPicture db에서 null 처리 시, 가비지 콜렉터로 인해 해당 객체를 참조하고 있던 FloorPictureCluster 속에서도 사라질 것
+        UpdateFloorPictureDto updateFloorPicture = floorPictureRepository.updateFloorPicture(updateTargetFloorPicture);
 
-        // 2번. 기존 객체 삭제 및 새로운 객체 저장
+        // 2번. 기존 객체 업데이트
         floorPictureRepository.delete(updateFloorPicture.getOldFloorPicture());
         floorPictureRepository.save(updateFloorPicture.getNewFloorPicture());
+
+        //3. 양방향 매핑 위해 floorPicureClusterPk와 업데이트 된 db 반환
+        FloorPictureListUpdateRequest floorPictureListUpdateRequest = FloorPictureListUpdateRequest.builder()
+                .floorPictureCluster(updateFloorPicture.getOldFloorPicture().getFloorPictureCluster())
+                .floorPicture(updateFloorPicture.getNewFloorPicture())
+                .build();
+
+        //새롭게 clusterMapping 위해 반환
+        return floorPictureListUpdateRequest;
 
     }
 
