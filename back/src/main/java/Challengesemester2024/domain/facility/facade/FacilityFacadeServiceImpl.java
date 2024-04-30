@@ -12,6 +12,7 @@ import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPict
 import Challengesemester2024.domain.facility.floorPictureCluster.service.FloorPictureClusterService;
 import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
 import Challengesemester2024.domain.facility.floorSize.dto.UpdateFloorSizeDto;
+import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import Challengesemester2024.domain.facility.floorSize.service.FloorSizeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +37,25 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
     @Transactional
     @Override
-    public void createFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList) {
+    public void createOrUpdateFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList) {
         //1. 인증된 이메일 가져오기
         Authentication authenticationEmail = securityUtils.getAuthenticationEmail();
 
         for(UpdateFloorSizeDto updateFloorSizeDto : updateFloorSizeDtoList){
-            //2. 층별규모에 db 생성
-            FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest = floorSizeService.createFloorSize(updateFloorSizeDto, authenticationEmail);
-            //3. 시설db에 양방향 매핑 위한 db 업데이트
+
+            FloorSize fetchedFlooSize = floorSizeService.findFloorSize(updateFloorSizeDto.getDisplayIndex());
+
+            FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest;
+            //1-1. 수정인 경우 - 기존객체 삭제 및 db 생성
+            if(fetchedFlooSize!=null) {
+                facilityFloorSizeUpdateRequest = floorSizeService.updateFloorSize(fetchedFlooSize, updateFloorSizeDto, authenticationEmail);
+            }
+            //1-2. 생성인 경우 - db 생성
+            else{
+                facilityFloorSizeUpdateRequest = floorSizeService.createFloorSize(updateFloorSizeDto, authenticationEmail);
+            }
+
+            //2. 시설db에 양방향 매핑 위한 db 업데이트
             facilityService.updateFacilityFloorSizeList(facilityFloorSizeUpdateRequest);
         }
 
@@ -74,9 +86,9 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
             FloorPictureCluster floorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor());
 
-            // 1. dto 속 floor의 loorPictureCluster DB 존재하는 경우 -> 수정
+            // 1. dto 속 floor의 floorPictureCluster DB 존재하는 경우 -> 수정
             if (floorPictureCluster != null) {
-                databaseFacadeService.updateDbWhenModifyFloorPicture(find);
+                databaseFacadeService.updateDbWhenModifyFloorPicture(find, authentication);
             }
             // 2. dto 속 floor의 floorPictureCluster DB 존재하지 않는 경우 -> 생성
             else {

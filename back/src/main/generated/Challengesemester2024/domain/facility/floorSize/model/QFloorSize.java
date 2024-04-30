@@ -24,15 +24,17 @@ public class QFloorSize extends EntityPathBase<FloorSize> {
 
     public final NumberPath<Integer> area = createNumber("area", Integer.class);
 
+    public final NumberPath<Integer> displayIndex = createNumber("displayIndex", Integer.class);
+
     public final Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction facilityIntroduction;
 
     public final StringPath floor = createString("floor");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath mainRoom = createString("mainRoom");
-
     public final StringPath purpose = createString("purpose");
+
+    public final StringPath remark = createString("remark");
 
     public QFloorSize(String variable) {
         this(FloorSize.class, forVariable(variable), INITS);

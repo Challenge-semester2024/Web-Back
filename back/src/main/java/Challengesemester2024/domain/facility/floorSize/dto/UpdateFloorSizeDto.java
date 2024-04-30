@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 public class UpdateFloorSizeDto {
 
     @NotBlank
-    private String floor;
+    private String floor; //층수표시
 
     @Min(0) //들어오는 숫자값이 0 이상이어 함.
     private int area; //프론트에서 , 같은 문자기호 빼고 숫자값으로만 줬음 좋겠음
 
     @NotBlank
-    private String purpose;
+    private String purpose; //주요실
 
     @NotBlank
-    private String remark;
+    private String remark; //비고
 
     @NotNull
-    private int displayIndex;
+    private int displayIndex; //실제 표에 나타날 위치인덱스
 
 }

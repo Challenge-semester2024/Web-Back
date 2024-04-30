@@ -26,7 +26,8 @@ public class FloorServiceImpl implements FloorSizeService{
                 .floor(updateFloorSizeDto.getFloor())
                 .area(updateFloorSizeDto.getArea())
                 .purpose(updateFloorSizeDto.getPurpose())
-                .mainRoom(updateFloorSizeDto.getRemark())
+                .remark(updateFloorSizeDto.getRemark())
+                .displayIndex(updateFloorSizeDto.getDisplayIndex())
                 .facilityIntroduction(facilityIntroduction)
                 .build();
 
@@ -41,4 +42,36 @@ public class FloorServiceImpl implements FloorSizeService{
 
         return facilityFloorSizeUpdateRequest;
     }
+
+    @Override
+    public FloorSize findFloorSize(int displayIndex) {
+        return floorRepository.findByDisplayIndex(displayIndex);
+    }
+
+    @Override
+    public FacilityFloorSizeUpdateRequest updateFloorSize(FloorSize oldFloorSize, UpdateFloorSizeDto newFloorSizeDto, Authentication authentication) {
+
+        //기존 객체 제거
+        floorRepository.delete(oldFloorSize);
+
+        FloorSize newFloorSize = FloorSize.builder()
+                .floor(newFloorSizeDto.getFloor())
+                .area(newFloorSizeDto.getArea())
+                .purpose(newFloorSizeDto.getPurpose())
+                .remark(newFloorSizeDto.getRemark())
+                .displayIndex(newFloorSizeDto.getDisplayIndex())
+                .facilityIntroduction(oldFloorSize.getFacilityIntroduction())
+                .build();
+
+        floorRepository.save(newFloorSize);
+
+
+        FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest = FacilityFloorSizeUpdateRequest.builder()
+                .facilityIntroduction(oldFloorSize.getFacilityIntroduction())
+                .floorSize(newFloorSize)
+                .build();
+
+        return facilityFloorSizeUpdateRequest;
+    }
+
 }

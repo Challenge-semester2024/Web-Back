@@ -23,10 +23,10 @@ public class FloorSizeController {
     private final FacilityFacadeService facilityFacadeService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createFloorSize(@RequestBody @Valid List<UpdateFloorSizeDto> updateFloorSizeDtoList, BindingResult bindingResult){
+    public ResponseEntity<?> createAndUpdateFloorSize(@RequestBody @Valid List<UpdateFloorSizeDto> updateFloorSizeDtoList, BindingResult bindingResult){
         handleBindingErrors(bindingResult);
         //컨트롤러가 소수의 서비스 레이어만을 관리하기 위해 파사드 패턴 생성
-        facilityFacadeService.createFloorSize(updateFloorSizeDtoList);
+        facilityFacadeService.createOrUpdateFloorSize(updateFloorSizeDtoList);
 
         return new ResponseEntity<>(ControllerConstants.completeUpdateFloorSize, HttpStatus.OK);
     }

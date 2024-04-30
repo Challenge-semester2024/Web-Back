@@ -26,7 +26,10 @@ public class FloorSize {
     private String purpose;
 
     @Column(nullable = false, length = 255)
-    private String mainRoom;
+    private String remark;
+
+    @Column(nullable = false, length = 255)
+    private int displayIndex; //실제 표에 나타날 위치인덱스
 
     @ManyToOne
     @JoinColumn(name = "facility_introduction_id")
