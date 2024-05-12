@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.facade.dto;
+package Challengesemester2024.businessProcess.facade.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

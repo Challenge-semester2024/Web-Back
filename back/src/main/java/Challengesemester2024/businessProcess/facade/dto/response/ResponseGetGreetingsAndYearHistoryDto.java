@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.facade.dto;
+package Challengesemester2024.businessProcess.facade.dto.response;
 
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.yearHistory.model.DecadeYear;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseGerGreetingsandRouteInfoDto {
+public class ResponseGetGreetingsAndYearHistoryDto {
     Greetings greeting;
     List<DecadeYear> decadeYearList;
 }
