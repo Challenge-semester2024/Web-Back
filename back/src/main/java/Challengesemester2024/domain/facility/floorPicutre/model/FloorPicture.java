@@ -1,6 +1,7 @@
 package Challengesemester2024.domain.facility.floorPicutre.model;
 
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ public class FloorPicture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "floor_picture_id")
+    @JsonIgnore
     private Long floorPictureId;
 
     @Column(nullable = false)
@@ -27,6 +29,7 @@ public class FloorPicture {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_picture_cluster_id")
+    @JsonIgnore
     private FloorPictureCluster floorPictureCluster;
 }
 

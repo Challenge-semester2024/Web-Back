@@ -2,6 +2,7 @@ package Challengesemester2024.domain.facility.floorPictureCluster.model;
 
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "floor_picture_cluster_id")
+        @JsonIgnore
         private Long id;
 
         @Column(nullable = false)
@@ -27,5 +29,6 @@ import java.util.List;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "facility_introduction_id")
+        @JsonIgnore
         private FacilityIntroduction facilityIntroduction;
     }
