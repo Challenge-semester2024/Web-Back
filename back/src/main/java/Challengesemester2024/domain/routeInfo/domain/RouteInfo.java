@@ -1,5 +1,6 @@
 package Challengesemester2024.domain.routeInfo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import lombok.*;
 @Table(name = "route_info")
 public class RouteInfo {
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "route_info_id")
     private Long id;

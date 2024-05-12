@@ -1,5 +1,6 @@
 package Challengesemester2024.domain.greetings.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,9 @@ import lombok.*;
 @Builder
 @Table(name = "greetings")
 public class Greetings {
+
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "greetings_id")
     private Long id;
