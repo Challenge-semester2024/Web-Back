@@ -1,22 +1,24 @@
 package Challengesemester2024.businessProcess.facade.service;
 
 import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
-import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
-import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
+import Challengesemester2024.businessProcess.facade.dto.*;
 import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.facade.dto.RequestUpdateGreetingOrRouteInfoDto;
-import Challengesemester2024.businessProcess.facade.dto.ResponseGerGreetingsandRouteInfoDto;
-import Challengesemester2024.businessProcess.s3.S3Service;
-import Challengesemester2024.businessProcess.util.UtilService;
+import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
+import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.facility.dto.CreateDbWhenUpdateFloorPictureDto;
 import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.service.FacilityService;
+import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPictureCluster.service.FloorPictureClusterService;
 import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
 import Challengesemester2024.domain.facility.floorPicutre.service.FloorPictureService;
+import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
+import Challengesemester2024.domain.facility.floorSize.service.FloorSizeService;
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.greetings.service.GreetingsService;
 import Challengesemester2024.domain.manager.service.ManagerService;
@@ -29,7 +31,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,6 +47,7 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final FloorPictureService floorPictureService;
     private final SecurityUtils securityUtils;
     private final DecadeYearService decadeYearService;
+    private final FloorSizeService floorSizeService;
 
     @Override
     @Transactional
@@ -115,17 +117,45 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     }
 
     @Override
-    public ResponseGerGreetingsandRouteInfoDto getGreetinsandRouteInfo() {
+    public ResponseGetGreetingsAndYearHistoryDto getGreetinsandYearHistory() {
 
         ChildCenter fechedChildCenter = getChildCenterPk();
-        List<DecadeYear> decadeYearList = decadeYearService.findAllDecadeYearDesc();
+        List<DecadeYear> decadeYearList = decadeYearService.findAllDecadeYearDesc(fechedChildCenter);
 
-        ResponseGerGreetingsandRouteInfoDto responseGerGreetingsandRouteInfo = ResponseGerGreetingsandRouteInfoDto.builder()
+        ResponseGetGreetingsAndYearHistoryDto responseGetGreetingsAndHistoryInfo = ResponseGetGreetingsAndYearHistoryDto.builder()
                 .greeting(fechedChildCenter.getGreetings())
                 .decadeYearList(decadeYearList)
                 .build();
 
-        return responseGerGreetingsandRouteInfo;
+        return responseGetGreetingsAndHistoryInfo;
+    }
+
+    @Override
+    public ResponseAddressAndRouteInfoDto getAddressAndRouteInfo() {
+        ChildCenter fetchedChildCenter = getChildCenterPk();
+
+        ResponseAddressAndRouteInfoDto responseAddressAndRouteInfoDto = ResponseAddressAndRouteInfoDto.builder()
+                .Address(fetchedChildCenter.getRoadAddress()+" "+fetchedChildCenter.getDetailAddress())
+                .routeInfo(fetchedChildCenter.getRouteInfo())
+                .build();
+
+        return responseAddressAndRouteInfoDto;
+
+    }
+
+    @Override
+    public ResponseGetFloorSizeAndPictureCluster getFailciltySizeAndFicture() {
+        ChildCenter fetchedChildCenter = getChildCenterPk();
+        List<FloorSize> floorSizes = floorSizeService.getAllFloorSize(fetchedChildCenter.getFacilityIntroduction());
+        List<FloorPictureCluster> floorPictureClusters = floorPictureClusterService.getAllFloorPictureCluster(fetchedChildCenter.getFacilityIntroduction());
+
+        ResponseGetFloorSizeAndPictureCluster response = ResponseGetFloorSizeAndPictureCluster.builder()
+                .floorSizeList(floorSizes)
+                .floorPictureClusterList(floorPictureClusters)
+                .build();
+
+        return response;
+
     }
 
     private ChildCenter getChildCenterPk(){
