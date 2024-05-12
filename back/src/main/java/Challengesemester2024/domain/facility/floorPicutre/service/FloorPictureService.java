@@ -1,10 +1,10 @@
 package Challengesemester2024.domain.facility.floorPicutre.service;
 
-import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
-import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
-import org.springframework.security.core.Authentication;
+import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
+
+import java.util.List;
 
 public interface FloorPictureService {
-    FloorPictureListUpdateRequest createFloorPicture(FloorPictureDto floorPictureDto, Authentication authentication);
-    FloorPictureListUpdateRequest updateFloorPicture(FloorPictureDto floorPictureDto, Authentication authentication );
+    void updateFloorPicture(FloorPicture updateFloorPicture);
+    void createAllFloorPictureList(List<FloorPicture> floorPictureList);
 }

@@ -60,12 +60,11 @@ public class FloorPictureClusterServiceimpl implements FloorPictureClusterServic
     // 헉ㅠㅠ
 
 
-    @Override
-    public void createFloorPictureList(FloorPictureListUpdateRequest floorPictureListUpdateRequest) {
-        floorPictureClusterRepository.createFloorPictureList(floorPictureListUpdateRequest.getFloorPictureCluster(),
-                floorPictureListUpdateRequest.getFloorPicture());
-
-    }
+//    @Override
+//    public void createFloorPictureList(FloorPictureListUpdateRequest floorPictureListUpdateRequest) {
+//        floorPictureClusterRepository.createFloorPictureList(floorPictureListUpdateRequest.getFloorPictureCluster(),
+//                floorPictureListUpdateRequest.getFloorPicture());
+//    }
 
 }
 

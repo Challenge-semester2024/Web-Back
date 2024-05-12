@@ -7,9 +7,10 @@ import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPict
 import java.util.List;
 
 public interface FloorPictureClusterService {
-    void createFloorPictureList(FloorPictureListUpdateRequest floorPictureListUpdateRequest);
+//    void createFloorPictureList(FloorPictureListUpdateRequest floorPictureListUpdateRequest);
     FloorPictureCluster createFloorPictureCluster(FacilityIntroduction facilityIntroduction, int floor);
     FloorPictureCluster findByFloor(int floor);
     List<FloorPictureCluster> getAllFloorPictureCluster(FacilityIntroduction facilityIntroduction);
+
 
 }

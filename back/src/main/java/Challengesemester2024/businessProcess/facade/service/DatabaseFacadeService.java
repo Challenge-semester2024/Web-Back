@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public interface DatabaseFacadeService {
     void createDbWhenSignUp(SignUpDto signUpDto, String s3Url) throws IOException;
-    void createDbWhenUpdateFloorPicute (CreateDbWhenUpdateFloorPictureDto createDbDto);
-    void updateDbWhenModifyFloorPicture (FloorPictureDto find, Authentication authentication);
+//    void createDbWhenUpdateFloorPicute (CreateDbWhenUpdateFloorPictureDto createDbDto);
+//    void updateDbWhenModifyFloorPicture (FloorPictureDto find, Authentication authentication);
     void updateGreetings(RequestUpdateGreetingOrRouteInfoDto GreetingDto) throws IOException;
     UpdateRouteInfoDto updateRouteInfo(RequestUpdateGreetingOrRouteInfoDto routeInfoDto);
     ResponseGetGreetingsAndYearHistoryDto getGreetinsandYearHistory();

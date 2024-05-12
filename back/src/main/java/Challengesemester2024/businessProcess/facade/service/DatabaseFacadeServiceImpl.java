@@ -73,23 +73,23 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
         managerService.register(signUpDto.getCeoInfo(), managerRegisterDto);
     }
 
-    @Override
-    public void createDbWhenUpdateFloorPicute(CreateDbWhenUpdateFloorPictureDto createDbDto) {
-        // 1번. 해당 층에 대한 새로운 floorPictureCluster db 생성.
-        floorPictureClusterService.createFloorPictureCluster(createDbDto.getFacilityIntroduction(), createDbDto.getFloorPictureDto().getFloor());
-        // 2번. floorPicutureDb도 생성해서 FloorPictureDto find의 정보를 db에 넣어줌. + 1번에서 만들어준 floorPictureCluster db의 pk값을 외래키로 설정
-        FloorPictureListUpdateRequest floorPictureListUpdateRequest = floorPictureService.createFloorPicture(createDbDto.getFloorPictureDto(), createDbDto.getAuthentication());
-        // 3번. 1번에서 만들어준 floorPictureCluster 내부의 floorPictureList에 2번에서 만들어준 floorPicuture를 넣어줌
-        floorPictureClusterService.createFloorPictureList(floorPictureListUpdateRequest);
-    }
+//    @Override
+//    public void createDbWhenUpdateFloorPicute(CreateDbWhenUpdateFloorPictureDto createDbDto) {
+//        // 1번. 해당 층에 대한 새로운 floorPictureCluster db 생성.
+//        floorPictureClusterService.createFloorPictureCluster(createDbDto.getFacilityIntroduction(), createDbDto.getFloorPictureDto().getFloor());
+//        // 2번. floorPicutureDb도 생성해서 FloorPictureDto find의 정보를 db에 넣어줌. + 1번에서 만들어준 floorPictureCluster db의 pk값을 외래키로 설정
+//        FloorPictureListUpdateRequest floorPictureListUpdateRequest = floorPictureService.createFloorPicture(createDbDto.getFloorPictureDto(), createDbDto.getAuthentication());
+//        // 3번. 1번에서 만들어준 floorPictureCluster 내부의 floorPictureList에 2번에서 만들어준 floorPicuture를 넣어줌
+//        floorPictureClusterService.createFloorPictureList(floorPictureListUpdateRequest);
+//    }
 
-    @Override
-    public void updateDbWhenModifyFloorPicture( FloorPictureDto floorPictureDto, Authentication authentication ) {
-        //기존 객체 삭제 및 수정
-        FloorPictureListUpdateRequest updateFloorPicture = floorPictureService.updateFloorPicture(floorPictureDto, authentication);
-        //floorCluster에 재연결
-        floorPictureClusterService.createFloorPictureList(updateFloorPicture);
-    }
+//    @Override
+//    public void updateDbWhenModifyFloorPicture ( FloorPictureDto floorPictureDto, Authentication authentication ) {
+//        //기존 객체 삭제 및 수정
+//        FloorPictureListUpdateRequest updateFloorPicture = floorPictureService.updateFloorPicture(floorPictureDto, authentication);
+//        //floorCluster에 재연결
+//        floorPictureClusterService.createFloorPictureList(updateFloorPicture);
+//    }
 
     @Override
     public void updateGreetings(RequestUpdateGreetingOrRouteInfoDto requestUpdateGreetingDto) {

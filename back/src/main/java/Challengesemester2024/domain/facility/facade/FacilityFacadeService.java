@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface FacilityFacadeService {
     void createOrUpdateFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList);
-    void createOrUpdateFloorPicture(List<FloorPictureDto> createFloorPictureDtoList, List<MultipartFile> multipartFile);
-
+    void createFloorPicture(List<FloorPictureDto> createFloorPictureDtoList, List<MultipartFile> multipartFile);
+    void updateFloorPicuture(List<FloorPictureDto> updateFloorPictureDtoList, List<MultipartFile> multipartFiles);
 }

@@ -27,7 +27,7 @@ public class FloorPictureController {
                                                 @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult){
         handleBindingErrors(bindingResult);
         //컨트롤러가 소수의 서비스 레이어만을 관리하기 위해 파사드 패턴 생성
-        facilityFacadeService.createOrUpdateFloorPicture(floorPictureDtoList, multipartFile);
+        facilityFacadeService.createFloorPicture(floorPictureDtoList, multipartFile);
 
         return new ResponseEntity<>(ControllerConstants.completeUpdateFloorSize, HttpStatus.OK);
     }
@@ -38,7 +38,7 @@ public class FloorPictureController {
                                                 @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult){
         handleBindingErrors(bindingResult);
         //컨트롤러가 소수의 서비스 레이어만을 관리하기 위해 파사드 패턴 생성
-        facilityFacadeService.createOrUpdateFloorPicture(floorPictureDtoList, multipartFile);
+        facilityFacadeService.updateFloorPicuture(floorPictureDtoList, multipartFile);
         return new ResponseEntity<>(ControllerConstants.completeUpdateFloorSize, HttpStatus.OK);
     }
 
