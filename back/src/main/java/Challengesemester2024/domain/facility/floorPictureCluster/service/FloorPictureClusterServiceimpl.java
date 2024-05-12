@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -37,6 +38,14 @@ public class FloorPictureClusterServiceimpl implements FloorPictureClusterServic
         FloorPictureCluster floorPictureCluster =  floorPictureClusterRepository.findByFloor(floor);
         return floorPictureCluster; //그 자체를 다 넘기는 거니까 dto 굳이 쓸 필요 엇ㅂ다. int cout>
     }
+
+    @Override
+    public List<FloorPictureCluster> getAllFloorPictureCluster(FacilityIntroduction facilityIntroduction) {
+        return floorPictureClusterRepository.getAllFloorPicutre(facilityIntroduction);
+    }
+
+
+
     // 해당 도메인 그 자체를 반환하는게 더 자연스러움
     // dto를 쓰는게 좋은 습관이긴 하나, findByFloor 같은 경우는 cluster 하나만 가져오는 목적이지?
     // 해당 서비스의 목적이 floorPictureCluster에 관한 것만 가져오겠지

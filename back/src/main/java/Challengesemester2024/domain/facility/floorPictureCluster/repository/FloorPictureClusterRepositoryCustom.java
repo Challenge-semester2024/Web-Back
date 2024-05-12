@@ -4,7 +4,10 @@ import Challengesemester2024.domain.facility.facilityIntroduction.model.Facility
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
 
+import java.util.List;
+
 public interface FloorPictureClusterRepositoryCustom {
-    public FloorPictureCluster getFloorPicutreClusterPk(FacilityIntroduction facilityIntroduction);
-    public void createFloorPictureList(FloorPictureCluster floorPictureCluster, FloorPicture floorPicture);
+    FloorPictureCluster getFloorPicutreClusterPk(FacilityIntroduction facilityIntroduction);
+    void createFloorPictureList(FloorPictureCluster floorPictureCluster, FloorPicture floorPicture);
+    List<FloorPictureCluster> getAllFloorPicutre (FacilityIntroduction facilityIntroduction);
 }

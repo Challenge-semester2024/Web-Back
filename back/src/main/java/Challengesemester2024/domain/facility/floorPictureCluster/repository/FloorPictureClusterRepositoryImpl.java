@@ -7,6 +7,7 @@ import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilit
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.QFloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPicutre.model.FloorPicture;
+import Challengesemester2024.domain.facility.floorPicutre.model.QFloorPicture;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -52,6 +53,20 @@ public class FloorPictureClusterRepositoryImpl implements FloorPictureClusterRep
         floorPictureList.add(floorPicture);
     }
 
+    @Override
+    public List<FloorPictureCluster> getAllFloorPicutre(FacilityIntroduction facilityIntroduction) {
+        QFloorPictureCluster qFloorPictureCluster = QFloorPictureCluster.floorPictureCluster;
+        QFloorPicture qFloorPicture = QFloorPicture.floorPicture;
+
+        List<FloorPictureCluster> result = jpaQueryFactory
+                .selectFrom(qFloorPictureCluster)
+                .leftJoin(qFloorPictureCluster.floorPictureList, qFloorPicture).fetchJoin()
+                .where(qFloorPictureCluster.facilityIntroduction.eq(facilityIntroduction))
+                .orderBy(qFloorPictureCluster.floor.asc(), qFloorPicture.imageIndex.asc())
+                .fetch();
+
+        return result;
+    }
 
 
 }
