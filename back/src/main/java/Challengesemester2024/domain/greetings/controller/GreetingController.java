@@ -1,8 +1,7 @@
 package Challengesemester2024.domain.greetings.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
-import Challengesemester2024.businessProcess.facade.dto.RequestUpdateGreetingOrRouteInfoDto;
-import Challengesemester2024.businessProcess.facade.dto.ResponseGerGreetingsandRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.service.DatabaseFacadeService;
 import Challengesemester2024.config.constant.ControllerConstants;
 import jakarta.transaction.Transactional;
@@ -29,13 +28,6 @@ public class GreetingController {
         databaseFacadeService.updateGreetings(requestUpdateGreetingDto);
 
         return new ResponseEntity<>(ControllerConstants.completeUpdateGreetings, HttpStatus.OK);
-    }
-
-    @Transactional
-    @GetMapping("get/greeting/and/year")
-    public ResponseEntity<?> getAllGreetingsAndYearHistory() {
-        ResponseGerGreetingsandRouteInfoDto responseGerGreetingsandRouteInfoDto = databaseFacadeService.getGreetinsandRouteInfo();
-        return ResponseEntity.ok(responseGerGreetingsandRouteInfoDto);
     }
 
     public void handleBindingErrors(BindingResult bindingResult) {
