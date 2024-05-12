@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class FloorServiceImpl implements FloorSizeService{
+public class FloorSizeServiceImpl implements FloorSizeService{
     private final FacilityIntroRepository facilityIntroRepository;
     private final FloorSizeRepository floorRepository;
 
@@ -72,6 +74,11 @@ public class FloorServiceImpl implements FloorSizeService{
                 .build();
 
         return facilityFloorSizeUpdateRequest;
+    }
+
+    @Override
+    public List<FloorSize> getAllFloorSize(FacilityIntroduction facilityIntroduction) {
+        return floorRepository.findByFacilityIntroductionOrderByDisplayIndexAsc(facilityIntroduction);
     }
 
 }
