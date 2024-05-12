@@ -1,7 +1,7 @@
 package Challengesemester2024.domain.routeInfo.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
-import Challengesemester2024.businessProcess.facade.dto.RequestUpdateGreetingOrRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.service.DatabaseFacadeService;
 import Challengesemester2024.config.constant.ControllerConstants;
 import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
