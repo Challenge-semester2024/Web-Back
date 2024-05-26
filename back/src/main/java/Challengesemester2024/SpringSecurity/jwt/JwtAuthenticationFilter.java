@@ -36,77 +36,75 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-        @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-            String requestURI = request.getRequestURI(); //요청된 API 경로
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String requestURI = request.getRequestURI(); //요청된 API 경로
 
-            if (!requiregsAuthentication(requestURI)) { //허용 된 URL 요청이라면 토큰 검증없이 진행
-                filterChain.doFilter(request, response);
-                return;
-            }
-
-            try{
-                String token = jwtTokenProvider.resolveAccessToken(request);
-
-                if(token==null){
-                    throw new TokenMissingException();
-                }
-
-                String tokenInnerEmailId = jwtTokenProvider.validateAdminAccessTokenData(token);
-                //사용자의 인증된 정보를 이용해 인증 토큰을 생성하고, 이 토큰을 보안 컨텍스트에 설정하는 과정을 수행!
-                //각 요청이 별도의 스레드에서 처리되므로, 요청이 끝날 때마다 자동으로 해당 스레드의 보안 컨텍스트 정보가 초기화 됨
-                //이후의 작업에서 SecurityContextHolder를 통해 현재 사용자의 인증 정보를 얻을 수 있음
-                this.authentication(tokenInnerEmailId);
-            } catch (TokenMissingException e){
-                writeJsonToResponse(
-                        response,
-                        TokenExceptonMessage.TOKEN_MISSING_HEADER,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-            } catch (SignatureException e){ // 비밀키 일치 X 처리
-                writeJsonToResponse(
-                        response,
-                        TokenExceptonMessage.SignatureNotMatchException,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-
-            } catch (ExpiredJwtException e) { //토큰 기간 만료시 처리
-                writeJsonToResponse(
-                        response,
-                        TokenExceptonMessage.JwtAccessTokenExpired,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-            } catch (UsernameNotFoundException e){ //해당 사용자 이메일의 계정이 존재하지 않는 경우
-                writeJsonToResponse(
-                        response,
-                        CommonExceptionMessage.UsernameNotFoundException,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-            }
-            catch (JwtException e){ // 토큰 자체가 잘못된 경우
-                writeJsonToResponse(
-                        response,
-                        TokenExceptonMessage.InvalidJwtToken,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-            }
-            catch (Exception e) { //그 외 모든 예외 처리
-                writeJsonToResponse(
-                        response,
-                        TokenExceptonMessage.UndefinedException,
-                        HttpStatus.UNAUTHORIZED.value()
-                );
-                return;
-            }
+        if (!requiregsAuthentication(requestURI)) { //허용 된 URL 요청이라면 토큰 검증없이 진행
             filterChain.doFilter(request, response);
-         }
+            return;
+        }
 
-    public void authentication(String emailId){
+        try {
+            String token = jwtTokenProvider.resolveAccessToken(request);
+
+            if (token == null) {
+                throw new TokenMissingException();
+            }
+
+            String tokenInnerEmailId = jwtTokenProvider.validateAdminAccessTokenData(token);
+            //사용자의 인증된 정보를 이용해 인증 토큰을 생성하고, 이 토큰을 보안 컨텍스트에 설정하는 과정을 수행!
+            //각 요청이 별도의 스레드에서 처리되므로, 요청이 끝날 때마다 자동으로 해당 스레드의 보안 컨텍스트 정보가 초기화 됨
+            //이후의 작업에서 SecurityContextHolder를 통해 현재 사용자의 인증 정보를 얻을 수 있음
+            this.authentication(tokenInnerEmailId);
+        } catch (TokenMissingException e) {
+            writeJsonToResponse(
+                    response,
+                    TokenExceptonMessage.TOKEN_MISSING_HEADER,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        } catch (SignatureException e) { // 비밀키 일치 X 처리
+            writeJsonToResponse(
+                    response,
+                    TokenExceptonMessage.SignatureNotMatchException,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+
+        } catch (ExpiredJwtException e) { //토큰 기간 만료시 처리
+            writeJsonToResponse(
+                    response,
+                    TokenExceptonMessage.JwtAccessTokenExpired,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        } catch (UsernameNotFoundException e) { //해당 사용자 이메일의 계정이 존재하지 않는 경우
+            writeJsonToResponse(
+                    response,
+                    CommonExceptionMessage.UsernameNotFoundException,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        } catch (JwtException e) { // 토큰 자체가 잘못된 경우
+            writeJsonToResponse(
+                    response,
+                    TokenExceptonMessage.InvalidJwtToken,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        } catch (Exception e) { //그 외 모든 예외 처리
+            writeJsonToResponse(
+                    response,
+                    TokenExceptonMessage.UndefinedException,
+                    HttpStatus.UNAUTHORIZED.value()
+            );
+            return;
+        }
+        filterChain.doFilter(request, response);
+    }
+
+    public void authentication(String emailId) {
         UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(emailId);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
@@ -160,8 +158,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 "/v3/api-docs/swagger-config"
         ));
         return openUrlPatterns.stream().noneMatch(requestURI::startsWith);
-
-        }
+    }
 
 
 }
