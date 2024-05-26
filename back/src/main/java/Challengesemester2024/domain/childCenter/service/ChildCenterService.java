@@ -2,7 +2,7 @@ package Challengesemester2024.domain.childCenter.service;
 
 import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
 import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import org.springframework.security.core.Authentication;
 

@@ -1,6 +1,6 @@
-package Challengesemester2024.businessProcess.auth.redis.service;
+package Challengesemester2024.businessProcess.auth.web.redis.service;
 
-import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
+import Challengesemester2024.businessProcess.auth.web.redis.model.RedisAuthCodeDto;
 
 import java.util.Optional;
 

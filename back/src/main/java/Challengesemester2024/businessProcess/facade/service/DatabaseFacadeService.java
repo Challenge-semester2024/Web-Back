@@ -1,6 +1,6 @@
 package Challengesemester2024.businessProcess.facade.service;
 
-import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;

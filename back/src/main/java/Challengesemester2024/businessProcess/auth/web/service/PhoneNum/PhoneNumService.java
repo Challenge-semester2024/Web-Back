@@ -1,6 +1,6 @@
-package Challengesemester2024.businessProcess.auth.service.PhoneNum;
+package Challengesemester2024.businessProcess.auth.web.service.PhoneNum;
 
-import Challengesemester2024.businessProcess.auth.dto.smtp.PhoneNumDto;
+import Challengesemester2024.businessProcess.auth.web.dto.smtp.PhoneNumDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;

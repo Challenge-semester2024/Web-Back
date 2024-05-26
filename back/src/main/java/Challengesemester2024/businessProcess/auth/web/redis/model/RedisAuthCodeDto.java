@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.redis.model;
+package Challengesemester2024.businessProcess.auth.web.redis.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.dto.smtp;
+package Challengesemester2024.businessProcess.auth.web.dto.smtp;
 
 import lombok.NoArgsConstructor;
 

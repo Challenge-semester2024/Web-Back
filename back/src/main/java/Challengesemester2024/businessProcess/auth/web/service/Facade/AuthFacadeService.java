@@ -1,8 +1,8 @@
-package Challengesemester2024.businessProcess.auth.service.Facade;
+package Challengesemester2024.businessProcess.auth.web.service.Facade;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

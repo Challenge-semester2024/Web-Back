@@ -1,9 +1,9 @@
-package Challengesemester2024.businessProcess.auth.controller;
+package Challengesemester2024.businessProcess.auth.web.controller;
 
-import Challengesemester2024.businessProcess.auth.dto.smtp.EmailDto;
-import Challengesemester2024.businessProcess.auth.dto.smtp.PhoneNumDto;
-import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
-import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
+import Challengesemester2024.businessProcess.auth.web.dto.smtp.EmailDto;
+import Challengesemester2024.businessProcess.auth.web.dto.smtp.PhoneNumDto;
+import Challengesemester2024.businessProcess.auth.web.service.Email.EmailService;
+import Challengesemester2024.businessProcess.auth.web.service.PhoneNum.PhoneNumService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;

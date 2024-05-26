@@ -1,10 +1,10 @@
-package Challengesemester2024.businessProcess.auth.controller;
+package Challengesemester2024.businessProcess.auth.web.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.auth.service.Facade.AuthFacadeService;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
+import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.service.Facade.AuthFacadeService;
 import Challengesemester2024.config.constant.ControllerConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
