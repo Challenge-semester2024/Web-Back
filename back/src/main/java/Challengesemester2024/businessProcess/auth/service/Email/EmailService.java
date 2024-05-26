@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.web.service.Email;
+package Challengesemester2024.businessProcess.auth.service.Email;
 
 import Challengesemester2024.businessProcess.auth.web.dto.smtp.EmailDto;
 import jakarta.mail.MessagingException;

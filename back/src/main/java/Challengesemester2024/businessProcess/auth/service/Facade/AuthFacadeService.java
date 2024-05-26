@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.web.service.Facade;
+package Challengesemester2024.businessProcess.auth.service.Facade;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
 import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;

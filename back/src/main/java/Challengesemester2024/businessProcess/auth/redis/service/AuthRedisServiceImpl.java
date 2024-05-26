@@ -1,7 +1,7 @@
-package Challengesemester2024.businessProcess.auth.web.redis.service;
+package Challengesemester2024.businessProcess.auth.redis.service;
 
-import Challengesemester2024.businessProcess.auth.web.redis.model.RedisAuthCodeDto;
-import Challengesemester2024.businessProcess.auth.web.redis.repository.AuthenticationCode;
+import Challengesemester2024.businessProcess.auth.redis.repository.AuthenticationCode;
+import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

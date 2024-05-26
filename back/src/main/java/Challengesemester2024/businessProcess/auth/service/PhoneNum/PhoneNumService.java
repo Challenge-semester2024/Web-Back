@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.web.service.PhoneNum;
+package Challengesemester2024.businessProcess.auth.service.PhoneNum;
 
 import Challengesemester2024.businessProcess.auth.web.dto.smtp.PhoneNumDto;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,11 +1,11 @@
-package Challengesemester2024.businessProcess.auth.web.service.Email;
+package Challengesemester2024.businessProcess.auth.service.Email;
 
 import Challengesemester2024.Exception.collections.business.UnVerifiedUserException;
 import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCodeByEmail;
 import Challengesemester2024.Exception.collections.redis.NotSameEmail;
+import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
+import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.auth.web.dto.smtp.EmailDto;
-import Challengesemester2024.businessProcess.auth.web.redis.model.RedisAuthCodeDto;
-import Challengesemester2024.businessProcess.auth.web.redis.service.AuthRedisService;
 import Challengesemester2024.businessProcess.util.UtilService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
