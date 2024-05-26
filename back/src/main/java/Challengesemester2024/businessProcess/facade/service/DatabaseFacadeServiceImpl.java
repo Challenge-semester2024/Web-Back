@@ -9,14 +9,10 @@ import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloo
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
-import Challengesemester2024.domain.facility.dto.CreateDbWhenUpdateFloorPictureDto;
-import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.service.FacilityService;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
 import Challengesemester2024.domain.facility.floorPictureCluster.service.FloorPictureClusterService;
-import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
-import Challengesemester2024.domain.facility.floorPicutre.service.FloorPictureService;
 import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import Challengesemester2024.domain.facility.floorSize.service.FloorSizeService;
 import Challengesemester2024.domain.greetings.domain.Greetings;
@@ -44,7 +40,6 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final ManagerService managerService;
     private final ChildCenterService childCenterService;
     private final FloorPictureClusterService floorPictureClusterService;
-    private final FloorPictureService floorPictureService;
     private final SecurityUtils securityUtils;
     private final DecadeYearService decadeYearService;
     private final FloorSizeService floorSizeService;
