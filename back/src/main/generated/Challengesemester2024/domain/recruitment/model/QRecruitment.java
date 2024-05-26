@@ -28,19 +28,27 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public final StringPath detailInfo = createString("detailInfo");
 
-    public final DatePath<java.sql.Date> endDate = createDate("endDate", java.sql.Date.class);
+    public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
-    public final TimePath<java.sql.Time> endTime = createTime("endTime", java.sql.Time.class);
+    public final TimePath<java.time.LocalTime> endTime = createTime("endTime", java.time.LocalTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath isRepeatedDate = createBoolean("isRepeatedDate");
 
+    public final BooleanPath isTimeExits = createBoolean("isTimeExits");
+
     public final StringPath name = createString("name");
 
-    public final DatePath<java.sql.Date> startDate = createDate("startDate", java.sql.Date.class);
+    public final DatePath<java.time.LocalDate> recruitmentEndDate = createDate("recruitmentEndDate", java.time.LocalDate.class);
 
-    public final TimePath<java.sql.Time> startTime = createTime("startTime", java.sql.Time.class);
+    public final DatePath<java.time.LocalDate> recruitmentStartDate = createDate("recruitmentStartDate", java.time.LocalDate.class);
+
+    public final QDaysOfWeek repeatedDays;
+
+    public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
+
+    public final TimePath<java.time.LocalTime> startTime = createTime("startTime", java.time.LocalTime.class);
 
     public final NumberPath<Integer> totalApplicants = createNumber("totalApplicants", Integer.class);
 
@@ -65,6 +73,7 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
     public QRecruitment(Class<? extends Recruitment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
+        this.repeatedDays = inits.isInitialized("repeatedDays") ? new QDaysOfWeek(forProperty("repeatedDays")) : null;
     }
 
 }
