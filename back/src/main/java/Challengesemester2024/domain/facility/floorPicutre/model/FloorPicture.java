@@ -27,6 +27,9 @@ public class FloorPicture {
     @Column(nullable = false)
     private int imageIndex; //해당 사진이 floor층에서 몇 번째 사진인지 나타낼 데이터 정보(0~3으로 표시)
 
+    @Column(nullable = false, unique = true, length = 255)
+    private String pictureUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_picture_cluster_id")
     @JsonIgnore

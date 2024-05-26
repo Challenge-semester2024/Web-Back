@@ -1,6 +1,7 @@
 package Challengesemester2024.domain.facility.floorPicutre.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
+import Challengesemester2024.Exception.collections.IoException.ImageInputException;
 import Challengesemester2024.config.constant.ControllerConstants;
 import Challengesemester2024.domain.facility.facade.FacilityFacadeService;
 import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
@@ -24,7 +25,7 @@ public class FloorPictureController {
     @Transactional
     @PostMapping("/create") //층별사진 생성
     public ResponseEntity<?> createFloorPicture(@RequestPart("CreateFloorPictureDto") @Valid List<FloorPictureDto> floorPictureDtoList,
-                                                @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult){
+                                                @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult) throws ImageInputException {
         handleBindingErrors(bindingResult);
         //컨트롤러가 소수의 서비스 레이어만을 관리하기 위해 파사드 패턴 생성
         facilityFacadeService.createFloorPicture(floorPictureDtoList, multipartFile);
@@ -35,7 +36,7 @@ public class FloorPictureController {
     @Transactional
     @PutMapping("/update") //층별사진 수정
     public ResponseEntity<?> updateFloorPicture(@RequestPart("UpdateFloorPictureDto") @Valid List<FloorPictureDto> floorPictureDtoList,
-                                                @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult){
+                                                @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult) throws ImageInputException {
         handleBindingErrors(bindingResult);
         //컨트롤러가 소수의 서비스 레이어만을 관리하기 위해 파사드 패턴 생성
         facilityFacadeService.updateFloorPicuture(floorPictureDtoList, multipartFile);

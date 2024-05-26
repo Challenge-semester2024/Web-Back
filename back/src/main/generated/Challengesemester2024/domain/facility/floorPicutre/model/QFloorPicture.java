@@ -30,6 +30,8 @@ public class QFloorPicture extends EntityPathBase<FloorPicture> {
 
     public final NumberPath<Integer> imageIndex = createNumber("imageIndex", Integer.class);
 
+    public final StringPath pictureUrl = createString("pictureUrl");
+
     public final StringPath purpose = createString("purpose");
 
     public QFloorPicture(String variable) {
