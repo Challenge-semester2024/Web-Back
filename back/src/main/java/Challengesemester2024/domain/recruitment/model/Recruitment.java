@@ -1,12 +1,12 @@
 package Challengesemester2024.domain.recruitment.model;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -20,35 +20,50 @@ public class Recruitment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 255)
-    private String name; //봉사이름
+    @Column(nullable = false, length = 255)
+    private String name; //봉사이름 -> 나중에 상세정보를 찾을 때 해당 제목을 기준으로 찾을 것
+
+    @Column(nullable = false)
+    private LocalDate recruitmentStartDate; //모집시작일 -> 기본값 오늘 날짜로 설정
+
+    @Column(nullable = false)
+    private LocalDate recruitmentEndDate; //모집종료일
+
+    @Column(nullable = false)
+    private boolean isTimeExits; // *시간 여부
 
     @Column(nullable = false, length = 255)
-    private Time startTime; //봉사시작시간
+    private LocalTime startTime; //봉사시작시간
 
     @Column(nullable = false, length = 255)
-    private Time endTime; //봉사종료시간
+    private LocalTime endTime; //봉사종료시간
 
     @Column(nullable = false, length = 255)
-    private Date startDate; //봉사시작일
+    private LocalDate startDate; //봉사시작일
 
     @Column(nullable = false, length = 255)
-    private Date endDate; //봉사종료일
+    private LocalDate endDate; //봉사종료일
 
-    private boolean isRepeatedDate; // 특정 요일만 허용하는지 판단할 변수
+    @Column(nullable = false)
+    private boolean isRepeatedDate; // *반복 여부
 
-    @NotNull
+    @Embedded
+    @Column(nullable = false)
+    private DaysOfWeek repeatedDays; // 요일별 반복 여부
+
+    @Column(nullable = false)
     private int view; //조회
 
-    @NotNull
-    private int totalApplicants; //마감인원
+    @Column(nullable = false)
+    private int totalApplicants; //모집인원
 
-    @NotNull
-    private int currentApplicants; //현재 신청인원
+    @Column(nullable = false)
+    private int currentApplicants; //현재 신청인원 -> 기본값 : 0
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String detailInfo; //해당 봉사 공고의 상제 정보.
+    private String detailInfo; //해당 봉사 공고의 상제 정보. -> 초기값 : 상수변수 만들어야 함
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
@@ -56,9 +71,9 @@ public class Recruitment {
 }
 
 
-//반복설정 -> false면 신경 안 써도 됨
-//        -> true면 해당요일에서 어떤 원소가 true인지 확인
-//해당요일 일,월,화,수,목,금,토의 순으로 boolean 받기
-//시간선택 -> true면 봉시사작시간, 봉사종료시간에 값 들어옴
-//        -> false면 봉사시작시간, 봉사종료시간에 값 안들어옴 -> 내가 임의의 -값 넣어줘야 할 것 같음
+//isRepeatedDate(반복설정) true인 경우 -> 요일별 반복 여부 List에 클라이언트의 값을 입력합니다.
+//isRepeatedDate(반복설정) false인 경우 -> 모든 요일이 false인 List를 값으로 넣습니다.
+
+//isTimeExits(시간설정) true인 경우 -> 봉사 시작 시간 (startTime)과 봉사 종료 시간 (endTime)에 값을 입력합니다.
+//isTimeExits(시간설정) false인 경우 -> 봉사 시작 시간과 봉사 종료 시간에 값을 입력하지 않으며, 임의의 음수 값을 설정할 수 있습니다.
 
