@@ -1,7 +1,9 @@
 package Challengesemester2024.domain.facility.facade;
 
 import Challengesemester2024.Exception.collections.InputValid.InvalidClientRequest;
+import Challengesemester2024.Exception.collections.IoException.ImageInputException;
 import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
+import Challengesemester2024.businessProcess.s3.S3Service;
 import Challengesemester2024.domain.facility.dto.FacilityFloorSizeUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.repository.FacilityIntroRepository;
@@ -35,6 +37,8 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
     private final FloorPictureClusterService floorPictureClusterService;
     private final FacilityIntroRepository facilityIntroRepository;
     private final FloorPictureService floorPictureService;
+    private final S3Service s3Service;
+
     @Transactional
     @Override
     public void createOrUpdateFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList) {
@@ -108,7 +112,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
     @Transactional
     @Override //수정본
-    public void createFloorPicture (List<FloorPictureDto> createFloorPictureDto, List<MultipartFile> multipartFile) {
+    public void createFloorPicture (List<FloorPictureDto> createFloorPictureDto, List<MultipartFile> multipartFile) throws ImageInputException {
         // 1. 인증된 이메일 가져오기
         Authentication authentication = securityUtils.getAuthenticationEmail();
         // 2. 해당 이메일로 관리자->보육원->시설소개 pk 찾아오기
@@ -131,6 +135,8 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
                 throw new InvalidClientRequest();
             }
 
+            String s3ImageUrl = s3Service.uploadImageToS3(file);
+
             FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor());
 
             // 1. dto 속 floor의 floorPictureCluster DB 없으면 -> flooClusterDb 생성
@@ -142,6 +148,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
                         .purpose(find.getPurpose())
                         .imageIndex(find.getImageIndex())
                         .floorPictureCluster(newFloorPictureCluster)
+                        .pictureUrl(s3ImageUrl)
                         .build();
 
                 //양방향 매핑
@@ -157,6 +164,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
                         .purpose(find.getPurpose())
                         .imageIndex(find.getImageIndex())
                         .floorPictureCluster(fetchedFloorPictureCluster)
+                        .pictureUrl(s3ImageUrl)
                         .build();
 
                 createFloorPictureList.add(newFloorPicture);
@@ -172,7 +180,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
 
     @Override
-    public void updateFloorPicuture(List<FloorPictureDto> updateFloorPictureDtoList, List<MultipartFile> multipartFiles) {
+    public void updateFloorPicuture(List<FloorPictureDto> updateFloorPictureDtoList, List<MultipartFile> multipartFiles) throws ImageInputException {
         //hashMap 변환
         Map<String, MultipartFile> multipartFileMap = convertHashMap(multipartFiles);
 
@@ -183,6 +191,8 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
                 throw new InvalidClientRequest();
             }
 
+            String s3ImageUrl = s3Service.uploadImageToS3(file);
+
             FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor());
 
             FloorPicture updateFloorPicture = FloorPicture.builder()
@@ -190,6 +200,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
                     .purpose(find.getPurpose())
                     .imageIndex(find.getImageIndex())
                     .floorPictureCluster(fetchedFloorPictureCluster)
+                    .pictureUrl(s3ImageUrl)
                     .build();
 
             floorPictureService.updateFloorPicture(updateFloorPicture);
