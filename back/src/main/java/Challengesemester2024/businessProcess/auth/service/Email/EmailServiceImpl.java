@@ -5,7 +5,7 @@ import Challengesemester2024.Exception.collections.redis.NotMatchVerificatonCode
 import Challengesemester2024.Exception.collections.redis.NotSameEmail;
 import Challengesemester2024.businessProcess.auth.redis.model.RedisAuthCodeDto;
 import Challengesemester2024.businessProcess.auth.redis.service.AuthRedisService;
-import Challengesemester2024.businessProcess.auth.web.dto.smtp.EmailDto;
+import Challengesemester2024.businessProcess.auth.smtp.EmailDto;
 import Challengesemester2024.businessProcess.util.UtilService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
