@@ -79,7 +79,7 @@ public class JwtTokenProvider {
 
     }
 
-    public RefreshTokenDto createRefreshToken(String managerEmailId, String roles) {
+    public RefreshTokenDto createRefreshToken(String id, String roles ) {
         JwtBuilder token = Jwts.builder();
 
         Date now = new Date();
@@ -90,7 +90,7 @@ public class JwtTokenProvider {
                 .header().type(JwtConstants.JWT)
                 .and()
                 .claims()
-                .subject(managerEmailId)
+                .subject(id)
                 .add("role",roles)
                 .issuedAt(now)
                 .expiration(refreshExpiredTime)
@@ -99,7 +99,7 @@ public class JwtTokenProvider {
                 .compact();
 
         RedisRefreshTokenDto refreshTokenDto = RedisRefreshTokenDto.builder()
-                .id(managerEmailId)
+                .id(id)
                 .refrehToken(jwt)
                 .build();
 
