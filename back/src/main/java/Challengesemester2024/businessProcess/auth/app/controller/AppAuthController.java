@@ -1,0 +1,62 @@
+package Challengesemester2024.businessProcess.auth.app.controller;
+
+import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
+import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
+import Challengesemester2024.businessProcess.auth.app.dto.AppSignInDto;
+import Challengesemester2024.businessProcess.auth.app.dto.AppSignUpDto;
+import Challengesemester2024.businessProcess.auth.service.Facade.app.AuthAppFacadeService;
+import Challengesemester2024.config.constant.ControllerConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+
+@Tag(name = "Auth", description = "auth Api")
+@RestController
+@RequestMapping("api/auth/app")
+@RequiredArgsConstructor
+@Slf4j
+public class AppAuthController {
+    private final AuthAppFacadeService authAppFacadeService;
+
+    @Transactional //매니저와 보육원의 동시저장을 보장해줄 애노테이션
+    @PostMapping("/signUp")
+    @Operation(summary = "App signUp Api summary", description = "회원가입 시 사용할 api 명세서")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = AppAuthController.class))}),
+            @ApiResponse(responseCode = "400", description = "Not founc"),
+    })
+    public ResponseEntity<?> authSignup(@RequestBody @Valid AppSignUpDto appSignUpDto, BindingResult bindingResult ) throws IOException {
+        //@Valid 체크
+        handleBindingErrors(bindingResult);
+        authAppFacadeService.authSignUp(appSignUpDto);
+        return new ResponseEntity<>(ControllerConstants.completeSignUp, HttpStatus.OK);
+    }
+
+    @PostMapping("/signIn")
+    public ResponseEntity<?> authSignIn(@RequestBody @Valid AppSignInDto signDto, BindingResult bindingResult) {
+        handleBindingErrors(bindingResult);
+        AllJwtTokenDto allJwtTokenDto = authAppFacadeService.authSignIn(signDto);
+        return ResponseEntity.ok(allJwtTokenDto);
+    }
+
+    public void handleBindingErrors(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BindingErrors();
+        }
+    }
+
+}
