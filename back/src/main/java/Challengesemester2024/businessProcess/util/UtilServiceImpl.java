@@ -39,6 +39,10 @@ public class UtilServiceImpl implements UtilService {
             }
         }
 
+    @Override
+    public boolean checkPassword(String password, String checkPassword) {
+        return password.equals(checkPassword);
+    }
 
 
 }

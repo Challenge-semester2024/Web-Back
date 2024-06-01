@@ -1,8 +1,8 @@
-package Challengesemester2024.businessProcess.auth.service.Facade;
+package Challengesemester2024.businessProcess.auth.service.Facade.web;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignInDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
 import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
 import Challengesemester2024.businessProcess.facade.service.DatabaseFacadeService;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-public class AuthFacadeServiceImpl implements AuthFacadeService {
+public class AuthWebFacadeServiceImpl implements AuthWebFacadeService {
     private final ManagerService managerService;
     private final ChildCenterService childCenterService;
     private final EmailService emailService; //역할 인터페이스 의존성 주입받음
@@ -28,25 +28,25 @@ public class AuthFacadeServiceImpl implements AuthFacadeService {
 
     @Override
     @Transactional
-    public void authSignup(SignUpDto signUpDto, MultipartFile multipartFile) throws IOException {
+    public void authSignup(WebSignUpDto webSignUpDto, MultipartFile multipartFile) throws IOException {
         //인증번호 확인
-        emailService.checkVerifyNumberByEmail(signUpDto.getCeoInfo().getEmail(),
-                signUpDto.getCeoInfo().getEmailVerificationCode());
-        phoneNumService.checkVerifyNumberByPhoneNum(signUpDto.getCeoInfo().getPhoneNum(),
-                signUpDto.getCeoInfo().getPhoneVerificationCode());
+        emailService.checkVerifyNumberByEmail(webSignUpDto.getCeoInfo().getEmail(),
+                webSignUpDto.getCeoInfo().getEmailVerificationCode());
+        phoneNumService.checkVerifyNumberByPhoneNum(webSignUpDto.getCeoInfo().getPhoneNum(),
+                webSignUpDto.getCeoInfo().getPhoneVerificationCode());
 
         //각 db에 해당 값이 있는지 확인
-        managerService.checkExits(signUpDto.getCeoInfo());
-        childCenterService.checkExits(signUpDto.getCenterInfo());
+        managerService.checkExits(webSignUpDto.getCeoInfo());
+        childCenterService.checkExits(webSignUpDto.getCenterInfo());
 
         //사진 저장 로직
         String s3url = s3Service.uploadImageToS3(multipartFile);
         //DB 관계 설정 및 매핑
-        databaseFacadeService.createDbWhenSignUp(signUpDto, s3url);
+        databaseFacadeService.createDbWhenSignUp(webSignUpDto, s3url);
     }
 
     @Override
-    public AllJwtTokenDto authSignIn(SignInDto signDto) {
+    public AllJwtTokenDto authSignIn(WebSignInDto signDto) {
         return managerService.signIn(signDto);
     }
 

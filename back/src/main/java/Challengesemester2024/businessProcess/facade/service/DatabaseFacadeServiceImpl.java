@@ -1,8 +1,8 @@
 package Challengesemester2024.businessProcess.facade.service;
 
 import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.*;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
@@ -46,7 +46,7 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
 
     @Override
     @Transactional
-    public void createDbWhenSignUp(SignUpDto signUpDto, String s3urlDto) throws IOException {
+    public void createDbWhenSignUp(WebSignUpDto webSignUpDto, String s3urlDto) throws IOException {
         //1. 찾아오는 길 db 생성
         RouteInfo routeInfo = routeInfoService.createRouteInfo();
         //2. 인삿말 db 생성
@@ -62,10 +62,10 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
                 .build();
 
         //5. ChildCenter db 생성 및 관계 설정
-        ManagerRegisterDto managerRegisterDto = childCenterService.register(signUpDto.getCenterInfo(), centerForeignKeyDto, s3urlDto);
+        ManagerRegisterDto managerRegisterDto = childCenterService.register(webSignUpDto.getCenterInfo(), centerForeignKeyDto, s3urlDto);
 
         //6. manager db 생성 및 관계 설정
-        managerService.register(signUpDto.getCeoInfo(), managerRegisterDto);
+        managerService.register(webSignUpDto.getCeoInfo(), managerRegisterDto);
     }
 
 //    @Override

@@ -21,7 +21,7 @@ public class GreetingController {
     private final DatabaseFacadeService databaseFacadeService;
 
     @Transactional
-    @PutMapping("update") //인삿말 db 변경 -> 이미 회원가입때 만들어서 다 update라고 치면 됨
+    @PutMapping("/update") //인삿말 db 변경 -> 이미 회원가입때 만들어서 다 update라고 치면 됨
     public ResponseEntity<?> updateGreeting(@RequestBody @Valid  RequestUpdateGreetingOrRouteInfoDto requestUpdateGreetingDto, BindingResult bindingResult) throws IOException {
         handleBindingErrors(bindingResult);
 

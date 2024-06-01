@@ -2,9 +2,9 @@ package Challengesemester2024.businessProcess.auth.web.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
-import Challengesemester2024.businessProcess.auth.web.service.Facade.AuthFacadeService;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignInDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
+import Challengesemester2024.businessProcess.auth.service.Facade.web.AuthWebFacadeService;
 import Challengesemester2024.config.constant.ControllerConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,35 +26,35 @@ import java.io.IOException;
 
 @Tag(name = "Auth", description = "auth Api")
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("api/auth/web")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
-    private final AuthFacadeService authFacadeService;
+public class WebAuthController {
+    private final AuthWebFacadeService authWebFacadeService;
 
     @Transactional //매니저와 보육원의 동시저장을 보장해줄 애노테이션
     @PostMapping("/signUp")
     @Operation(summary = "signUp Api summary", description = "회원가입 시 사용할 api 명세서")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "success",
-            content = {@Content(schema = @Schema(implementation = AuthController.class))}),
+            content = {@Content(schema = @Schema(implementation = WebAuthController.class))}),
             @ApiResponse(responseCode = "400", description = "Not founc"),
     })
-    public ResponseEntity<?> authSignup(@RequestPart("signUpDto") @Valid SignUpDto signUpDto,
+    public ResponseEntity<?> authSignup(@RequestPart("signUpDto") @Valid WebSignUpDto webSignUpDto,
                                         @RequestPart("certificateFile") MultipartFile multipartFile,
                                         BindingResult bindingResult ) throws IOException {
         //@Valid 체크
         handleBindingErrors(bindingResult);
-        authFacadeService.authSignup(signUpDto, multipartFile);
+        authWebFacadeService.authSignup(webSignUpDto, multipartFile);
         return new ResponseEntity<>(ControllerConstants.completeSignUp, HttpStatus.OK);
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<?> authSignIn(@RequestBody @Valid SignInDto signDto, BindingResult bindingResult) {
+    public ResponseEntity<?> authSignIn(@RequestBody @Valid WebSignInDto signDto, BindingResult bindingResult) {
         // BindingResult 에러 처리
         handleBindingErrors(bindingResult);
 
-        AllJwtTokenDto allJwtTokenDto = authFacadeService.authSignIn(signDto);
+        AllJwtTokenDto allJwtTokenDto = authWebFacadeService.authSignIn(signDto);
         return ResponseEntity.ok(allJwtTokenDto);
     }
 

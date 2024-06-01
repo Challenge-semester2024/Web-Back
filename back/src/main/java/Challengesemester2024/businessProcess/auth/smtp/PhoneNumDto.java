@@ -1,4 +1,4 @@
-package Challengesemester2024.businessProcess.auth.app.dto.smtp;
+package Challengesemester2024.businessProcess.auth.smtp;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

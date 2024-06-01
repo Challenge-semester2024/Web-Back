@@ -1,15 +1,15 @@
-package Challengesemester2024.businessProcess.auth.service.Facade;
+package Challengesemester2024.businessProcess.auth.service.Facade.web;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignInDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public interface AuthFacadeService {
-    void authSignup(SignUpDto signUpDto, MultipartFile multipartFile) throws IOException;
-    AllJwtTokenDto authSignIn(SignInDto signDto);
+public interface AuthWebFacadeService {
+    void authSignup(WebSignUpDto webSignUpDto, MultipartFile multipartFile) throws IOException;
+    AllJwtTokenDto authSignIn(WebSignInDto signDto);
 }
 
 //"파사드 패턴" : 복잡한 서브시스템에 대한 간편한 인터페이스를 제공하는 디자인 패턴

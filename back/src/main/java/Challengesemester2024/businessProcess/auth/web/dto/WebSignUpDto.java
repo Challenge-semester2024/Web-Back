@@ -1,19 +1,13 @@
-package Challengesemester2024.businessProcess.auth.app.dto.auth;
-
+package Challengesemester2024.businessProcess.auth.web.dto;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpDto {
+public class WebSignUpDto {
     @Valid
     private centerInfo centerInfo;
     @Valid
