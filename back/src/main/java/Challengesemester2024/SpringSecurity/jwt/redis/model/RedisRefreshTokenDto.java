@@ -13,7 +13,10 @@ import org.springframework.data.redis.core.RedisHash;
 public class RedisRefreshTokenDto {
 
     @Id
-    private String id; //여기에 해당 리프래시 토큰 가진 managerEmailId 들어감
+    private String id;
     private String refrehToken;
 
 }
+
+//web의 경우 id에 emailId 들어감
+//app의 경우 id에 phoneNumber 들어감.
