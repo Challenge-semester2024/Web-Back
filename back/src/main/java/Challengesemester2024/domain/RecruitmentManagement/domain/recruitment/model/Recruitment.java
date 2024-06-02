@@ -1,12 +1,14 @@
-package Challengesemester2024.domain.recruitment.model;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -62,6 +64,10 @@ public class Recruitment {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String detailInfo; //해당 봉사 공고의 상제 정보. -> 초기값 : 상수변수 만들어야 함
+
+
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecruitmentWaiting> recruitmentWaitings;
 
     @JsonIgnore
     @ManyToOne

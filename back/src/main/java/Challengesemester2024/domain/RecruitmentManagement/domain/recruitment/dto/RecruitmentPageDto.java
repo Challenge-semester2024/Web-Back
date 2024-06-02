@@ -1,6 +1,6 @@
-package Challengesemester2024.domain.recruitment.dto;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto;
 
-import Challengesemester2024.domain.recruitment.model.Recruitment;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
