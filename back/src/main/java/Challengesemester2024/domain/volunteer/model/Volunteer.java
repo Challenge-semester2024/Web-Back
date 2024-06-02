@@ -1,9 +1,11 @@
 package Challengesemester2024.domain.volunteer.model;
 
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +42,9 @@ public class Volunteer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private UserRoleEnum role;
+
+    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecruitmentWaiting> recruitmentWaitings;
 
     public enum UserRoleEnum {
         USER, ADMIN
