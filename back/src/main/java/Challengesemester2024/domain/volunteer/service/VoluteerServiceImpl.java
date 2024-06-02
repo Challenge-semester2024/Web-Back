@@ -15,6 +15,7 @@ import Challengesemester2024.domain.volunteer.model.Volunteer;
 import Challengesemester2024.domain.volunteer.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +73,11 @@ public class VoluteerServiceImpl implements VoluteerService {
                 .accessTokenDto(accessTokenDto)
                 .refreshTokenDto(refreshTokenDto)
                 .build();
+    }
+
+    @Override
+    public Volunteer getVolunteeerPK(Authentication authentication) {
+        return volunteerRepository.getVolunteerPk(authentication);
     }
 
 

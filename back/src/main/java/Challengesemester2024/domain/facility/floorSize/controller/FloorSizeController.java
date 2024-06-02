@@ -4,6 +4,12 @@ import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.config.constant.ControllerConstants;
 import Challengesemester2024.domain.facility.facade.FacilityFacadeService;
 import Challengesemester2024.domain.facility.floorSize.dto.UpdateFloorSizeDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +28,13 @@ import java.util.List;
 public class FloorSizeController {
     private final FacilityFacadeService facilityFacadeService;
 
+    @Transactional
+    @Operation(summary = "floorSize create Api", description = "층별 규모 업로드 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "층별 소개가 업데이트 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+    })
     @PostMapping("/create")
     public ResponseEntity<?> createAndUpdateFloorSize(@RequestBody @Valid List<UpdateFloorSizeDto> updateFloorSizeDtoList, BindingResult bindingResult){
         handleBindingErrors(bindingResult);

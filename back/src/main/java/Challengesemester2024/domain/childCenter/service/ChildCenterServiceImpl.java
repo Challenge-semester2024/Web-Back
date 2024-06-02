@@ -1,10 +1,13 @@
 package Challengesemester2024.domain.childCenter.service;
 
+import Challengesemester2024.Exception.collections.business.CenterNotFoundException;
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
 import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyException;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
 import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
+import Challengesemester2024.domain.childCenter.dto.put.RequestFindChildCenterDto;
+import Challengesemester2024.domain.childCenter.dto.put.ResponseChildCenterDto;
 import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +16,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +27,7 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     private final ChildCenterRepository childCenterRepository;
 
     @Override
-    public void checkExits(SignUpDto.centerInfo childCenterDto) {
+    public void checkExits(WebSignUpDto.centerInfo childCenterDto) {
         Optional<ChildCenter> found = childCenterRepository.findByPhoneNumId(childCenterDto.getPhoneNum());
         if (found.isPresent()) throw new ChildCenterAlreadyExitsException();
     }
@@ -33,7 +38,41 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public ManagerRegisterDto register(SignUpDto.centerInfo centerInfo, CenterForeignKeyDto centerForeignKeyDto, String s3url) {
+    public List<ResponseChildCenterDto> findChildCenter(RequestFindChildCenterDto requestDto) {
+        List<ChildCenter> centers;
+
+        if (requestDto.isFindWordStandard()) { // true: search by address
+            centers = childCenterRepository.findByRoadAddressContaining(requestDto.getRoadAddress());
+        } else { // false: search by name
+            centers = childCenterRepository.findByCenterNameContaining(requestDto.getChildCenterName());
+        }
+
+        if ( centers.isEmpty()) {
+            throw new CenterNotFoundException();
+        }
+
+        return centers.stream()
+                .map(center -> ResponseChildCenterDto.builder()
+                        .id(center.getId())
+                        .centerName(center.getCenterName())
+                        .roadAddress(center.getRoadAddress())
+                        .detailAddress(center.getDetailAddress())
+                        .phoneNumber(center.getPhoneNumId())
+                        .build())
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public ChildCenter findById(Long id) {
+        ChildCenter childCenter = childCenterRepository.findById(id)
+                .orElseThrow(() -> new CenterNotFoundException());
+
+        return childCenter;
+    }
+
+    @Override
+    public ManagerRegisterDto register(WebSignUpDto.centerInfo centerInfo, CenterForeignKeyDto centerForeignKeyDto, String s3url) {
 
         ChildCenter childCenter = ChildCenter.builder()
                 .phoneNumId(centerInfo.getPhoneNum())

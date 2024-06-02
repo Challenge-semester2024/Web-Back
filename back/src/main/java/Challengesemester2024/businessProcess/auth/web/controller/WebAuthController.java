@@ -34,11 +34,11 @@ public class WebAuthController {
 
     @Transactional //매니저와 보육원의 동시저장을 보장해줄 애노테이션
     @PostMapping("/signUp")
-    @Operation(summary = "signUp Api summary", description = "회원가입 시 사용할 api 명세서")
+    @Operation(summary = "Web signUp summary", description = "웹 회원가입 시 사용할 api 명세서")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "success",
-            content = {@Content(schema = @Schema(implementation = WebAuthController.class))}),
-            @ApiResponse(responseCode = "400", description = "Not founc"),
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "회원가입이 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not found"),
     })
     public ResponseEntity<?> authSignup(@RequestPart("signUpDto") @Valid WebSignUpDto webSignUpDto,
                                         @RequestPart("certificateFile") MultipartFile multipartFile,
@@ -49,6 +49,15 @@ public class WebAuthController {
         return new ResponseEntity<>(ControllerConstants.completeSignUp, HttpStatus.OK);
     }
 
+    @Transactional
+    @Operation(summary = "web SignIn api 명세서 ", description = "웹 로그인 시 사용할 api 명세서")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AllJwtTokenDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
     @PostMapping("/signIn")
     public ResponseEntity<?> authSignIn(@RequestBody @Valid WebSignInDto signDto, BindingResult bindingResult) {
         // BindingResult 에러 처리

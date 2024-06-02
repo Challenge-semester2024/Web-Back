@@ -1,56 +1,54 @@
 package Challengesemester2024.SpringSecurity;
 
-import Challengesemester2024.domain.manager.model.Manager;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 
-@Getter
 public class UserDetailsImpl implements UserDetails {
-    private final Manager manager;
-    private final Collection<?extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Manager manager, Manager.ManagerRoleEnum role) {
-        this.manager = manager;
-        this.authorities = Collections.singletonList(new SimpleGrantedAuthority(role.toString()));
+    private String username;
+    private String role;
+
+    // 공통 속성들을 이용한 생성자
+    public UserDetailsImpl(String username, String role) {
+        this.username = username;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return AuthorityUtils.createAuthorityList(role);
     }
 
     @Override
-    public String getPassword() { //여기에 비밀번호를 저장하는 건 위험
-        return null;
+    public String getPassword() {
+        return null; // 비밀번호가 없거나 다른 방식으로 인증하는 경우
     }
 
     @Override
     public String getUsername() {
-        return manager.getEmailId();
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

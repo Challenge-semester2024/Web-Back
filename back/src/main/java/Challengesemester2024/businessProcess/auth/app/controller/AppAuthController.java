@@ -36,7 +36,7 @@ public class AppAuthController {
     @Operation(summary = "App signUp Api summary", description = "회원가입 시 사용할 api 명세서")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "success",
-                    content = {@Content(schema = @Schema(implementation = AppAuthController.class))}),
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "회원가입이 완료되었습니다."))}),
             @ApiResponse(responseCode = "400", description = "Not founc"),
     })
     public ResponseEntity<?> authSignup(@RequestBody @Valid AppSignUpDto appSignUpDto, BindingResult bindingResult ) throws IOException {
@@ -46,6 +46,15 @@ public class AppAuthController {
         return new ResponseEntity<>(ControllerConstants.completeSignUp, HttpStatus.OK);
     }
 
+    @Transactional
+    @Operation(summary = "Find Child Center", description = "Find child centers based on search criteria")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AllJwtTokenDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
     @PostMapping("/signIn")
     public ResponseEntity<?> authSignIn(@RequestBody @Valid AppSignInDto signDto, BindingResult bindingResult) {
         handleBindingErrors(bindingResult);
