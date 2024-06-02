@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.recruitment.dto;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
