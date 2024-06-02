@@ -18,6 +18,7 @@ public class Greetings {
     @Column(name = "greetings_id")
     private Long id;
 
+    @JsonIgnore
     @Column(nullable = false, unique = true, length = 255)
     private String pictureUrl;
 
