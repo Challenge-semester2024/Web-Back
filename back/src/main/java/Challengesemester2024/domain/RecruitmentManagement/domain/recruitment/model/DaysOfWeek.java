@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.recruitment.model;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
