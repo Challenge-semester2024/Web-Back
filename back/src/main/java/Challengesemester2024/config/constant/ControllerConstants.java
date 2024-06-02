@@ -7,4 +7,5 @@ public class ControllerConstants {
     public static final String completeUpdateGreetings = "인삿말이 업데이트 완료되었습니다.";
     public static final String completeUpdateRouteInfo = "찾아오는길이 업데이트 완료되었습니다.";
     public static final String completecreateRecruitment = "봉사공고 업로드가 완료되었습니다.";
+    public static final String completecreateRecruitmentWaiting = "해당 봉사 신청이 완료되었습니다.";
 }
