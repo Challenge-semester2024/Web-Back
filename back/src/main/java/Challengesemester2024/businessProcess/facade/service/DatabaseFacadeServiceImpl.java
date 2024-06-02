@@ -7,6 +7,9 @@ import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGre
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
+import Challengesemester2024.domain.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
@@ -18,15 +21,17 @@ import Challengesemester2024.domain.facility.floorSize.service.FloorSizeService;
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.greetings.service.GreetingsService;
 import Challengesemester2024.domain.manager.service.ManagerService;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentSummaryDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.service.RecruitmentService;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
 import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
 import Challengesemester2024.domain.routeInfo.service.RouteInfoService;
 import Challengesemester2024.domain.yearHistory.model.DecadeYear;
 import Challengesemester2024.domain.yearHistory.service.decadeYear.DecadeYearService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +48,7 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final SecurityUtils securityUtils;
     private final DecadeYearService decadeYearService;
     private final FloorSizeService floorSizeService;
+    private final RecruitmentService recruitmentService;
 
     @Override
     @Transactional
@@ -112,7 +118,7 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     }
 
     @Override
-    public ResponseGetGreetingsAndYearHistoryDto getGreetinsandYearHistory() {
+    public ResponseGetGreetingsAndYearHistoryDto getGreetingsandYearHistory() {
 
         ChildCenter fechedChildCenter = getChildCenterPk();
         List<DecadeYear> decadeYearList = decadeYearService.findAllDecadeYearDesc(fechedChildCenter);
@@ -153,10 +159,38 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
 
     }
 
+    @Override
+    public ResponseChildCenterFacilityInfoDto getChildCenterFailcilityInfo(Long childCenterId) {
+        ChildCenter fechedChildCenter =  childCenterService.findById(childCenterId);
+        List<DecadeYear> decadeYearList = decadeYearService.findAllDecadeYearDesc(fechedChildCenter);
+
+        ResponseChildCenterFacilityInfoDto response = ResponseChildCenterFacilityInfoDto.builder()
+                .greeting(fechedChildCenter.getGreetings())
+                .decadeYearList(decadeYearList)
+                .routeInfo(fechedChildCenter.getRouteInfo())
+                .build();
+
+        return response;
+    }
+
+    @Override
+    public List<RecruitmentSummaryDto> getChildCenterRecruitmentPreveiw(Long childCenterId) {
+        ChildCenter fechedChildCenter =  childCenterService.findById(childCenterId);
+        return recruitmentService.getRecruitmentSummariesByChildCenter(fechedChildCenter);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public RecruitmentDetailDto getRecruitmentDetail(Long id) {
+        return recruitmentService.getRecruitmentDetail(id);
+    }
+
     private ChildCenter getChildCenterPk(){
-        Authentication authentication = securityUtils.getAuthenticationEmail();
+        Authentication authentication = securityUtils.getAuthentication();
         return childCenterService.getChildCenterPk(authentication);
     }
+
 
 
 }
