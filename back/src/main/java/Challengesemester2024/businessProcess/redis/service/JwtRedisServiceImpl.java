@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class JwtRedisServiceImpl implements JwtRedisService{
+public class JwtRedisServiceImpl implements JwtRedisService {
     private final RefreshTokenRepository refreshTokenRepository;
     @Override
     public RedisRefreshTokenDto save(RedisRefreshTokenDto redisRefreshTokenDto) {

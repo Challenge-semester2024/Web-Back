@@ -29,6 +29,7 @@ public class JwtTokenProvider {
     private Long refreshTokenExpirationMinutes;
     private Long accessTokenExpirationMinutes;
     private final JwtRedisService redisService;
+
     public JwtTokenProvider(JwtProps jwtProps, JwtRedisService redisService) {
         refreshTokenExpirationMinutes = jwtProps.getRefreshTokenExpirationMinutes();
         accessTokenExpirationMinutes = jwtProps.getAccessTokenExpirationMinutes();
@@ -36,7 +37,7 @@ public class JwtTokenProvider {
         this.redisService = redisService;
     }
 
-    public String resolveAccessToken(HttpServletRequest request) {
+    public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_TYPE)) {
             return bearerToken.substring(7);
@@ -54,7 +55,7 @@ public class JwtTokenProvider {
         return claimsJws.getPayload().getSubject();
     }
 
-    public AccessTokenDto createAccessToken(String managerEmailId, String roles) {
+    public AccessTokenDto createAccessToken(String id, String roles) {
         JwtBuilder token = Jwts.builder();
 
         Date now = new Date();
@@ -64,7 +65,7 @@ public class JwtTokenProvider {
                 .header().type(JwtConstants.JWT)
                 .and()
                 .claims()
-                .subject(managerEmailId)
+                .subject(id)
                 .add("role",roles)
                 .issuedAt(now)
                 .expiration(accessExpiredTime)
@@ -79,7 +80,7 @@ public class JwtTokenProvider {
 
     }
 
-    public RefreshTokenDto createRefreshToken(String managerEmailId, String roles) {
+    public RefreshTokenDto createRefreshToken(String id, String roles ) {
         JwtBuilder token = Jwts.builder();
 
         Date now = new Date();
@@ -90,7 +91,7 @@ public class JwtTokenProvider {
                 .header().type(JwtConstants.JWT)
                 .and()
                 .claims()
-                .subject(managerEmailId)
+                .subject(id)
                 .add("role",roles)
                 .issuedAt(now)
                 .expiration(refreshExpiredTime)
@@ -99,7 +100,7 @@ public class JwtTokenProvider {
                 .compact();
 
         RedisRefreshTokenDto refreshTokenDto = RedisRefreshTokenDto.builder()
-                .id(managerEmailId)
+                .id(id)
                 .refrehToken(jwt)
                 .build();
 
@@ -144,8 +145,6 @@ public class JwtTokenProvider {
 
         return tokenSubAndRoleDto;
     }
-
-
 
 }
 

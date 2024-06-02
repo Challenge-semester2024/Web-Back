@@ -43,7 +43,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
     @Override
     public void createOrUpdateFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList) {
         //1. 인증된 이메일 가져오기
-        Authentication authenticationEmail = securityUtils.getAuthenticationEmail();
+        Authentication authenticationEmail = securityUtils.getAuthentication();
 
         for(UpdateFloorSizeDto updateFloorSizeDto : updateFloorSizeDtoList){
 
@@ -114,7 +114,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
     @Override //수정본
     public void createFloorPicture (List<FloorPictureDto> createFloorPictureDto, List<MultipartFile> multipartFile) throws ImageInputException {
         // 1. 인증된 이메일 가져오기
-        Authentication authentication = securityUtils.getAuthenticationEmail();
+        Authentication authentication = securityUtils.getAuthentication();
         // 2. 해당 이메일로 관리자->보육원->시설소개 pk 찾아오기
         FacilityIntroduction facilityIntroduction = facilityIntroRepository.getFacilityPk(authentication);
         //3. 각 객체 매핑시키기

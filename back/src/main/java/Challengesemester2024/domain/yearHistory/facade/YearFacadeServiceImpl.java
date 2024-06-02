@@ -6,7 +6,6 @@ import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository
 import Challengesemester2024.domain.yearHistory.dto.decadeYear.RequestDecadeDataDto;
 import Challengesemester2024.domain.yearHistory.dto.yearHistory.CreateYearHistoryDto;
 import Challengesemester2024.domain.yearHistory.dto.decadeYear.CreateDecadeYearDto;
-import Challengesemester2024.domain.yearHistory.dto.yearHistory.RequestYearDataDto;
 import Challengesemester2024.domain.yearHistory.model.DecadeYear;
 import Challengesemester2024.domain.yearHistory.model.YearHistory;
 import Challengesemester2024.domain.yearHistory.repositroy.decadeYear.DecadeYearRepository;
@@ -18,9 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +30,7 @@ public class YearFacadeServiceImpl implements YearFacadeService {
 
     @Override
     public void createYearHistory(List<RequestDecadeDataDto> yearDataList) {
-        Authentication authentication = securityUtils.getAuthenticationEmail();
+        Authentication authentication = securityUtils.getAuthentication();
         ChildCenter fetchedChildCenter = childCenterRepository.getChildCenterPk(authentication);
 
         //1. decadeStartYear 행으로 된 DecadeYear Repository 행 있나 확인

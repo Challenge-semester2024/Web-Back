@@ -1,12 +1,12 @@
 package Challengesemester2024.domain.manager.service;
 
 import Challengesemester2024.SpringSecurity.jwt.dto.AllJwtTokenDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignInDto;
-import Challengesemester2024.businessProcess.auth.web.dto.auth.SignUpDto;
+import Challengesemester2024.businessProcess.auth.web.dto.WebSignInDto;
 
 public interface ManagerService {
-    public void checkExits(SignUpDto.ceoInfo manager);
-    public void register(SignUpDto.ceoInfo manager, ManagerRegisterDto managerRegisterDto);
-    public AllJwtTokenDto signIn(SignInDto signInDto);
+    void checkExits(WebSignUpDto.ceoInfo manager);
+    void register(WebSignUpDto.ceoInfo manager, ManagerRegisterDto managerRegisterDto);
+    AllJwtTokenDto signIn(WebSignInDto webSignInDto);
 }

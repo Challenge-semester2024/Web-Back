@@ -4,6 +4,11 @@ import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.config.constant.ControllerConstants;
 import Challengesemester2024.domain.yearHistory.dto.decadeYear.RequestDecadeDataDto;
 import Challengesemester2024.domain.yearHistory.facade.YearFacadeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,12 @@ public class yearHistoryController {
     private final YearFacadeService yearFacadeService;
 
     @Transactional
+    @Operation(summary = "연혁 수정 api", description = "연혁 정보 수정할 시에 대한 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "연혁이 업데이트 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+    })
     @PostMapping("/update")
     public ResponseEntity<?> updateYearHistory(@RequestBody @Valid List<RequestDecadeDataDto> yearDataList , BindingResult bindingResult){
         handleBindingErrors(bindingResult);

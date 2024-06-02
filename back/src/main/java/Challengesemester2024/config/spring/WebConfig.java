@@ -27,6 +27,19 @@ public class WebConfig implements WebMvcConfigurer {
                 .addMapping("/swagger-ui.html")
                 .allowedOrigins("*")
                 .allowedMethods("POST");
+        registry
+                .addMapping("/**")
+                .allowedOrigins("https://f9e2-211-62-65-251.ngrok-free.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+
+        registry
+                .addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 
 }

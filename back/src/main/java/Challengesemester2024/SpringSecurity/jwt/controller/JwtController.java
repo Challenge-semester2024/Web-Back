@@ -22,11 +22,9 @@ public class JwtController {
     @Transactional
     @Operation(summary = "request new access Token", description = "어세스 토큰 재발급")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AccessTokenDto.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content)
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "회원가입이 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not founc"),
     })
     @PostMapping("/auth/update/access/token")
     public AccessTokenDto updateAccessToken(HttpServletRequest request){

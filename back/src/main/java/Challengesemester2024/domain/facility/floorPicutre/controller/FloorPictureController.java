@@ -5,6 +5,11 @@ import Challengesemester2024.Exception.collections.IoException.ImageInputExcepti
 import Challengesemester2024.config.constant.ControllerConstants;
 import Challengesemester2024.domain.facility.facade.FacilityFacadeService;
 import Challengesemester2024.domain.facility.floorPicutre.dto.FloorPictureDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +28,12 @@ public class FloorPictureController {
     private final FacilityFacadeService facilityFacadeService;
 
     @Transactional
+    @Operation(summary = "floorPicture create Api", description = "층별 사진 create api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "층별 소개가 업데이트 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+    })
     @PostMapping("/create") //층별사진 생성
     public ResponseEntity<?> createFloorPicture(@RequestPart("CreateFloorPictureDto") @Valid List<FloorPictureDto> floorPictureDtoList,
                                                 @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult) throws ImageInputException {
@@ -34,6 +45,12 @@ public class FloorPictureController {
     }
 
     @Transactional
+    @Operation(summary = "floorPicture update Api", description = "층별 사진 update api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success",
+                    content = {@Content(schema = @Schema(implementation = String.class, example = "층별 소개가 업데이트 완료되었습니다."))}),
+            @ApiResponse(responseCode = "400", description = "Not found"),
+    })
     @PutMapping("/update") //층별사진 수정
     public ResponseEntity<?> updateFloorPicture(@RequestPart("UpdateFloorPictureDto") @Valid List<FloorPictureDto> floorPictureDtoList,
                                                 @RequestPart("FloorPictureFile") List<MultipartFile> multipartFile, BindingResult bindingResult) throws ImageInputException {
