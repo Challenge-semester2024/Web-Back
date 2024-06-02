@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
-            String token = jwtTokenProvider.resolveAccessToken(request);
+            String token = jwtTokenProvider.resolveToken(request);
 
             if (token == null) {
                 throw new TokenMissingException();
@@ -104,11 +104,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    public void authentication(String emailId) {
-        UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(emailId);
+    public void authentication(String identifier) {
+        UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(identifier);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
-                        emailId, null,
+                        userDetails, null,
                         userDetails.getAuthorities()
                 )
         );
@@ -155,7 +155,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 "/v3/api-docs",
                 "/api-docs",
                 "/swagger-ui/",
-                "/v3/api-docs/swagger-config"
+                "/v3/api-docs/swagger-config",
+                "/favicon.ico"  // 추가된 허용 경로
         ));
         return openUrlPatterns.stream().noneMatch(requestURI::startsWith);
     }
