@@ -23,7 +23,7 @@ public class YearHistoryServiceImpl implements YearHistoryService {
 
         for(RequestYearDataDto yearData : createYearHistoryDto.getYearList()) {
 
-            if( checkCreate(yearData) ){
+            if (checkCreate(yearData, decadeYear.getChildCenter().getId())) {
                 YearHistory yearHistory = YearHistory.builder()
                         .decadeYear(decadeYear)
                         .year(yearData.getYear())
@@ -41,9 +41,10 @@ public class YearHistoryServiceImpl implements YearHistoryService {
         return yearList;
     }
 
-    private boolean checkCreate(RequestYearDataDto yearData){
-        YearHistory yearHistory = yearHistoryRepository.findBydisplayIndex(yearData.getDisplayIndex());
-        if(yearHistory==null) {
+    private boolean checkCreate(RequestYearDataDto yearData, Long childCenterId) {
+        YearHistory yearHistory = yearHistoryRepository.findByDisplayIndexAndDecadeYear_ChildCenter_Id(
+                yearData.getDisplayIndex(), childCenterId);
+        if (yearHistory == null) {
             return true;
         }
         updateYearHistory(yearData, yearHistory);

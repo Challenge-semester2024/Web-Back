@@ -36,8 +36,9 @@ public class YearFacadeServiceImpl implements YearFacadeService {
         //1. decadeStartYear 행으로 된 DecadeYear Repository 행 있나 확인
         for (RequestDecadeDataDto requestDecadeData : yearDataList) {
 
-            // decadeStartYear를 가진 DecadeYear 엔티티가 데이터베이스에 존재하는지 확인
-            DecadeYear decadeYear = decadeYearRepository.findByDecadeStartYear(requestDecadeData.getDecadeStartYear());
+            // decadeStartYear와 childCenter의 id를 가진 DecadeYear 엔티티가 데이터베이스에 존재하는지 확인
+            DecadeYear decadeYear = decadeYearRepository.findByDecadeStartYearAndChildCenter_Id(
+                    requestDecadeData.getDecadeStartYear(), fetchedChildCenter.getId());
 
             if (decadeYear == null) { //null이면 새로 만들어주고 반환
 

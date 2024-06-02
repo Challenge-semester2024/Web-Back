@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface DecadeYearRepository extends JpaRepository<DecadeYear, CrudRepository>,DecadeYearRepositoryCustom {
-    DecadeYear findByDecadeStartYear(int decadeStartYear);
+    DecadeYear findByDecadeStartYearAndChildCenter_Id(int decadeStartYear, Long childCenterId);
     List<DecadeYear> findByChildCenterOrderByDecadeStartYearAsc(ChildCenter childCenter);
 
 }

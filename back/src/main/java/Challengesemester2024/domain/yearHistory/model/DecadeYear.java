@@ -3,6 +3,7 @@ package Challengesemester2024.domain.yearHistory.model;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -20,7 +21,7 @@ public class DecadeYear {
     private Long id; // 유일한 식별자
 
     @NotNull
-    @Column(unique = true)
+    @Column
     private int decadeStartYear;
 
     @OneToMany(mappedBy = "decadeYear", fetch =  FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
