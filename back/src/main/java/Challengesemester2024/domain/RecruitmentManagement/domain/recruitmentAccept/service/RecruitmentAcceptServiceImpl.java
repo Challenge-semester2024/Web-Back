@@ -2,10 +2,14 @@ package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAcc
 
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
+import Challengesemester2024.Exception.collections.business.DuplicateRecruitmentPerVolunteerException;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestVolunteersByDate;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.repository.RecruitmentRepository;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.model.RecruitmentAccept;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.repository.RecruitmentAcceptRepository;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.dto.RequestAssignmentDto;
+import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 import Challengesemester2024.domain.volunteer.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +44,21 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
                     .recruitmentDates(List.of(recruitmentDate))
                     .build();
             recruitmentAcceptRepository.save(acceptList);
+            recruitment.incrementCurrentApplicants();
+
         } else {
-            throw new IllegalStateException(VolunteerAlredyAcceptedRecruitment);
+            throw new DuplicateRecruitmentPerVolunteerException();
         }
+    }
+
+    @Override
+    @Transactional
+    public void deleteVolunteer(Long recruitmentId, Long volunteerId, LocalDate recruitmentDate) {
+        RecruitmentAccept recruitmentAccept = recruitmentAcceptRepository.findByRecruitmentIdAndVolunteerIdAndRecruitmentDate(recruitmentId, volunteerId, recruitmentDate)
+                .orElseThrow(() -> new DatabaseNotFoundException(VolunteerDatabaseNotFoundException ));
+        recruitmentAcceptRepository.delete(recruitmentAccept);
+        Recruitment recruitment = recruitmentAccept.getRecruitment();
+        recruitment.decrementCurrentApplicants();
     }
 
     @Transactional(readOnly = true)
@@ -51,8 +67,15 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
         return recruitmentAcceptRepository.existsByVolunteerIdAndRecruitmentDatesContains(volunteerId, date);
     }
 
-    @Transactional(readOnly = true)
-    protected boolean isVolunteerAlreadyAcceptedForRecruitment(Long volunteerId, Long recruitmentId, LocalDate date) {
-        return recruitmentAcceptRepository.existsByVolunteerIdAndRecruitmentIdAndRecruitmentDatesContains(volunteerId, recruitmentId, date);
+    @Override
+    public boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto) {
+        return recruitmentAcceptRepository.isDuplicateRecruitment(volunteer, requestAssignmentDto);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter) {
+        return recruitmentAcceptRepository.findVolunteersByDate(requestVolunteersByDate, fetchedChildCenter);
+    }
+
 }
