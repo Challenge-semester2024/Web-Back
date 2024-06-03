@@ -41,9 +41,9 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     public List<ResponseChildCenterDto> findChildCenter(RequestFindChildCenterDto requestDto) {
         List<ChildCenter> centers;
 
-        if (requestDto.isFindWordStandard()) { // true: search by address
+        if (requestDto.isFindWordStandard()) {
             centers = childCenterRepository.findByRoadAddressContaining(requestDto.getRoadAddress());
-        } else { // false: search by name
+        } else {
             centers = childCenterRepository.findByCenterNameContaining(requestDto.getChildCenterName());
         }
 
