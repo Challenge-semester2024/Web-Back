@@ -1,8 +1,11 @@
-package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.service;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.service;
 
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.dto.RecruitmentAssignmentDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.repository.RecruitmentWaitingRepository;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestVolunteersByDate;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentAssignmentDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.repository.RecruitmentWaitingRepository;
+import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +33,8 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
 
     @Transactional(readOnly = true)
     @Override
-    public List<Volunteer> getVolunteersByDate(LocalDate date) {
-        List<RecruitmentWaiting> recruitmentWaitings = recruitmentWaitingRepository.findByRecruitmentDate(date);
-        return recruitmentWaitings.stream()
-                .map(RecruitmentWaiting::getVolunteer)
-                .collect(Collectors.toList());
+    public List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter) {
+        return recruitmentWaitingRepository.findVolunteersByDate(requestVolunteersByDate, fetchedChildCenter);
     }
 
 
@@ -46,5 +45,10 @@ public class RecruitmentWaitingServiceImpl implements RecruitmentWaitingService 
                 .orElseThrow(() -> new IllegalArgumentException("Waiting list entry not found"));
 
         recruitmentWaitingRepository.delete(recruitmentWaiting);
+    }
+
+    @Override
+    public boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto) {
+        return recruitmentWaitingRepository.isDuplicateRecruitment(volunteer, requestAssignmentDto);
     }
 }
