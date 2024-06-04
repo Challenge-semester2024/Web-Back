@@ -1,17 +1,19 @@
 package Challengesemester2024.config.spring;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.resource.PathResourceResolver;
-
-import java.io.IOException;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    @Value("${cors.allowed.ngrok.origin}")
+    private String ngrokOrigin;
+
+    @Value("${cors.allowed.client.origin}")
+    private String clientOrigin;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
@@ -29,14 +31,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("POST");
         registry
                 .addMapping("/**")
-                .allowedOrigins("https://f9e2-211-62-65-251.ngrok-free.app")
+                .allowedOrigins(ngrokOrigin)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
 
         registry
                 .addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins(clientOrigin)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
