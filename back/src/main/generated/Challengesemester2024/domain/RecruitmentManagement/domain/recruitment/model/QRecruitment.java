@@ -44,7 +44,7 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public final DatePath<java.time.LocalDate> recruitmentStartDate = createDate("recruitmentStartDate", java.time.LocalDate.class);
 
-    public final ListPath<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting> recruitmentWaitings = this.<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting>createList("recruitmentWaitings", Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting.class, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting.class, PathInits.DIRECT2);
+    public final ListPath<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting> recruitmentWaitings = this.<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting>createList("recruitmentWaitings", Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting.class, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting.class, PathInits.DIRECT2);
 
     public final QDaysOfWeek repeatedDays;
 
