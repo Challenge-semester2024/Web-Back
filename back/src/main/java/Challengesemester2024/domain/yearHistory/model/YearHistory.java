@@ -17,9 +17,11 @@ public class YearHistory {
     private Long id; // 유일한 식별자
 
     @NotNull
+    @Column
     private int displayIndex; // 해당 데이터의 인덱스를 나타냄-> 수정 및 get 요청에서 요긴하게 쓰일 예정
 
     @NotNull
+    @Column
     private int year;
 
     @Column(nullable = false, length = 255)

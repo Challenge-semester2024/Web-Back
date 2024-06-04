@@ -1,7 +1,8 @@
-package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model;
 
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,10 +28,12 @@ public class RecruitmentWaiting {
     private List<LocalDate> recruitmentDates;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recruitment_id")
     private Recruitment recruitment;
 

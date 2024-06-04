@@ -9,5 +9,4 @@ public class DbExceptionMessage {
     public static final String ChildCenterDatabaseNotFoundException = "해당하는 보육원 DB를 찾을 수 없습니다.";
     public static final String VolunteerDatabaseNotFoundException = "해당하는 봉사자 DB를 찾을 수 없습니다.";
     public static final String RecruitmentDatabaseNotFoundException = "해당하는 봉사 공고 DB를 찾을 수 없습니다.";
-    public static final String VolunteerAlredyAcceptedRecruitment = "해당 봉사자는 해당 날짜에 이미 승인 완료된 봉사가 존재합니다.";
 }

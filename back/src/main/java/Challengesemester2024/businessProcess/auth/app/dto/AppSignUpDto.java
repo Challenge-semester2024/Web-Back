@@ -20,7 +20,7 @@ public class AppSignUpDto {
     private boolean gender; //0 : 남자, 1 : 여자
 
     @Column(nullable = false)
-    private LocalDate birth;
+    private String birth;
 
     @NotBlank(message = "전화번호는 필수 값입니다.")
     @Column(unique=true) // 전화번호를 고유값으로 설정

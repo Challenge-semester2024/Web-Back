@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 public interface YearHistoryRepository extends JpaRepository<YearHistory, CrudRepository>, YearHistoryRepositoryCustom {
-    YearHistory findBydisplayIndex(int displayIndex);
+    YearHistory findByDisplayIndexAndDecadeYear_ChildCenter_Id(int displayIndex, Long childCenterId);
 }

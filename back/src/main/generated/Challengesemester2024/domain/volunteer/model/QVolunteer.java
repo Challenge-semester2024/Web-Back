@@ -34,7 +34,7 @@ public class QVolunteer extends EntityPathBase<Volunteer> {
 
     public final StringPath phoneNum = createString("phoneNum");
 
-    public final ListPath<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting> recruitmentWaitings = this.<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting>createList("recruitmentWaitings", Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting.class, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.QRecruitmentWaiting.class, PathInits.DIRECT2);
+    public final ListPath<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting> recruitmentWaitings = this.<Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting>createList("recruitmentWaitings", Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting.class, Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.QRecruitmentWaiting.class, PathInits.DIRECT2);
 
     public final EnumPath<Volunteer.UserRoleEnum> role = createEnum("role", Volunteer.UserRoleEnum.class);
 

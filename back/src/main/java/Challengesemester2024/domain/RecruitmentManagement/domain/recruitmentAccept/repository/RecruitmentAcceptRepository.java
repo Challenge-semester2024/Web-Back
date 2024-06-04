@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 
-public interface RecruitmentAcceptRepository extends JpaRepository<RecruitmentAccept, Long> {
+public interface RecruitmentAcceptRepository extends JpaRepository<RecruitmentAccept, Long>, RecruitmentAcceptRepositoryCustom {
     boolean existsByVolunteerIdAndRecruitmentDatesContains(Long volunteerId, LocalDate date);
-    boolean existsByVolunteerIdAndRecruitmentIdAndRecruitmentDatesContains(Long volunteerId, Long recruitmentId, LocalDate date);
 }

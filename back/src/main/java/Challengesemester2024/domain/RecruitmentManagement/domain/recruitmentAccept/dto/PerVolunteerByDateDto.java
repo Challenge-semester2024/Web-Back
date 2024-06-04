@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VolunteerAcceptanceDto {
+public class PerVolunteerByDateDto {
     private Long recruitmentId;
     private Long volunteerId;
     private LocalDate recruitmentDate;

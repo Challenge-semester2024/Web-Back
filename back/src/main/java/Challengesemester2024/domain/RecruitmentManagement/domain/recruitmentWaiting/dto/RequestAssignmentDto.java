@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.dto;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -41,13 +43,14 @@ public class VoluteerServiceImpl implements VoluteerService {
     @Override
     public void signUp(AppSignUpDto appSignUpDto) {
         String encodePassword = passwordEncoder.encode(appSignUpDto.getPassword());
+        LocalDate localDateBirth = LocalDate.parse(appSignUpDto.getBirth(), DateTimeFormatter.ofPattern("yyMMdd"));
 
         Volunteer volunteer = Volunteer.builder()
                 .name(appSignUpDto.getName())
                 .emailId(appSignUpDto.getEmailId())
                 .password(encodePassword)
                 .phoneNum(appSignUpDto.getPhoneNum())
-                .birth(appSignUpDto.getBirth())
+                .birth(localDateBirth)
                 .role(Volunteer.UserRoleEnum.USER)
                 .build();
 

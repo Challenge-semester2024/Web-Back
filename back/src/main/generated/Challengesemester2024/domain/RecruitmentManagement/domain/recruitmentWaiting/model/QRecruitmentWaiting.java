@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model;
+package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecruitmentWaiting extends EntityPathBase<RecruitmentWaiting> {
 
-    private static final long serialVersionUID = -1021028591L;
+    private static final long serialVersionUID = -936646769L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

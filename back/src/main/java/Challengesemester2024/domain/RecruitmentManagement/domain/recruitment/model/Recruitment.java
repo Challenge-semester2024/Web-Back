@@ -1,7 +1,7 @@
 package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -65,7 +65,6 @@ public class Recruitment {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String detailInfo; //해당 봉사 공고의 상제 정보. -> 초기값 : 상수변수 만들어야 함
 
-
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecruitmentWaiting> recruitmentWaitings;
 
@@ -73,6 +72,24 @@ public class Recruitment {
     @ManyToOne
     @JoinColumn(name = "child_center_id")
     private ChildCenter childCenter;
+
+    // currentApplicants 증가 메서드
+    public void incrementCurrentApplicants() {
+        if (this.currentApplicants < this.totalApplicants) {
+            this.currentApplicants++;
+        } else {
+            throw new IllegalStateException("Cannot accept more volunteers than the total applicants allowed.");
+        }
+    }
+
+    // currentApplicants 감소 메서드
+    public void decrementCurrentApplicants() {
+        if (this.currentApplicants > 0) {
+            this.currentApplicants--;
+        } else {
+            throw new IllegalStateException("Cannot have fewer than zero current applicants.");
+        }
+    }
 
 }
 

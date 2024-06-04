@@ -2,7 +2,7 @@ package Challengesemester2024.domain.RecruitmentManagement.controller.app;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.config.constant.ControllerConstants;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.dto.RequestAssignmentDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import Challengesemester2024.domain.RecruitmentManagement.facade.RecruitmentFacadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

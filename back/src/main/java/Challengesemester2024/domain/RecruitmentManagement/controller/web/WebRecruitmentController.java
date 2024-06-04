@@ -2,11 +2,9 @@ package Challengesemester2024.domain.RecruitmentManagement.controller.web;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
 import Challengesemester2024.config.constant.ControllerConstants;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentPageDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestRecruitmentDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.dto.VolunteerAcceptanceDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.*;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.dto.PerVolunteerByDateDto;
 import Challengesemester2024.domain.RecruitmentManagement.facade.RecruitmentFacadeService;
-import Challengesemester2024.domain.volunteer.dto.VolunteerResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import static Challengesemester2024.config.constant.ControllerConstants.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +43,44 @@ public class WebRecruitmentController {
         return new ResponseEntity<>(ControllerConstants.completecreateRecruitment, HttpStatus.OK);
     }
 
+
+    @Transactional
+    @Operation(summary = "봉사공고 업데이트 api", description = "봉사공고 업데이트 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved recruitments",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    @PutMapping("/update")
+    public ResponseEntity<?> updateRecruitment(@RequestBody @Valid RequestRecruitmentUpdateDto requestRecruitmentUpdateDto, BindingResult bindingResult) {
+        handleBindingErrors(bindingResult);
+        recruitmentFacadeService.updateRecruitment(requestRecruitmentUpdateDto);
+        return new ResponseEntity<>(ControllerConstants.completeupdateRecruitment, HttpStatus.OK);
+    }
+
+    @PostMapping("/findByName")
+    @Transactional(readOnly = true)
+    @Operation(summary = "제목으로 봉사공고글 검색 api", description = "제목으로 봉사공고글 검색 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved recruitments",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RecruitmentPageDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<RecruitmentPageDto> findByName(@RequestBody @Valid RequestFindByName requestFindByName,
+                                                         @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") int size,
+                                                         BindingResult bindingResult) {
+        handleBindingErrors(bindingResult);
+        Pageable pageable = PageRequest.of(page, size);
+        RecruitmentPageDto recruitments = recruitmentFacadeService.findByNameWithPagination(requestFindByName, pageable);
+        return ResponseEntity.ok(recruitments);
+    }
+
+
     @Transactional
     @Operation(summary = "Get Recruitments Pagination", description = "봉사공고 목록 페이지네이션")
     @ApiResponses(value = {
@@ -61,27 +97,68 @@ public class WebRecruitmentController {
         return recruitmentFacadeService.getRecruitments(pageable);
     }
 
-    @GetMapping("/get/waiting")
+    @PostMapping("/get/volunteers/by/date")
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getVolunteersByDate(@RequestParam LocalDate date) {
-        List<VolunteerResponseDto> volunteers = recruitmentFacadeService.getVolunteersByDate(date);
-        return new ResponseEntity<>(volunteers, HttpStatus.OK);
+    @Operation(summary = "Get Volunteers by Date", description = "해당 날짜에 봉사자를 검색합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved volunteers",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = VolunteerByDateResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<VolunteerByDateResponseDto> getVolunteersByDate(@RequestBody @Valid RequestVolunteersByDate requestVolunteersByDate,
+                                                                          BindingResult bindingResult) {
+        handleBindingErrors(bindingResult);
+        VolunteerByDateResponseDto volunteers = recruitmentFacadeService.getVolunteersByDate(requestVolunteersByDate);
+        return ResponseEntity.ok(volunteers);
     }
 
 
     @PostMapping("/accept")
     @Transactional
-    public ResponseEntity<String> acceptVolunteer(@RequestBody VolunteerAcceptanceDto volunteerAcceptanceDto) {
-        try {
-            recruitmentFacadeService.acceptVolunteer(volunteerAcceptanceDto.getRecruitmentId(), volunteerAcceptanceDto.getVolunteerId(), volunteerAcceptanceDto.getRecruitmentDate());
-            return new ResponseEntity<>("봉사공고 신청이 승인되었습니다.", HttpStatus.OK);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    @Operation(summary = "accept Volunteers by Date", description = "특정 날짜의 봉사자 승인신청 완료 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved volunteers",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<String> acceptVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
+        recruitmentFacadeService.acceptVolunteer(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+        return new ResponseEntity<>(completeAcceptVolunteer, HttpStatus.OK);
     }
 
+    @PostMapping("/delete/accept")
+    @Transactional
+    @Operation(summary = "Delete Volunteers by Date from accept", description = "승인 완료 명단 특정 날짜의 봉사자 삭제 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully deleted volunteer",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<String> deleteAcceptanceVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
+        recruitmentFacadeService.deleteVolunteerFromRecruitmentAccept(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+        return new ResponseEntity<>(completeDeleteWaitingVolunteer, HttpStatus.OK);
+    }
+
+    @PostMapping("/delete/waiting")
+    @Transactional
+    @Operation( summary = "Delete Volunteers by Date from waiting", description = "대기자 명단 특정 날짜의 봉사자 삭제 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully deleted volunteer",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<String> deleteWaitingVolunteer(@RequestBody PerVolunteerByDateDto perVolunteerByDateDto) {
+        recruitmentFacadeService.deleteVolunteerFromRecruitmentWaiting(perVolunteerByDateDto.getRecruitmentId(), perVolunteerByDateDto.getVolunteerId(), perVolunteerByDateDto.getRecruitmentDate());
+        return new ResponseEntity<>(completeDeleteAcceptanceVolunteer, HttpStatus.OK);
+    }
 
     public void handleBindingErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

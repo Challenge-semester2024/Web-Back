@@ -8,7 +8,6 @@ import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddress
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import Challengesemester2024.domain.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.childCenter.service.ChildCenterService;
