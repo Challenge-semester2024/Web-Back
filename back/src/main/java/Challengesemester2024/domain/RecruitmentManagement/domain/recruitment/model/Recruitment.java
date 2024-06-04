@@ -1,7 +1,7 @@
 package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model;
 
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

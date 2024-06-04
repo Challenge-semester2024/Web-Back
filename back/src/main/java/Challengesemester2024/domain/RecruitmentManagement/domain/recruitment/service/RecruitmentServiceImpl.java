@@ -1,13 +1,10 @@
 package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.service;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentSummaryDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestRecruitmentDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.*;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.DaysOfWeek;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentPageDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.repository.RecruitmentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -59,19 +56,51 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         recruitmentRepository.save(newRecruitment);
     }
 
-    @Override
-    public RecruitmentPageDto getRecruitments(Pageable pageable) {
-        Page<Recruitment> recruitmentPage = recruitmentRepository.findAll(pageable);
+    public void updateRecruitment(RequestRecruitmentUpdateDto updateRecruitmentDto, ChildCenter childCenter) {
+        LocalDate todayDate = LocalDate.now();
+
+        Recruitment existingRecruitment = recruitmentRepository.findById(updateRecruitmentDto.getId());
+        RequestRecruitmentDto rqRecruitmentDto = updateRecruitmentDto.getNewRecruitmentDto();
+
+        if(existingRecruitment==null) throw new DatabaseNotFoundException(RecruitmentDatabaseNotFoundException);
+
+        String detailInfo = rqRecruitmentDto.getDetailInfo();
+        if(detailInfo==null || detailInfo==""){
+            detailInfo=initRecruitmentDetailInfo;
+        }
+
+        Recruitment newRecruitment = Recruitment.builder()
+                .name(rqRecruitmentDto.getName())
+                .recruitmentStartDate(todayDate)
+                .recruitmentEndDate(rqRecruitmentDto.getRecruitmentEndDate())
+                .isTimeExits(rqRecruitmentDto.isTimeExits())
+                .startTime(rqRecruitmentDto.getStartTime())
+                .endTime(rqRecruitmentDto.getEndTime())
+                .startDate(rqRecruitmentDto.getStartDate())
+                .endDate(rqRecruitmentDto.getEndDate())
+                .isRepeatedDate(rqRecruitmentDto.getIsRepeatedDate())
+                .repeatedDays(convertToDaysOfWeek(rqRecruitmentDto.getRepeatedDays()))
+                .view(initRecruitmentView)
+                .currentApplicants(initRecruitmentCurrentApplicants)
+                .totalApplicants(rqRecruitmentDto.getTotalApplicants())
+                .detailInfo(detailInfo)
+                .childCenter(existingRecruitment.getChildCenter())
+                .build();
+
+        recruitmentRepository.delete(existingRecruitment);
+        recruitmentRepository.save(newRecruitment);
+
+    }
+
+    @Transactional(readOnly = true)
+    public RecruitmentPageDto getRecruitments(Pageable pageable, ChildCenter fetchedChildCenter) {
+        Page<Recruitment> recruitmentPage = recruitmentRepository.findAllWithPagination(fetchedChildCenter, pageable);
         List<Recruitment> recruitments = recruitmentPage.getContent();
         long totalElements = recruitmentPage.getTotalElements();
         int totalPages = recruitmentPage.getTotalPages();
-        return new RecruitmentPageDto(recruitments, totalElements, totalPages);
+        return new RecruitmentPageDto(recruitments, totalElements , totalPages);
     }
 
-    @Override
-    public List<Recruitment> getRecruitmentsByChildCenter(ChildCenter childCenter) {
-        return recruitmentRepository.findByChildCenter(childCenter);
-    }
 
     @Override
     public List<RecruitmentSummaryDto> getRecruitmentSummariesByChildCenter(ChildCenter childCenter) {
@@ -128,6 +157,15 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 .recruitmentDates(recruitmentDates)
                 .build();
 
+    }
+
+    @Override
+    public RecruitmentPageDto findByNameWithPagination(String recruitmentName, Pageable pageable, ChildCenter fetchedChildCenter) {
+        Page<Recruitment> recruitmentPage = recruitmentRepository.findByNameWithPagination(recruitmentName, fetchedChildCenter, pageable);
+        List<Recruitment> recruitments = recruitmentPage.getContent();
+        long totalElements = recruitmentPage.getTotalElements();
+        int totalPages = recruitmentPage.getTotalPages();
+        return new RecruitmentPageDto(recruitments, totalElements , totalPages);
     }
 
     private List<LocalDate> calculateRecruitmentDates(Recruitment recruitment) {

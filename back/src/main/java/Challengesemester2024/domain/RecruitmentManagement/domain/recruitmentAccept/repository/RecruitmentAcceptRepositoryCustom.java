@@ -2,7 +2,7 @@ package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAcc
 
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestVolunteersByDate;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.model.RecruitmentAccept;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.dto.RequestAssignmentDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 

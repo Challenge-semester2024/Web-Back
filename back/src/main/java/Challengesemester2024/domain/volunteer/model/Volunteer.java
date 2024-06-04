@@ -1,6 +1,6 @@
 package Challengesemester2024.domain.volunteer.model;
 
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaitingList.model.RecruitmentWaiting;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.model.RecruitmentWaiting;
 import jakarta.persistence.*;
 import lombok.*;
 
