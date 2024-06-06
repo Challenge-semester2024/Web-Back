@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -21,6 +20,5 @@ public class RecruitmentDetailDto {
     private LocalTime startTime;
     private LocalTime endTime;
     private int totalApplicants;
-    private int currentApplicants;
-    private List<LocalDate> recruitmentDates;
+    private String detailInfo;
 }
