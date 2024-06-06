@@ -3,7 +3,7 @@ package Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAcc
 
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RequestVolunteersByDate;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 
 import java.time.LocalDate;
@@ -15,4 +15,5 @@ public interface RecruitmentAcceptService {
     boolean isVolunteerAlreadyAccepted(Long volunteerId, LocalDate date);
     boolean isDuplicateRecruitment(Volunteer volunteer, RequestAssignmentDto requestAssignmentDto);
     List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter);
+    int countCompletedRecruitmentsByVolunteer(Volunteer volunteer);
 }

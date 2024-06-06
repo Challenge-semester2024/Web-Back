@@ -4,7 +4,7 @@ import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.model.QRecruitmentAccept;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.model.RecruitmentAccept;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +55,17 @@ public class RecruitmentAcceptRepositoryImpl implements RecruitmentAcceptReposit
                         .and(recruitmentAccept.volunteer.eq(volunteer))
                         .and(recruitmentAccept.recruitmentDates.any().in(requestAssignmentDto.getRecruitmentDates())))
                 .fetchCount() > 0;
+    }
+
+    @Override
+    public int countCompletedRecruitmentsByVolunteer(Volunteer volunteer) {
+        Long count = queryFactory
+                .selectFrom(recruitmentAccept)
+                .where(recruitmentAccept.volunteer.eq(volunteer)
+                        .and(recruitmentAccept.recruitment.recruitmentEndDate.before(LocalDate.now())))
+                .fetchCount();
+
+        return count.intValue();
     }
 
 

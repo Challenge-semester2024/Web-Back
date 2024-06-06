@@ -9,7 +9,7 @@ import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.rep
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.model.RecruitmentAccept;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.repository.RecruitmentAcceptRepository;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.volunteer.model.Volunteer;
 import Challengesemester2024.domain.volunteer.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,6 +76,12 @@ public class RecruitmentAcceptServiceImpl implements RecruitmentAcceptService {
     @Override
     public List<Volunteer> getVolunteersByDate(RequestVolunteersByDate requestVolunteersByDate, ChildCenter fetchedChildCenter) {
         return recruitmentAcceptRepository.findVolunteersByDate(requestVolunteersByDate, fetchedChildCenter);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countCompletedRecruitmentsByVolunteer(Volunteer volunteer) {
+        return recruitmentAcceptRepository.countCompletedRecruitmentsByVolunteer(volunteer);
     }
 
 }
