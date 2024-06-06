@@ -47,7 +47,7 @@ public class AppAuthController {
     }
 
     @Transactional
-    @Operation(summary = "Find Child Center", description = "Find child centers based on search criteria")
+    @Operation(summary = "auth SignIn", description = "앱 내에서의 로그인 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
                     content = @Content(mediaType = "application/json",
