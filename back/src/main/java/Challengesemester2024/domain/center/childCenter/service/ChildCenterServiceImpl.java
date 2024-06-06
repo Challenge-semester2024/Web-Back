@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.childCenter.service;
+package Challengesemester2024.domain.center.childCenter.service;
 
 import Challengesemester2024.Exception.collections.business.CenterNotFoundException;
 import Challengesemester2024.Exception.collections.business.ChildCenterAlreadyExitsException;
@@ -6,10 +6,9 @@ import Challengesemester2024.Exception.collections.business.DuplicateUniqueKeyEx
 import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.CenterForeignKeyDto;
 import Challengesemester2024.businessProcess.facade.dto.ManagerRegisterDto;
-import Challengesemester2024.domain.childCenter.dto.put.RequestFindChildCenterDto;
-import Challengesemester2024.domain.childCenter.dto.put.ResponseChildCenterDto;
-import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.dto.put.RequestFindWordDto;
+import Challengesemester2024.domain.center.childCenter.repository.ChildCenterRepository;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,28 +36,17 @@ public class ChildCenterServiceImpl implements ChildCenterService {
     }
 
     @Override
-    public List<ResponseChildCenterDto> findChildCenter(RequestFindChildCenterDto requestDto) {
-        List<ChildCenter> centers;
+    public List<ChildCenter> findChildCenter(RequestFindWordDto requestDto) {
 
-        if (requestDto.isFindWordStandard()) {
-            centers = childCenterRepository.findByRoadAddressContaining(requestDto.getRoadAddress());
-        } else {
-            centers = childCenterRepository.findByCenterNameContaining(requestDto.getChildCenterName());
-        }
+        List<ChildCenter> centers = childCenterRepository.findByRoadAddressContaining(requestDto.getFindWord());
 
-        if ( centers.isEmpty()) {
-            throw new CenterNotFoundException();
-        }
+        if(!centers.isEmpty()) return centers;
 
-        return centers.stream()
-                .map(center -> ResponseChildCenterDto.builder()
-                        .id(center.getId())
-                        .centerName(center.getCenterName())
-                        .roadAddress(center.getRoadAddress())
-                        .detailAddress(center.getDetailAddress())
-                        .phoneNumber(center.getPhoneNumId())
-                        .build())
-                .collect(Collectors.toList());
+        centers = childCenterRepository.findByCenterNameContaining(requestDto.getFindWord());
+
+        if(centers.isEmpty()) throw new CenterNotFoundException();
+
+        return centers;
 
     }
 
