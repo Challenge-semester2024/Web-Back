@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     HttpStatus.UNAUTHORIZED.value()
             );
             return;
-        } catch (SignatureException e) { // 비밀키 일치 X 처리
+        } catch (SecurityException e) { // 비밀키 일치 X 처리
             writeJsonToResponse(
                     response,
                     TokenExceptonMessage.SignatureNotMatchException,

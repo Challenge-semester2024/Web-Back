@@ -1,6 +1,7 @@
 package Challengesemester2024.domain.facility.floorPictureCluster.service;
 
 
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.facility.dto.FloorPictureListUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
@@ -34,9 +35,9 @@ public class FloorPictureClusterServiceimpl implements FloorPictureClusterServic
     }
 
     @Override
-    public FloorPictureCluster findByFloor(int floor) {
-        FloorPictureCluster floorPictureCluster =  floorPictureClusterRepository.findByFloor(floor);
-        return floorPictureCluster; //그 자체를 다 넘기는 거니까 dto 굳이 쓸 필요 엇ㅂ다. int cout>
+    public FloorPictureCluster findByFloor(int floor, ChildCenter childCenter) {
+        FloorPictureCluster floorPictureCluster =  floorPictureClusterRepository.findByFloor(floor, childCenter);
+        return floorPictureCluster;
     }
 
     @Override

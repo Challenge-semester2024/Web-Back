@@ -6,5 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface FloorPictureClusterRepository extends JpaRepository<FloorPictureCluster, CrudRepository>, FloorPictureClusterRepositoryCustom {
-    FloorPictureCluster findByFloor(int floor);
 }

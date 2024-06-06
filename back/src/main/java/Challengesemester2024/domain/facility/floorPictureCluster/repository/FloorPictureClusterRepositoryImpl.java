@@ -2,6 +2,7 @@ package Challengesemester2024.domain.facility.floorPictureCluster.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
 import Challengesemester2024.Exception.message.DbExceptionMessage;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
@@ -66,6 +67,16 @@ public class FloorPictureClusterRepositoryImpl implements FloorPictureClusterRep
                 .fetch();
 
         return result;
+    }
+
+    @Override
+    public FloorPictureCluster findByFloor(int floor, ChildCenter childCenter) {
+        QFloorPictureCluster floorPictureCluster = QFloorPictureCluster.floorPictureCluster;
+
+        return jpaQueryFactory.selectFrom(floorPictureCluster)
+                .where(floorPictureCluster.floor.eq(floor)
+                        .and(floorPictureCluster.facilityIntroduction.eq(childCenter.getFacilityIntroduction())))
+                .fetchOne();
     }
 
 

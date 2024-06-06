@@ -4,6 +4,8 @@ import Challengesemester2024.Exception.collections.InputValid.InvalidClientReque
 import Challengesemester2024.Exception.collections.IoException.ImageInputException;
 import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
 import Challengesemester2024.businessProcess.s3.S3Service;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.facility.dto.FacilityFloorSizeUpdateRequest;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.repository.FacilityIntroRepository;
@@ -38,16 +40,19 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
     private final FacilityIntroRepository facilityIntroRepository;
     private final FloorPictureService floorPictureService;
     private final S3Service s3Service;
+    private final ChildCenterService childCenterService;
 
     @Transactional
     @Override
     public void createOrUpdateFloorSize(List<UpdateFloorSizeDto> updateFloorSizeDtoList) {
+        ChildCenter fetchedChildCenter = getChildCenterPk();
+
         //1. 인증된 이메일 가져오기
         Authentication authenticationEmail = securityUtils.getAuthentication();
 
         for(UpdateFloorSizeDto updateFloorSizeDto : updateFloorSizeDtoList){
 
-            FloorSize fetchedFlooSize = floorSizeService.findFloorSize(updateFloorSizeDto.getDisplayIndex());
+            FloorSize fetchedFlooSize = floorSizeService. isExitsFloorSize(updateFloorSizeDto.getDisplayIndex(), fetchedChildCenter );
 
             FacilityFloorSizeUpdateRequest facilityFloorSizeUpdateRequest;
             //1-1. 수정인 경우 - 기존객체 삭제 및 db 생성
@@ -137,7 +142,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
             String s3ImageUrl = s3Service.uploadImageToS3(file);
 
-            FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor());
+            FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor(), getChildCenterPk());
 
             // 1. dto 속 floor의 floorPictureCluster DB 없으면 -> flooClusterDb 생성
             if (fetchedFloorPictureCluster == null) {
@@ -181,6 +186,9 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
     @Override
     public void updateFloorPicuture(List<FloorPictureDto> updateFloorPictureDtoList, List<MultipartFile> multipartFiles) throws ImageInputException {
+
+        ChildCenter childCenter = getChildCenterPk();
+
         //hashMap 변환
         Map<String, MultipartFile> multipartFileMap = convertHashMap(multipartFiles);
 
@@ -193,7 +201,7 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
 
             String s3ImageUrl = s3Service.uploadImageToS3(file);
 
-            FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor());
+            FloorPictureCluster fetchedFloorPictureCluster = floorPictureClusterService.findByFloor(find.getFloor(), childCenter );
 
             FloorPicture updateFloorPicture = FloorPicture.builder()
                     .floor(find.getFloor())
@@ -222,6 +230,11 @@ public class FacilityFacadeServiceImpl implements FacilityFacadeService {
         }
 
         return multipartFileMap;
+    }
+
+    private ChildCenter getChildCenterPk(){
+        Authentication authentication = securityUtils.getAuthentication();
+        return childCenterService.getChildCenterPk(authentication);
     }
 
 }

@@ -36,7 +36,7 @@ public class RecruitmentWaitingRepositoryImpl implements RecruitmentWaitingRepos
                 .where(recruitment.id.eq(requestAssignmentDto.getRecruitmentId())
                         .and(recruitmentWaiting.volunteer.eq(volunteer))
                         .and(recruitmentWaiting.recruitmentDates.any().in(requestAssignmentDto.getRecruitmentDates())))
-                .fetchCount() > 0;
+                .fetch().size() > 0;
     }
 
 }
