@@ -28,7 +28,7 @@ public class RecruitmentRepositoryImpl implements RecruitmentRepositoryCustom{
         long total = queryFactory
                 .selectFrom(recruitment)
                 .where(recruitment.childCenter.eq(fetchedChildCenter))
-                .fetchCount();
+                .fetch().size();
 
         return new PageImpl<>(recruitments, pageable, total);
     }
@@ -47,7 +47,7 @@ public class RecruitmentRepositoryImpl implements RecruitmentRepositoryCustom{
                 .selectFrom(recruitment)
                 .where(recruitment.name.contains(recruitmentName)
                         .and(recruitment.childCenter.eq(fetchedChildCenter)))
-                .fetchCount();
+                .fetch().size();
 
         return new PageImpl<>(recruitments, pageable, total);
     }

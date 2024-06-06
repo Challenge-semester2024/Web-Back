@@ -54,18 +54,18 @@ public class RecruitmentAcceptRepositoryImpl implements RecruitmentAcceptReposit
                 .where(recruitment.id.eq(requestAssignmentDto.getRecruitmentId())
                         .and(recruitmentAccept.volunteer.eq(volunteer))
                         .and(recruitmentAccept.recruitmentDates.any().in(requestAssignmentDto.getRecruitmentDates())))
-                .fetchCount() > 0;
+                .fetch().size() > 0;
     }
 
     @Override
     public int countCompletedRecruitmentsByVolunteer(Volunteer volunteer) {
-        Long count = queryFactory
+        int count = queryFactory
                 .selectFrom(recruitmentAccept)
                 .where(recruitmentAccept.volunteer.eq(volunteer)
                         .and(recruitmentAccept.recruitment.recruitmentEndDate.before(LocalDate.now())))
-                .fetchCount();
+                .fetch().size();
 
-        return count.intValue();
+        return count;
     }
 
 

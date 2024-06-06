@@ -2,7 +2,7 @@ package Challengesemester2024.domain.facility.facilityIntroduction.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
 import Challengesemester2024.Exception.message.DbExceptionMessage;
-import Challengesemester2024.domain.childCenter.model.QChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.QChildCenter;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.QFacilityIntroduction;
 import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
