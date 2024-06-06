@@ -1,9 +1,9 @@
-package Challengesemester2024.domain.childCenter.repository;
+package Challengesemester2024.domain.center.childCenter.repository;
 
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
 import Challengesemester2024.Exception.message.DbExceptionMessage;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.childCenter.model.QChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.QChildCenter;
 import Challengesemester2024.domain.manager.model.QManager;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

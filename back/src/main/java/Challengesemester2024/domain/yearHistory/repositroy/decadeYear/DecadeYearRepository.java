@@ -1,6 +1,6 @@
 package Challengesemester2024.domain.yearHistory.repositroy.decadeYear;
 
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.yearHistory.model.DecadeYear;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;

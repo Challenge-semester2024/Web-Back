@@ -5,6 +5,7 @@ import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWait
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+
 public interface RecruitmentFacadeService {
     void createRecruitment(RequestRecruitmentDto requestRecruitmentDto);
     void updateRecruitment(RequestRecruitmentUpdateDto requestRecruitmentUpdateDto);

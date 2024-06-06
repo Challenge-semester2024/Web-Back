@@ -22,7 +22,7 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public static final QRecruitment recruitment = new QRecruitment("recruitment");
 
-    public final Challengesemester2024.domain.childCenter.model.QChildCenter childCenter;
+    public final Challengesemester2024.domain.center.childCenter.model.QChildCenter childCenter;
 
     public final NumberPath<Integer> currentApplicants = createNumber("currentApplicants", Integer.class);
 
@@ -74,7 +74,7 @@ public class QRecruitment extends EntityPathBase<Recruitment> {
 
     public QRecruitment(Class<? extends Recruitment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
+        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.center.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
         this.repeatedDays = inits.isInitialized("repeatedDays") ? new QDaysOfWeek(forProperty("repeatedDays")) : null;
     }
 

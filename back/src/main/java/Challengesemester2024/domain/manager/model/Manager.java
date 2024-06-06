@@ -1,6 +1,6 @@
 package Challengesemester2024.domain.manager.model;
 
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import jakarta.persistence.*;
 import lombok.*;
 

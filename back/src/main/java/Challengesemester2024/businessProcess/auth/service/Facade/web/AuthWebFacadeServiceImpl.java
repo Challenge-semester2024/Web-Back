@@ -7,7 +7,7 @@ import Challengesemester2024.businessProcess.auth.service.Email.EmailService;
 import Challengesemester2024.businessProcess.auth.service.PhoneNum.PhoneNumService;
 import Challengesemester2024.businessProcess.facade.service.DatabaseFacadeService;
 import Challengesemester2024.businessProcess.s3.S3Service;
-import Challengesemester2024.domain.childCenter.service.ChildCenterService;
+import Challengesemester2024.domain.center.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.manager.service.ManagerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

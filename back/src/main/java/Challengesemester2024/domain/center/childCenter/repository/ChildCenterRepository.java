@@ -1,6 +1,6 @@
-package Challengesemester2024.domain.childCenter.repository;
+package Challengesemester2024.domain.center.childCenter.repository;
 
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

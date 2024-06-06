@@ -22,7 +22,7 @@ public class QDecadeYear extends EntityPathBase<DecadeYear> {
 
     public static final QDecadeYear decadeYear = new QDecadeYear("decadeYear");
 
-    public final Challengesemester2024.domain.childCenter.model.QChildCenter childCenter;
+    public final Challengesemester2024.domain.center.childCenter.model.QChildCenter childCenter;
 
     public final NumberPath<Integer> decadeStartYear = createNumber("decadeStartYear", Integer.class);
 
@@ -48,7 +48,7 @@ public class QDecadeYear extends EntityPathBase<DecadeYear> {
 
     public QDecadeYear(Class<? extends DecadeYear> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
+        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.center.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
     }
 
 }

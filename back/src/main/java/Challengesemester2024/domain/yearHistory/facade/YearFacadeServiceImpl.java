@@ -1,8 +1,8 @@
 package Challengesemester2024.domain.yearHistory.facade;
 
 import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.childCenter.repository.ChildCenterRepository;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.repository.ChildCenterRepository;
 import Challengesemester2024.domain.yearHistory.dto.decadeYear.RequestDecadeDataDto;
 import Challengesemester2024.domain.yearHistory.dto.yearHistory.CreateYearHistoryDto;
 import Challengesemester2024.domain.yearHistory.dto.decadeYear.CreateDecadeYearDto;

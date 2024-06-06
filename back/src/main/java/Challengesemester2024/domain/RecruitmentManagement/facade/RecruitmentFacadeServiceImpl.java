@@ -8,8 +8,8 @@ import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAcce
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RecruitmentAssignmentDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.dto.RequestAssignmentDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentWaiting.service.RecruitmentWaitingService;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.childCenter.service.ChildCenterService;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.service.RecruitmentService;
 import Challengesemester2024.domain.volunteer.dto.VolunteerResponseDto;
 import Challengesemester2024.domain.volunteer.model.Volunteer;

@@ -22,7 +22,7 @@ public class QManager extends EntityPathBase<Manager> {
 
     public static final QManager manager = new QManager("manager");
 
-    public final Challengesemester2024.domain.childCenter.model.QChildCenter childCenter;
+    public final Challengesemester2024.domain.center.childCenter.model.QChildCenter childCenter;
 
     public final StringPath emailId = createString("emailId");
 
@@ -52,7 +52,7 @@ public class QManager extends EntityPathBase<Manager> {
 
     public QManager(Class<? extends Manager> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
+        this.childCenter = inits.isInitialized("childCenter") ? new Challengesemester2024.domain.center.childCenter.model.QChildCenter(forProperty("childCenter"), inits.get("childCenter")) : null;
     }
 
 }

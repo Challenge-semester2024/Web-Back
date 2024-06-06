@@ -1,9 +1,10 @@
-package Challengesemester2024.domain.childCenter.controller;
+package Challengesemester2024.domain.center.childCenter.controller;
 
 import Challengesemester2024.Exception.collections.InputValid.BindingErrors;
-import Challengesemester2024.domain.childCenter.dto.put.RequestFindChildCenterDto;
-import Challengesemester2024.domain.childCenter.dto.put.ResponseChildCenterDto;
-import Challengesemester2024.domain.childCenter.service.ChildCenterService;
+import Challengesemester2024.domain.center.childCenter.dto.put.ResponseChildCenterDetailDto;
+import Challengesemester2024.domain.center.childCenter.dto.put.RequestFindWordDto;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.facade.CenterFacadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,23 +25,23 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/center")
 public class ChildCenterController {
-    private final ChildCenterService childCenterService;
-
+    private final CenterFacadeService centerFacadeService;
 
     @Transactional
     @Operation(summary = "Find Child Center", description = "Find child centers based on search criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ResponseChildCenterDto.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = ResponseChildCenterDetailDto.class)))),
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content)
     })
-    @PostMapping("/find") //인삿말 db 변경 -> 이미 회원가입때 만들어서 다 update라고 치면 됨
-    public ResponseEntity<?> findChildCenter(@RequestBody @Valid RequestFindChildCenterDto requestFindChildCenterDto, BindingResult bindingResult) throws IOException {
+    @PostMapping("/search/app")
+    public ResponseEntity<?> findChildCenter(@RequestBody @Valid RequestFindWordDto requestFindWordDto, BindingResult bindingResult) throws IOException {
         handleBindingErrors(bindingResult);
 
-        List<ResponseChildCenterDto> response = childCenterService.findChildCenter(requestFindChildCenterDto);
+        List<ChildCenter> centers = centerFacadeService.findChildCenter(requestFindWordDto);
+        List<ResponseChildCenterDetailDto> response = centerFacadeService.convertResponseToWeb(centers);
 
         return ResponseEntity.ok(response);
     }

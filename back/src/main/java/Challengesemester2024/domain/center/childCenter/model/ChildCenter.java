@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.childCenter.model;
+package Challengesemester2024.domain.center.childCenter.model;
 
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.greetings.domain.Greetings;

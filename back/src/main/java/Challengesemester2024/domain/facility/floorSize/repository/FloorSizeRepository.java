@@ -1,6 +1,5 @@
 package Challengesemester2024.domain.facility.floorSize.repository;
 
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.floorSize.model.FloorSize;
 import org.springframework.data.jpa.repository.JpaRepository;

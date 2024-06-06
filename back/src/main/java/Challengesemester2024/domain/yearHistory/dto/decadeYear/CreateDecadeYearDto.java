@@ -1,6 +1,6 @@
 package Challengesemester2024.domain.yearHistory.dto.decadeYear;
 
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

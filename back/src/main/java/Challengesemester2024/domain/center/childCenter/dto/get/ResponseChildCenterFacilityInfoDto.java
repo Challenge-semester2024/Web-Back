@@ -1,4 +1,4 @@
-package Challengesemester2024.domain.childCenter.dto.get;
+package Challengesemester2024.domain.center.childCenter.dto.get;
 
 import Challengesemester2024.domain.greetings.domain.Greetings;
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;

@@ -1,7 +1,7 @@
 package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.repository;
 
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
