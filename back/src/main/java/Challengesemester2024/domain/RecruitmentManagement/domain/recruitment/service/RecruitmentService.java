@@ -3,9 +3,11 @@ package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.se
 
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.*;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.dto.put.RequestFindWordDto;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RecruitmentService {
@@ -14,6 +16,7 @@ public interface RecruitmentService {
     RecruitmentPageDto getRecruitments(Pageable pageable, ChildCenter fetchedChildCenter);
     List<RecruitmentSummaryDto> getRecruitmentSummariesByChildCenter(ChildCenter childCenter);
     Recruitment getRecruitmentById(Long id);
-    RecruitmentDetailDto getRecruitmentDetail(Long id);
+    List<LocalDate> getRecruitmentAllDates(Recruitment recruitment);
     RecruitmentPageDto findByNameWithPagination(String recruitmentName, Pageable pageable, ChildCenter fetchedChildCenter);
+    List<Recruitment> findRecruitmentByWord(RequestFindWordDto requestDto);
 }

@@ -1,10 +1,12 @@
 package Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.service;
 
+import Challengesemester2024.Exception.collections.business.CenterNotFoundException;
 import Challengesemester2024.Exception.collections.business.DatabaseNotFoundException;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.*;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.DaysOfWeek;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.dto.put.RequestFindWordDto;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.repository.RecruitmentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -141,22 +143,10 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Override
     @Transactional(readOnly = true)
-    public RecruitmentDetailDto getRecruitmentDetail(Long id) {
-        Recruitment recruitment = getRecruitmentById(id);
+    public List<LocalDate> getRecruitmentAllDates(Recruitment recruitment) {
         List<LocalDate> recruitmentDates = calculateRecruitmentDates(recruitment);
 
-        return RecruitmentDetailDto.builder()
-                .id(recruitment.getId())
-                .name(recruitment.getName())
-                .recruitmentStartDate(recruitment.getRecruitmentStartDate())
-                .recruitmentEndDate(recruitment.getRecruitmentEndDate())
-                .startTime(recruitment.getStartTime())
-                .endTime(recruitment.getEndTime())
-                .totalApplicants(recruitment.getTotalApplicants())
-                .currentApplicants(recruitment.getCurrentApplicants())
-                .recruitmentDates(recruitmentDates)
-                .build();
-
+        return recruitmentDates;
     }
 
     @Override
@@ -165,8 +155,19 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         List<Recruitment> recruitments = recruitmentPage.getContent();
         long totalElements = recruitmentPage.getTotalElements();
         int totalPages = recruitmentPage.getTotalPages();
-        return new RecruitmentPageDto(recruitments, totalElements , totalPages);
+        return new RecruitmentPageDto(recruitments, totalElements, totalPages);
     }
+
+
+    @Override
+    public List<Recruitment> findRecruitmentByWord(RequestFindWordDto requestFindWordDto) {
+        List<Recruitment> recruitments = recruitmentRepository.findByNameContaining(requestFindWordDto.getFindWord());
+
+        if(!recruitments.isEmpty()) return recruitments;
+        else throw new CenterNotFoundException();
+
+    }
+
 
     private List<LocalDate> calculateRecruitmentDates(Recruitment recruitment) {
         List<LocalDate> recruitmentDates = new ArrayList<>();
