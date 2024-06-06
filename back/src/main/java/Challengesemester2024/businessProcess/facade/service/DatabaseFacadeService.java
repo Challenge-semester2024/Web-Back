@@ -2,11 +2,12 @@ package Challengesemester2024.businessProcess.facade.service;
 
 import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.response.HomeInAppResponseDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
-import Challengesemester2024.domain.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentReservationDto;
+import Challengesemester2024.domain.center.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentSummaryDto;
 import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
 
@@ -22,6 +23,7 @@ public interface DatabaseFacadeService {
     ResponseGetFloorSizeAndPictureCluster getFailciltySizeAndFicture();
     ResponseChildCenterFacilityInfoDto getChildCenterFailcilityInfo(Long childCenterId);
     List<RecruitmentSummaryDto> getChildCenterRecruitmentPreveiw(Long childCenterId);
-    RecruitmentDetailDto getRecruitmentDetail(Long recruitmentId);
+    RecruitmentReservationDto getRecruitmentReservation(Long recruitmentId);
+    HomeInAppResponseDto getHomeInApp();
 }
 

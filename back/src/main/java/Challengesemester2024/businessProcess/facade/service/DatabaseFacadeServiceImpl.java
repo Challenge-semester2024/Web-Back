@@ -4,13 +4,16 @@ import Challengesemester2024.SpringSecurity.authentication.SecurityUtils;
 import Challengesemester2024.businessProcess.auth.web.dto.WebSignUpDto;
 import Challengesemester2024.businessProcess.facade.dto.*;
 import Challengesemester2024.businessProcess.facade.dto.request.RequestUpdateGreetingOrRouteInfoDto;
+import Challengesemester2024.businessProcess.facade.dto.response.HomeInAppResponseDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseAddressAndRouteInfoDto;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetFloorSizeAndPictureCluster;
 import Challengesemester2024.businessProcess.facade.dto.response.ResponseGetGreetingsAndYearHistoryDto;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
-import Challengesemester2024.domain.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
-import Challengesemester2024.domain.childCenter.model.ChildCenter;
-import Challengesemester2024.domain.childCenter.service.ChildCenterService;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentReservationDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.model.Recruitment;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitmentAccept.service.RecruitmentAcceptService;
+import Challengesemester2024.domain.center.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
+import Challengesemester2024.domain.center.childCenter.model.ChildCenter;
+import Challengesemester2024.domain.center.childCenter.service.ChildCenterService;
 import Challengesemester2024.domain.facility.facilityIntroduction.model.FacilityIntroduction;
 import Challengesemester2024.domain.facility.facilityIntroduction.service.FacilityService;
 import Challengesemester2024.domain.facility.floorPictureCluster.model.FloorPictureCluster;
@@ -25,6 +28,12 @@ import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.ser
 import Challengesemester2024.domain.routeInfo.domain.RouteInfo;
 import Challengesemester2024.domain.routeInfo.dto.UpdateRouteInfoDto;
 import Challengesemester2024.domain.routeInfo.service.RouteInfoService;
+import Challengesemester2024.domain.scrapRecruitment.dto.ResponseRecruitmentWithScrapToAppDto;
+import Challengesemester2024.domain.scrapRecruitment.dto.ScrapRecruitmentDto;
+import Challengesemester2024.domain.scrapRecruitment.model.ScrapRecruitment;
+import Challengesemester2024.domain.scrapRecruitment.service.ScrapRecruitmentService;
+import Challengesemester2024.domain.volunteer.model.Volunteer;
+import Challengesemester2024.domain.volunteer.service.VoluteerService;
 import Challengesemester2024.domain.yearHistory.model.DecadeYear;
 import Challengesemester2024.domain.yearHistory.service.decadeYear.DecadeYearService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +42,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +59,10 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
     private final DecadeYearService decadeYearService;
     private final FloorSizeService floorSizeService;
     private final RecruitmentService recruitmentService;
+    private final RecruitmentAcceptService recruitmentAcceptService;
+    private final VoluteerService voluteerService;
+    private final ScrapRecruitmentService scrapRecruitmentService;
+
 
     @Override
     @Transactional
@@ -181,15 +196,68 @@ public class DatabaseFacadeServiceImpl implements DatabaseFacadeService{
 
     @Override
     @Transactional(readOnly = true)
-    public RecruitmentDetailDto getRecruitmentDetail(Long id) {
-        return recruitmentService.getRecruitmentDetail(id);
+    public RecruitmentReservationDto getRecruitmentReservation(Long id) {
+        Recruitment recruitment = recruitmentService.getRecruitmentById(id);
+        ChildCenter childCenter = recruitment.getChildCenter();
+        List<LocalDate> getRecruitmentAllDates = recruitmentService.getRecruitmentAllDates(recruitment);
+
+        ScrapRecruitmentDto scrapRecruitmentDto = ScrapRecruitmentDto.builder()
+                .volunteer(getVoluteerPk())
+                .recruitment(recruitment)
+                .build();
+
+        ScrapRecruitment fetchedScrapRecruitment = scrapRecruitmentService.findScrapRecruitment(scrapRecruitmentDto);
+
+        return RecruitmentReservationDto.builder()
+                .id(recruitment.getId())
+                .centerName(childCenter.getCenterName())
+                .recruitmentName(recruitment.getName())
+                .recruitmentStartDate(recruitment.getRecruitmentStartDate())
+                .recruitmentEndDate(recruitment.getRecruitmentEndDate())
+                .startTime(recruitment.getStartTime())
+                .endTime(recruitment.getEndTime())
+                .totalApplicants(recruitment.getTotalApplicants())
+                .currentApplicants(recruitment.getCurrentApplicants())
+                .recruitmentDates(getRecruitmentAllDates)
+                .detailInfo(recruitment.getDetailInfo())
+                .isScrap(fetchedScrapRecruitment!=null)
+                .build();
     }
 
-    private ChildCenter getChildCenterPk(){
+    @Override
+    public  HomeInAppResponseDto getHomeInApp() {
+        Volunteer volunteer = getVoluteerPk();
+
+        int recruitmentCountByVoluteer = recruitmentAcceptService.countCompletedRecruitmentsByVolunteer(volunteer);
+
+        // 스크랩된 봉사공고 3개를 최신순으로 가져오기
+        List<ScrapRecruitment> scrapRecruitments = scrapRecruitmentService.findTop3ByVolunteerOrderByIdDesc(volunteer);
+
+        List<ResponseRecruitmentWithScrapToAppDto> responseScrapRecruitments = scrapRecruitments.stream()
+                .map(scrap -> ResponseRecruitmentWithScrapToAppDto.builder()
+                        .id(scrap.getRecruitment().getId())
+                        .recruitmentName(scrap.getRecruitment().getName())
+                        .childCenterName(scrap.getRecruitment().getChildCenter().getCenterName())
+                        .recruitmentStartDate(scrap.getRecruitment().getRecruitmentStartDate())
+                        .isScrap(true)
+                        .build())
+                .collect(Collectors.toList());
+
+        return HomeInAppResponseDto.builder()
+                .volunteerName(volunteer.getName())
+                .recruitmentCountByVolunteer(recruitmentCountByVoluteer)
+                .scrapRecruitments(responseScrapRecruitments)
+                .build();
+    }
+
+    private ChildCenter getChildCenterPk() {
         Authentication authentication = securityUtils.getAuthentication();
         return childCenterService.getChildCenterPk(authentication);
     }
 
-
+    private Volunteer getVoluteerPk(){
+        Authentication authentication = securityUtils.getAuthentication();
+        return voluteerService.getVolunteeerPK(authentication);
+    }
 
 }

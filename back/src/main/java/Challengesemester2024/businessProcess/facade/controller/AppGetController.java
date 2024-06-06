@@ -1,8 +1,9 @@
 package Challengesemester2024.businessProcess.facade.controller;
 
+import Challengesemester2024.businessProcess.facade.dto.response.HomeInAppResponseDto;
 import Challengesemester2024.businessProcess.facade.service.DatabaseFacadeService;
-import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentDetailDto;
-import Challengesemester2024.domain.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
+import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentReservationDto;
+import Challengesemester2024.domain.center.childCenter.dto.get.ResponseChildCenterFacilityInfoDto;
 import Challengesemester2024.domain.RecruitmentManagement.domain.recruitment.dto.RecruitmentSummaryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -60,14 +61,34 @@ public class AppGetController {
     }
 
     @Transactional
-    @GetMapping("/center/{id}/recruitment/detail")
-    public ResponseEntity<?> getChildCenterRecruitmentDetailById(@PathVariable Long id) {
-        RecruitmentDetailDto responseDto = databaseFacadeService.getRecruitmentDetail(id);
+    @GetMapping("/center/{id}/recruitment/reservation")
+    @Operation(summary = "Recruitment Reservation", description = "해당 봉사공고 신청")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved child centers",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RecruitmentReservationDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<?> getChildCenterRecruitmentReservationById(@PathVariable Long id) {
+        RecruitmentReservationDto responseDto = databaseFacadeService.getRecruitmentReservation(id);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-
-
+    @Transactional
+    @GetMapping("/app/home")
+    @Operation(summary = "get Home In App", description = "앱에서 홈 화면 get 요청 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공적으로 app 화면을 불러왔습니다.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation =  HomeInAppResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)
+    })
+    public ResponseEntity<?> getHomeInApp() {
+        HomeInAppResponseDto responseDto = databaseFacadeService.getHomeInApp();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 
 
 }
