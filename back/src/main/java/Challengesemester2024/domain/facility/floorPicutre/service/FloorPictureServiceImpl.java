@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +75,21 @@ public class FloorPictureServiceImpl implements FloorPictureService {
 
     @Override
     public void createAllFloorPictureList(List<FloorPicture> floorPictureList) {
-        floorPictureRepository.saveAll(floorPictureList);
+        List<FloorPicture> newFloorPictures = floorPictureList.stream()
+                .filter(floorPicture -> !isFloorPictureExists(floorPicture))
+                .collect(Collectors.toList());
+
+        if (!newFloorPictures.isEmpty()) {
+            floorPictureRepository.saveAll(newFloorPictures);
+        }
+    }
+
+    private boolean isFloorPictureExists(FloorPicture floorPicture) {
+        return floorPictureRepository.existsByFloorAndImageIndexAndFloorPictureCluster(
+                floorPicture.getFloor(),
+                floorPicture.getImageIndex(),
+                floorPicture.getFloorPictureCluster()
+        );
     }
 
 

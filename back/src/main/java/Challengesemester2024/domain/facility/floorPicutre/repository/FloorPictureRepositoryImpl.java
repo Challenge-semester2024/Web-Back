@@ -54,6 +54,7 @@ public class FloorPictureRepositoryImpl implements FloorPictureRepositoryCustom 
         FloorPicture oldFloorPicture  = jpaQueryFactory
                 .selectFrom(qFloorPicture)
                 .where(qFloorPicture.floor.eq(newFloorPicture.getFloor())
+                        .and(qFloorPicture.floorPictureCluster.eq(newFloorPicture.getFloorPictureCluster()))
                         .and(qFloorPicture.imageIndex.eq(newFloorPicture.getImageIndex())))
                 .fetchOne();
 
