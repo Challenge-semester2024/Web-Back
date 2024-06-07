@@ -58,5 +58,7 @@ tasks.withType(JavaCompile) {
 
 bootJar {
 	archiveFileName = 'challengeSemster.jar'
+	manifest {
+		attributes 'Main-Class': 'Challengesemester2024.ChildrenHeavenMakersApplication'
+	}
 }
-
