@@ -9,4 +9,5 @@ ARG JAR_FILE=build/libs/challengeSemster.jar
 COPY ${JAR_FILE} app.jar
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the jar file with the docker profile
+ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "app.jar"]
